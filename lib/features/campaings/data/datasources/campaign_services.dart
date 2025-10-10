@@ -6,13 +6,13 @@ import 'package:vacapp/core/services/token_service.dart';
 
 class CampaignServices {
   
-  // GET /api/v1/campaign/all-campaigns - Obtener todas las campañas
+  // GET /api/v1/campaigns - Obtener todas las campañas
   Future<List<CampaingsDto>> getAllCampaigns() async {
     try {
       final token = await TokenService.instance.getToken();
       
       final response = await http.get(
-        Uri.parse('${Endpoints.campaign}/all-campaigns'),
+        Uri.parse(Endpoints.campaign),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

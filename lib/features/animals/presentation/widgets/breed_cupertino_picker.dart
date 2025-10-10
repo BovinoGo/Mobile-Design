@@ -31,7 +31,7 @@ class _BreedCupertinoPickerState extends State<BreedCupertinoPicker> {
   Future<void> _loadBreeds() async {
     try {
       final response = await http.get(
-        Uri.parse('https://6860c2b18e7486408443ec9c.mockapi.io/Breeds'),
+        Uri.parse('https://6895921e039a1a2b288f86c2.mockapi.io/Breeds'),
       );
 
       if (response.statusCode == 200) {
