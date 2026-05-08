@@ -457,8 +457,8 @@ class _PublishBovinePageState extends State<PublishBovinePage> {
       contentPadding: EdgeInsets.zero,
       title: Text(label, style: const TextStyle(fontSize: 14)),
       value: value,
-      activeThumbColor: _green,
-      activeTrackColor: _green.withValues(alpha: 0.5),
+      thumbColor: MaterialStateProperty.resolveWith<Color?>((states) => _green),
+      trackColor: MaterialStateProperty.resolveWith<Color?>((states) => _green.withOpacity(0.5)),
       onChanged: onChanged,
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:vacapp/core/themes/color_palette.dart';
 import 'package:vacapp/core/services/token_service.dart';
 import 'package:vacapp/features/app/presentation/pages/main_view.dart';
 import '../blocs/auth_bloc.dart';
@@ -66,10 +68,49 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     );
   }
 
+  Route _verticalRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final titleStyle = GoogleFonts.plusJakartaSans(
+      fontSize: 28,
+      fontWeight: FontWeight.w800,
+      color: ColorPalette.primaryColor,
+      height: 1.1,
+      letterSpacing: 0.2,
+    );
+    final subtitleStyle = GoogleFonts.dmSans(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: Colors.grey.shade600,
+      height: 1.35,
+    );
+    final primaryButtonStyle = GoogleFonts.plusJakartaSans(
+      color: Colors.white,
+      fontWeight: FontWeight.w700,
+      fontSize: 16,
+      letterSpacing: 0.2,
+    );
+    final helperTextStyle = GoogleFonts.dmSans(
+      color: Colors.grey.shade600,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    );
+    final actionTextStyle = GoogleFonts.plusJakartaSans(
+      color: ColorPalette.primaryColor,
+      fontWeight: FontWeight.w700,
+      fontSize: 14,
+    );
+
     return Scaffold(
-      backgroundColor: const Color(0xFF00695C),
+      backgroundColor: ColorPalette.primaryColor,
       resizeToAvoidBottomInset: true,
       body: Column(
         children: [
@@ -139,17 +180,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 20),
-                              const Text(
+                              Text(
                                 '¡Bienvenido de nuevo!',
-                                style: TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF00695C)),
+                                style: titleStyle,
                               ),
                               const SizedBox(height: 8),
-                              const Text(
+                              Text(
                                 'Ingresa tus credenciales para continuar',
-                                style: TextStyle(fontSize: 14, color: Colors.grey),
+                                style: subtitleStyle,
                               ),
                               const SizedBox(height: 30),
                               _inputField(
@@ -174,7 +212,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 height: 50,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF00695C),
+                                    backgroundColor: ColorPalette.primaryColor,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(14)),
                                     elevation: 0,
@@ -192,12 +230,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   child: state is LoadingAuthState
                                       ? const CircularProgressIndicator(
                                           color: Colors.white)
-                                      : const Text(
+                                        : Text(
                                           'Iniciar Sesión',
-                                          style: TextStyle(
+                                            style: primaryButtonStyle.copyWith(
                                               color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                            ),
                                         ),
                                 ),
                               ),
@@ -205,19 +242,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text('¿No tienes cuenta? ',
-                                      style:
-                                          TextStyle(color: Colors.grey, fontSize: 14)),
+                                  Text(
+                                    '¿No tienes cuenta? ',
+                                    style: helperTextStyle.copyWith(
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
                                   GestureDetector(
-                                    onTap: () => Navigator.push(context,
-                                        MaterialPageRoute(
-                                            builder: (_) => const RegisterPage())),
-                                    child: const Text(
+                                    onTap: () => Navigator.of(context).pushReplacement(
+                                        _verticalRoute(const RegisterPage())),
+                                    child: Text(
                                       'Regístrate',
-                                      style: TextStyle(
-                                          color: Color(0xFF00695C),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
+                                      style: actionTextStyle.copyWith(
+                                        color: ColorPalette.primaryColor,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -251,24 +289,28 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       controller: controller,
       obscureText: obscure,
       keyboardType: keyboardType,
-      cursorColor: const Color(0xFF00695C),
-      style: const TextStyle(
-          fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black87),
+      cursorColor: ColorPalette.primaryColor,
+      style: GoogleFonts.dmSans(
+        fontWeight: FontWeight.w600,
+        fontSize: 16,
+        color: Colors.black87,
+      ),
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: const Color(0xFF00695C)),
+        prefixIcon: Icon(icon, color: ColorPalette.primaryColor),
         suffixIcon: isPassword
             ? IconButton(
                 icon: Icon(
                     _isVisible ? Icons.visibility : Icons.visibility_off,
-                    color: const Color(0xFF00695C)),
+                  color: ColorPalette.primaryColor),
                 onPressed: () => setState(() => _isVisible = !_isVisible),
               )
             : null,
         hintText: hint,
-        hintStyle: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 15,
-            color: Colors.grey.shade500),
+        hintStyle: GoogleFonts.dmSans(
+          fontWeight: FontWeight.w500,
+          fontSize: 15,
+          color: Colors.grey.shade500,
+        ),
         filled: true,
         fillColor: Colors.grey.shade100,
         contentPadding:
@@ -278,7 +320,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF00695C)),
+          borderSide: const BorderSide(color: ColorPalette.primaryColor),
         ),
       ),
     );

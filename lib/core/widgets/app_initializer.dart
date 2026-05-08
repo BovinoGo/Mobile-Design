@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vacapp/core/themes/color_palette.dart';
 import '../services/permission_service.dart';
 import '../services/notification_service.dart';
 
@@ -87,14 +88,14 @@ class _AppInitializerState extends State<AppInitializer> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator(
-                color: Color(0xFF00695C),
+                color: ColorPalette.primaryColor,
               ),
               SizedBox(height: 16),
               Text(
                 'Configurando permisos...',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Color(0xFF00695C),
+                  color: ColorPalette.primaryColor,
                 ),
               ),
             ],
@@ -122,7 +123,7 @@ class _AppInitializerState extends State<AppInitializer> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF00695C),
+                    color: ColorPalette.primaryColor,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -144,7 +145,7 @@ class _AppInitializerState extends State<AppInitializer> {
                           _checkAndRequestPermissions();
                         },
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Color(0xFF00695C)),
+                          side: const BorderSide(color: ColorPalette.primaryColor),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -153,7 +154,7 @@ class _AppInitializerState extends State<AppInitializer> {
                         child: const Text(
                           'Reintentar',
                           style: TextStyle(
-                            color: Color(0xFF00695C),
+                            color: ColorPalette.primaryColor,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -168,7 +169,7 @@ class _AppInitializerState extends State<AppInitializer> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF00695C),
+                          backgroundColor: ColorPalette.primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

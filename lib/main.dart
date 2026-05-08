@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vacapp/core/themes/color_palette.dart';
 import 'package:vacapp/core/services/token_service.dart';
 import 'package:vacapp/core/services/notification_service.dart';
 import 'package:vacapp/core/services/sync_service.dart';
@@ -58,16 +60,49 @@ class MainApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: const ColorScheme.light(
+            primary: ColorPalette.primaryColor,
+            secondary: ColorPalette.accentColor,
+            surface: ColorPalette.secondaryColor,
+            onPrimary: Colors.white,
+            onSecondary: Colors.white,
+            onSurface: ColorPalette.backgroundDark,
+          ),
+          scaffoldBackgroundColor: ColorPalette.secondaryColor,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: ColorPalette.primaryColor,
+            foregroundColor: Colors.white,
+            elevation: 0,
+          ),
+          progressIndicatorTheme: const ProgressIndicatorThemeData(
+            color: ColorPalette.primaryColor,
+          ),
+        ),
         home: PermissionInitializer(
           child: ConnectivityWrapper(
             child: FutureBuilder<Widget>(
               future: _getInitialPage(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Scaffold(
+                  final titleStyle = GoogleFonts.cormorantGaramond(
+                    fontSize: 48,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w300,
+                    color: ColorPalette.primaryColor,
+                    height: 0.95,
+                  );
+                  return Scaffold(
                     body: Center(
-                      child: CircularProgressIndicator(
-                          color: Color(0xFF00695C)),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('VacApp', style: titleStyle),
+                          const SizedBox(height: 18),
+                          const CircularProgressIndicator(color: ColorPalette.primaryColor),
+                        ],
+                      ),
                     ),
                   );
                 }

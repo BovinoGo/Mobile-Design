@@ -258,7 +258,12 @@ class _CreateWorkerPageState extends State<CreateWorkerPage> {
               ],
             ),
           ),
-          Switch(value: value, onChanged: onChanged, activeThumbColor: _green, activeTrackColor: _green.withValues(alpha: 0.5)),
+          Switch(
+            value: value,
+            onChanged: onChanged,
+            thumbColor: MaterialStateProperty.resolveWith<Color?>((states) => _green),
+            trackColor: MaterialStateProperty.resolveWith<Color?>((states) => _green.withOpacity(0.5)),
+          ),
         ],
       ),
     );

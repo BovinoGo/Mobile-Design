@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:vacapp/core/themes/color_palette.dart';
 import '../blocs/auth_bloc.dart';
 import '../blocs/auth_event.dart';
 import '../blocs/auth_state.dart';
@@ -15,7 +17,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMixin {
-  static const _green = Color(0xFF00695C);
+  static const _green = ColorPalette.primaryColor;
 
   // Step 1: role selection; Step 2: form
   int _step = 0;
@@ -168,9 +170,8 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                   onPressed: () {
                     Navigator.of(context).pop();
                     if (!isError) {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (_) => const LoginPage()),
+                      Navigator.of(context).pushAndRemoveUntil(
+                        _verticalRoute(const LoginPage()),
                         (route) => false,
                       );
                     }
@@ -189,6 +190,32 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
           ),
         ),
       ),
+    );
+  }
+
+  Route _verticalRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionDuration: const Duration(milliseconds: 650),
+      reverseTransitionDuration: const Duration(milliseconds: 550),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutCubic,
+        );
+        final slide = Tween<Offset>(
+          begin: const Offset(0, 1),
+          end: Offset.zero,
+        ).animate(curved);
+        final fade = Tween<double>(begin: 0.0, end: 1.0).animate(curved);
+        return SlideTransition(
+          position: slide,
+          child: FadeTransition(
+            opacity: fade,
+            child: child,
+          ),
+        );
+      },
     );
   }
 
@@ -266,15 +293,24 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Crear tu Cuenta',
-          style: TextStyle(
-              fontSize: 26, fontWeight: FontWeight.bold, color: _green),
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 26,
+            fontWeight: FontWeight.w800,
+            color: _green,
+            height: 1.1,
+          ),
         ),
         const SizedBox(height: 6),
-        const Text(
+        Text(
           'Selecciona el tipo de cuenta que deseas crear',
-          style: TextStyle(fontSize: 14, color: Colors.grey),
+          style: GoogleFonts.dmSans(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey.shade600,
+            height: 1.35,
+          ),
         ),
         const SizedBox(height: 28),
         _roleCard(
@@ -328,8 +364,8 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
             const Text('¿Ya tienes una cuenta? ',
                 style: TextStyle(color: Colors.grey, fontSize: 14)),
             GestureDetector(
-              onTap: () => Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => const LoginPage())),
+              onTap: () => Navigator.of(context).pushReplacement(
+                  _verticalRoute(const LoginPage())),
               child: const Text('Iniciar Sesión',
                   style: TextStyle(
                       color: _green, fontWeight: FontWeight.bold, fontSize: 14)),
@@ -377,16 +413,24 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: isSelected ? _green : Colors.black87)),
+                  Text(
+                    title,
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: isSelected ? _green : Colors.black87,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(subtitle,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey.shade600)),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey.shade600,
+                      height: 1.3,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -428,12 +472,25 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
           ],
         ),
         const SizedBox(height: 20),
-        const Text('Completa tu Registro',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: _green)),
+        Text(
+          'Completa tu Registro',
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 24,
+            fontWeight: FontWeight.w800,
+            color: _green,
+            height: 1.1,
+          ),
+        ),
         const SizedBox(height: 6),
-        const Text('Rellena los datos de tu cuenta',
-            style: TextStyle(fontSize: 14, color: Colors.grey)),
+        Text(
+          'Rellena los datos de tu cuenta',
+          style: GoogleFonts.dmSans(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey.shade600,
+            height: 1.35,
+          ),
+        ),
         const SizedBox(height: 28),
         _input(controller: _fullNameCtrl, hint: 'Nombre completo', icon: Icons.person_outline),
         const SizedBox(height: 16),
@@ -474,18 +531,22 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
               child: Padding(
                 padding: const EdgeInsets.only(top: 12),
                 child: RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     text: 'Acepto los ',
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                    style: GoogleFonts.dmSans(
+                      color: Colors.grey.shade700,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                     children: [
                       TextSpan(
                           text: 'Términos & Condiciones',
-                          style: TextStyle(
+                          style: GoogleFonts.plusJakartaSans(
                               color: _green, fontWeight: FontWeight.bold)),
                       TextSpan(text: ' y la '),
                       TextSpan(
                           text: 'Política de Privacidad',
-                          style: TextStyle(
+                          style: GoogleFonts.plusJakartaSans(
                               color: _green, fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -511,10 +572,11 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                 ? const CircularProgressIndicator(color: Colors.white)
                 : Text(
                     'Crear Cuenta',
-                    style: TextStyle(
+                    style: GoogleFonts.plusJakartaSans(
                       color: _agreeToTerms ? Colors.white : Colors.grey.shade600,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
                       fontSize: 16,
+                      letterSpacing: 0.2,
                     ),
                   ),
           ),
@@ -523,14 +585,25 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('¿Ya tienes una cuenta? ',
-                style: TextStyle(color: Colors.grey, fontSize: 14)),
+            Text(
+              '¿Ya tienes una cuenta? ',
+              style: GoogleFonts.dmSans(
+                color: Colors.grey.shade600,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             GestureDetector(
-              onTap: () => Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => const LoginPage())),
-              child: const Text('Iniciar Sesión',
-                  style: TextStyle(
-                      color: _green, fontWeight: FontWeight.bold, fontSize: 14)),
+              onTap: () => Navigator.of(context).pushReplacement(
+                  _verticalRoute(const LoginPage())),
+              child: Text(
+                'Iniciar Sesión',
+                style: GoogleFonts.plusJakartaSans(
+                  color: _green,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+              ),
             ),
           ],
         ),
@@ -552,14 +625,20 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
       obscureText: obscure,
       keyboardType: keyboard,
       cursorColor: _green,
-      style: const TextStyle(
-          fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black87),
+      style: GoogleFonts.dmSans(
+        fontWeight: FontWeight.w600,
+        fontSize: 16,
+        color: Colors.black87,
+      ),
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: _green),
         suffixIcon: suffix,
         hintText: hint,
-        hintStyle: TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey.shade500),
+        hintStyle: GoogleFonts.dmSans(
+          fontWeight: FontWeight.w500,
+          fontSize: 15,
+          color: Colors.grey.shade500,
+        ),
         filled: true,
         fillColor: Colors.grey.shade100,
         contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
