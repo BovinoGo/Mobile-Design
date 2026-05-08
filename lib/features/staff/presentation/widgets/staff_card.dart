@@ -94,7 +94,7 @@ class _StaffCardState extends State<StaffCard> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 12,
             offset: const Offset(0, 3),
           ),
@@ -128,7 +128,7 @@ class _StaffCardState extends State<StaffCard> {
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: primary.withOpacity(0.2),
+                            color: primary.withValues(alpha: 0.2),
                             blurRadius: 8,
                             offset: const Offset(0, 3),
                           ),
@@ -169,9 +169,9 @@ class _StaffCardState extends State<StaffCard> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.1),
+                                color: Colors.blue.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.blue.withOpacity(0.3)),
+                                border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -201,10 +201,10 @@ class _StaffCardState extends State<StaffCard> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: _getStatusColor(widget.staff.employeeStatus).withOpacity(0.1),
+                        color: _getStatusColor(widget.staff.employeeStatus).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: _getStatusColor(widget.staff.employeeStatus).withOpacity(0.3),
+                          color: _getStatusColor(widget.staff.employeeStatus).withValues(alpha: 0.3),
                           width: 2,
                         ),
                       ),
@@ -238,13 +238,13 @@ class _StaffCardState extends State<StaffCard> {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: widget.staff.employeeStatus == 3 
-                        ? Colors.orange.withOpacity(0.05)
-                        : accent.withOpacity(0.05),
+                        ? Colors.orange.withValues(alpha: 0.05)
+                        : accent.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: widget.staff.employeeStatus == 3 
-                          ? Colors.orange.withOpacity(0.2)
-                          : accent.withOpacity(0.2),
+                          ? Colors.orange.withValues(alpha: 0.2)
+                          : accent.withValues(alpha: 0.2),
                     ),
                   ),
                   child: widget.staff.employeeStatus == 3
@@ -269,7 +269,7 @@ class _StaffCardState extends State<StaffCard> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.deepPurple.withOpacity(0.3),
+                        color: Colors.deepPurple.withValues(alpha: 0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 3),
                       ),
@@ -288,7 +288,7 @@ class _StaffCardState extends State<StaffCard> {
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
@@ -310,7 +310,7 @@ class _StaffCardState extends State<StaffCard> {
                             Icon(
                               Icons.visibility,
                               size: 16,
-                              color: Colors.white.withOpacity(0.8),
+                              color: Colors.white.withValues(alpha: 0.8),
                             ),
                           ],
                         ),
@@ -333,7 +333,7 @@ class _StaffCardState extends State<StaffCard> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: primary.withOpacity(0.3),
+                        color: primary.withValues(alpha: 0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 3),
                       ),
@@ -352,7 +352,7 @@ class _StaffCardState extends State<StaffCard> {
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
@@ -374,7 +374,7 @@ class _StaffCardState extends State<StaffCard> {
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 14,
-                              color: Colors.white.withOpacity(0.8),
+                              color: Colors.white.withValues(alpha: 0.8),
                             ),
                           ],
                         ),
@@ -505,13 +505,13 @@ class _StaffCardState extends State<StaffCard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       gradient: LinearGradient(
-                        colors: [accent, accent.withOpacity(0.8)],
+                        colors: [accent, accent.withValues(alpha: 0.8)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: accent.withOpacity(0.3),
+                          color: accent.withValues(alpha: 0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 3),
                         ),
@@ -548,7 +548,7 @@ class _StaffCardState extends State<StaffCard> {
                                 'Modificar datos\ndel empleado',
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white.withValues(alpha: 0.8),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -572,7 +572,7 @@ class _StaffCardState extends State<StaffCard> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.red.withOpacity(0.3),
+                          color: Colors.red.withValues(alpha: 0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 3),
                         ),
@@ -609,7 +609,7 @@ class _StaffCardState extends State<StaffCard> {
                                 'Remover empleado\ndel sistema',
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white.withValues(alpha: 0.8),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -685,7 +685,7 @@ class _StaffCardState extends State<StaffCard> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.15),
+                color: Colors.black.withValues(alpha: 0.15),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -718,7 +718,7 @@ class _StaffCardState extends State<StaffCard> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -744,7 +744,7 @@ class _StaffCardState extends State<StaffCard> {
                               'Esta acción no se puede deshacer',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha: 0.9),
                               ),
                             ),
                           ],
@@ -833,10 +833,10 @@ class _StaffCardState extends State<StaffCard> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                               decoration: BoxDecoration(
-                                color: _getStatusColor(widget.staff.employeeStatus).withOpacity(0.1),
+                                color: _getStatusColor(widget.staff.employeeStatus).withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
-                                  color: _getStatusColor(widget.staff.employeeStatus).withOpacity(0.3),
+                                  color: _getStatusColor(widget.staff.employeeStatus).withValues(alpha: 0.3),
                                 ),
                               ),
                               child: Column(
@@ -866,7 +866,7 @@ class _StaffCardState extends State<StaffCard> {
                                     _getStatusDescription(widget.staff.employeeStatus),
                                     style: TextStyle(
                                       fontSize: 9,
-                                      color: _getStatusColor(widget.staff.employeeStatus).withOpacity(0.8),
+                                      color: _getStatusColor(widget.staff.employeeStatus).withValues(alpha: 0.8),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -999,7 +999,7 @@ class _StaffCardState extends State<StaffCard> {
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.red.withOpacity(0.3),
+                                    color: Colors.red.withValues(alpha: 0.3),
                                     blurRadius: 8,
                                     offset: const Offset(0, 4),
                                   ),
@@ -1066,7 +1066,7 @@ class _StaffCardState extends State<StaffCard> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.1),
+                color: Colors.red.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
@@ -1101,10 +1101,10 @@ class _StaffCardState extends State<StaffCard> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.1),
+                color: Colors.orange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: Colors.orange.withOpacity(0.3),
+                  color: Colors.orange.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -1198,7 +1198,7 @@ class _StaffCardState extends State<StaffCard> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -1210,7 +1210,7 @@ class _StaffCardState extends State<StaffCard> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
@@ -1236,7 +1236,7 @@ class _StaffCardState extends State<StaffCard> {
                               'Información detallada del empleado',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha: 0.8),
                               ),
                             ),
                           ],
@@ -1246,7 +1246,7 @@ class _StaffCardState extends State<StaffCard> {
                         onPressed: () => Navigator.pop(context),
                         icon: Icon(
                           Icons.close,
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
                     ],
@@ -1269,7 +1269,7 @@ class _StaffCardState extends State<StaffCard> {
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -1290,6 +1290,7 @@ class _StaffCardState extends State<StaffCard> {
                               version: QrVersions.auto,
                               size: 200.0,
                               backgroundColor: Colors.white,
+                              // ignore: deprecated_member_use
                               foregroundColor: Colors.black87,
                               gapless: false,
                               errorCorrectionLevel: QrErrorCorrectLevel.M,
@@ -1301,9 +1302,9 @@ class _StaffCardState extends State<StaffCard> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(
-                              color: primary.withOpacity(0.1),
+                              color: primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: primary.withOpacity(0.3)),
+                              border: Border.all(color: primary.withValues(alpha: 0.3)),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1435,9 +1436,9 @@ class _StaffCardState extends State<StaffCard> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.05),
+        color: color.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1535,10 +1536,10 @@ class _StaffCardState extends State<StaffCard> {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.orange.withOpacity(0.1),
+            color: Colors.orange.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: Colors.orange.withOpacity(0.3),
+              color: Colors.orange.withValues(alpha: 0.3),
             ),
           ),
           child: Row(
@@ -1593,7 +1594,7 @@ class _StaffCardState extends State<StaffCard> {
                     'Campaña Asignada',
                     style: TextStyle(
                       fontSize: 12,
-                      color: accent.withOpacity(0.8),
+                      color: accent.withValues(alpha: 0.8),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -1645,14 +1646,14 @@ class _StaffCardState extends State<StaffCard> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.orange.withOpacity(0.1),
-                  Colors.orange.withOpacity(0.15),
+                  Colors.orange.withValues(alpha: 0.1),
+                  Colors.orange.withValues(alpha: 0.15),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.orange.withOpacity(0.3), width: 1.5),
+              border: Border.all(color: Colors.orange.withValues(alpha: 0.3), width: 1.5),
             ),
             child: Row(
               children: [
@@ -1677,7 +1678,7 @@ class _StaffCardState extends State<StaffCard> {
                         'DURACIÓN',
                         style: TextStyle(
                           fontSize: 10,
-                          color: Colors.orange.withOpacity(0.7),
+                          color: Colors.orange.withValues(alpha: 0.7),
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.3,
                         ),

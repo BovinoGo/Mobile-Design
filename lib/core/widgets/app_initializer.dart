@@ -61,7 +61,7 @@ class _AppInitializerState extends State<AppInitializer> {
         });
       }
     } catch (e) {
-      print('Error checking permissions: $e');
+      debugPrint('Error checking permissions: $e');
       setState(() {
         _permissionsGranted = false;
         _permissionsChecked = true;

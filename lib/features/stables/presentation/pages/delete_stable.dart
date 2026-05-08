@@ -52,7 +52,7 @@ Future<bool> _showSimpleDeleteDialog(
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -74,8 +74,8 @@ Future<bool> _showSimpleDeleteDialog(
                       decoration: BoxDecoration(
                         gradient: RadialGradient(
                           colors: [
-                            Colors.red.withOpacity(0.1),
-                            Colors.red.withOpacity(0.05),
+                            Colors.red.withValues(alpha: 0.1),
+                            Colors.red.withValues(alpha: 0.05),
                             Colors.transparent,
                           ],
                         ),
@@ -84,7 +84,7 @@ Future<bool> _showSimpleDeleteDialog(
                       child: Container(
                         margin: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.1),
+                          color: Colors.red.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: const Icon(
@@ -131,15 +131,15 @@ Future<bool> _showSimpleDeleteDialog(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.green.withOpacity(0.05),
-                      Colors.green.withOpacity(0.02),
+                      Colors.green.withValues(alpha: 0.05),
+                      Colors.green.withValues(alpha: 0.02),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: Colors.green.withOpacity(0.2),
+                    color: Colors.green.withValues(alpha: 0.2),
                     width: 1.5,
                   ),
                 ),
@@ -151,7 +151,7 @@ Future<bool> _showSimpleDeleteDialog(
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.1),
+                            color: Colors.green.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Icon(
@@ -189,7 +189,7 @@ Future<bool> _showSimpleDeleteDialog(
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.1),
+                        color: Colors.green.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Row(
@@ -221,10 +221,10 @@ Future<bool> _showSimpleDeleteDialog(
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF002D26).withOpacity(0.1),
+                  color: const Color(0xFF002D26).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: const Color(0xFF002D26).withOpacity(0.3),
+                    color: const Color(0xFF002D26).withValues(alpha: 0.3),
                     width: 1,
                   ),
                 ),
@@ -285,7 +285,7 @@ Future<bool> _showSimpleDeleteDialog(
                           borderRadius: BorderRadius.circular(16),
                         ),
                         elevation: 2,
-                        shadowColor: Colors.red.withOpacity(0.3),
+                        shadowColor: Colors.red.withValues(alpha: 0.3),
                       ),
                       child: const Text(
                         'Eliminar',
@@ -306,6 +306,7 @@ Future<bool> _showSimpleDeleteDialog(
   );
 
   if (confirmed == true) {
+    // ignore: use_build_context_synchronously
     return await _deleteStable(context, stableId, repository);
   }
   
@@ -343,7 +344,7 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                 borderRadius: BorderRadius.circular(28),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -370,8 +371,8 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                                 decoration: BoxDecoration(
                                   gradient: RadialGradient(
                                     colors: [
-                                      const Color(0xFF002D26).withOpacity(0.1),
-                                      const Color(0xFF002D26).withOpacity(0.05),
+                                      const Color(0xFF002D26).withValues(alpha: 0.1),
+                                      const Color(0xFF002D26).withValues(alpha: 0.05),
                                       Colors.transparent,
                                     ],
                                   ),
@@ -380,7 +381,7 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                                 child: Container(
                                   margin: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF002D26).withOpacity(0.1),
+                                    color: const Color(0xFF002D26).withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: const Icon(
@@ -447,15 +448,15 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  const Color(0xFF002D26).withOpacity(0.05),
-                                  const Color(0xFF002D26).withOpacity(0.02),
+                                  const Color(0xFF002D26).withValues(alpha: 0.05),
+                                  const Color(0xFF002D26).withValues(alpha: 0.02),
                                 ],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: const Color(0xFF002D26).withOpacity(0.2),
+                                color: const Color(0xFF002D26).withValues(alpha: 0.2),
                                 width: 1.5,
                               ),
                             ),
@@ -467,7 +468,7 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFF002D26).withOpacity(0.1),
+                                        color: const Color(0xFF002D26).withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: const Icon(
@@ -511,10 +512,10 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                                     return Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
-                                        color: Colors.blue.withOpacity(0.1),
+                                        color: Colors.blue.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
-                                          color: Colors.blue.withOpacity(0.2),
+                                          color: Colors.blue.withValues(alpha: 0.2),
                                           width: 1,
                                         ),
                                       ),
@@ -528,7 +529,7 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                                           ),
                                           const SizedBox(width: 4),
                                           Text(
-                                            animal.name,
+                                            animal.displayName,
                                             style: const TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w600,
@@ -546,7 +547,7 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey.withOpacity(0.1),
+                                      color: Colors.grey.withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Text(
@@ -568,10 +569,10 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.05),
+                              color: Colors.blue.withValues(alpha: 0.05),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: Colors.blue.withOpacity(0.1),
+                                color: Colors.blue.withValues(alpha: 0.1),
                                 width: 1,
                               ),
                             ),
@@ -645,7 +646,7 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               elevation: 2,
-                              shadowColor: Colors.green.withOpacity(0.3),
+                              shadowColor: Colors.green.withValues(alpha: 0.3),
                             ),
                           ),
                         ),
@@ -683,6 +684,7 @@ Future<Map<String, dynamic>> _showMoveAnimalsDialog(
   );
   
   if (wantToMove == true) {
+    // ignore: use_build_context_synchronously
     return await _showMoveToStableOptions(context, stableId, stableName, animals, repository, onStablesUpdated);
   }
   
@@ -701,7 +703,7 @@ Widget _buildOptionItem({
       Container(
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(
@@ -854,7 +856,7 @@ class _MoveToStableDialogState extends State<_MoveToStableDialog> {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -869,7 +871,7 @@ class _MoveToStableDialogState extends State<_MoveToStableDialog> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(
@@ -899,7 +901,7 @@ class _MoveToStableDialogState extends State<_MoveToStableDialog> {
                     color: const Color(0xFFFDF6F1),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: const Color(0xFF002D26).withOpacity(0.1),
+                      color: const Color(0xFF002D26).withValues(alpha: 0.1),
                       width: 1,
                     ),
                   ),
@@ -1084,7 +1086,7 @@ class _MoveToStableDialogState extends State<_MoveToStableDialog> {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.grey.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: const Center(
@@ -1172,7 +1174,7 @@ Future<bool> _moveAnimalsToStable(
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -1187,7 +1189,7 @@ Future<bool> _moveAnimalsToStable(
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF002D26).withOpacity(0.1),
+                  color: const Color(0xFF002D26).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -1217,7 +1219,7 @@ Future<bool> _moveAnimalsToStable(
                   color: const Color(0xFFFDF6F1),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: const Color(0xFF002D26).withOpacity(0.1),
+                    color: const Color(0xFF002D26).withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -1228,7 +1230,7 @@ Future<bool> _moveAnimalsToStable(
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF002D26).withOpacity(0.2),
+                            color: const Color(0xFF002D26).withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Icon(
@@ -1256,7 +1258,7 @@ Future<bool> _moveAnimalsToStable(
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.2),
+                            color: Colors.red.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Icon(
@@ -1287,10 +1289,10 @@ Future<bool> _moveAnimalsToStable(
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF002D26).withOpacity(0.1),
+                  color: const Color(0xFF002D26).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: const Color(0xFF002D26).withOpacity(0.3),
+                    color: const Color(0xFF002D26).withValues(alpha: 0.3),
                     width: 1,
                   ),
                 ),
@@ -1377,7 +1379,7 @@ Future<bool> _moveAnimalsToStable(
     
     overlayEntry = OverlayEntry(
       builder: (context) => Container(
-        color: Colors.black.withOpacity(0.7),
+        color: Colors.black.withValues(alpha: 0.7),
         child: Center(
           child: TweenAnimationBuilder<double>(
             duration: const Duration(milliseconds: 600),
@@ -1393,7 +1395,7 @@ Future<bool> _moveAnimalsToStable(
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
@@ -1412,7 +1414,7 @@ Future<bool> _moveAnimalsToStable(
                             child: CircularProgressIndicator(
                               strokeWidth: 3,
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                const Color(0xFF002D26).withOpacity(0.8),
+                                const Color(0xFF002D26).withValues(alpha: 0.8),
                               ),
                             ),
                           ),
@@ -1420,7 +1422,7 @@ Future<bool> _moveAnimalsToStable(
                             width: 60,
                             height: 60,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF002D26).withOpacity(0.1),
+                              color: const Color(0xFF002D26).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: const Icon(
@@ -1460,7 +1462,7 @@ Future<bool> _moveAnimalsToStable(
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: Colors.blue.withOpacity(0.1),
+                                        color: Colors.blue.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Icon(
@@ -1487,7 +1489,7 @@ Future<bool> _moveAnimalsToStable(
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: Colors.red.withOpacity(0.1),
+                                        color: Colors.red.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Icon(
@@ -1518,7 +1520,7 @@ Future<bool> _moveAnimalsToStable(
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF002D26).withOpacity(0.1),
+                          color: const Color(0xFF002D26).withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Row(
@@ -1561,37 +1563,33 @@ Future<bool> _moveAnimalsToStable(
       
       for (final animal in animals) {
         try {
-          await animalsService.updateAnimal(animal.id, {
-            'name': animal.name,
-            'gender': animal.gender,
-            'birthDate': animal.birthDate,
+          await animalsService.updateBovine(animal.id, {
+            if (animal.name != null) 'name': animal.name,
             'breed': animal.breed,
-            'location': animal.location,
-            'stableId': toStableId,
           });
           movedAnimals++;
-          print('✅ Animal ${animal.id} moved to stable $toStableId');
+          debugPrint('✅ Animal ${animal.id} moved to stable $toStableId');
         } catch (e) {
-          print('❌ Error moving animal ${animal.id}: $e');
+          debugPrint('❌ Error moving animal ${animal.id}: $e');
         }
       }
       
-      print('✅ Moved $movedAnimals/${animals.length} animals from stable $fromStableId to $toStableId');
+      debugPrint('✅ Moved $movedAnimals/${animals.length} animals from stable $fromStableId to $toStableId');
       
       // Solo eliminar el establo si se movieron todos los animales exitosamente
       bool stableDeleted = false;
       if (movedAnimals == animals.length) {
         await repository.deleteStable(fromStableId);
         stableDeleted = true;
-        print('✅ Stable $fromStableId deleted after moving all animals');
+        debugPrint('✅ Stable $fromStableId deleted after moving all animals');
         
         // Actualizar la UI de establos en segundo plano ANTES de remover el overlay
         if (onStablesUpdated != null) {
           onStablesUpdated();
-          print('✅ UI de establos actualizada en segundo plano');
+          debugPrint('✅ UI de establos actualizada en segundo plano');
         }
       } else {
-        print('⚠️ Not all animals were moved, keeping stable $fromStableId');
+        debugPrint('⚠️ Not all animals were moved, keeping stable $fromStableId');
       }
       
       // Remover loading
@@ -1602,12 +1600,12 @@ Future<bool> _moveAnimalsToStable(
       if (context.mounted) {
         // Las notificaciones visuales ya se muestran en el overlay de procesamiento
         // No necesitamos SnackBars adicionales aquí
-        print('✅ Proceso completado: $movedAnimals animales movidos de ${animals.length}');
+        debugPrint('✅ Proceso completado: $movedAnimals animales movidos de ${animals.length}');
       }
       
       return stableDeleted;
     } catch (e) {
-      print('❌ Error moving animals or deleting stable: $e');
+      debugPrint('❌ Error moving animals or deleting stable: $e');
       
       // Remover loading en caso de error
       if (overlayEntry.mounted) {
@@ -1617,7 +1615,7 @@ Future<bool> _moveAnimalsToStable(
       if (context.mounted) {
         // Los errores se manejan silenciosamente, el overlay ya se removió
         // No necesitamos notificaciones adicionales aquí
-        print('❌ Error durante el proceso de mover animales');
+        debugPrint('❌ Error durante el proceso de mover animales');
       }
       
       return false;
@@ -1648,7 +1646,7 @@ Future<bool> _deleteStable(
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -1670,8 +1668,8 @@ Future<bool> _deleteStable(
                       decoration: BoxDecoration(
                         gradient: RadialGradient(
                           colors: [
-                            Colors.red.withOpacity(0.2),
-                            Colors.red.withOpacity(0.05),
+                            Colors.red.withValues(alpha: 0.2),
+                            Colors.red.withValues(alpha: 0.05),
                             Colors.transparent,
                           ],
                         ),
@@ -1680,7 +1678,7 @@ Future<bool> _deleteStable(
                       child: Container(
                         margin: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.1),
+                          color: Colors.red.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: const Icon(
@@ -1755,7 +1753,7 @@ Future<bool> _deleteStable(
 
   try {
     await repository.deleteStable(stableId);
-    print('✅ Stable $stableId deleted');
+    debugPrint('✅ Stable $stableId deleted');
     
     // Asegurar que el overlay se elimine
     if (overlayEntry.mounted) {
@@ -1774,7 +1772,7 @@ Future<bool> _deleteStable(
     
     return true;
   } catch (e) {
-    print('❌ Error deleting stable $stableId: $e');
+    debugPrint('❌ Error deleting stable $stableId: $e');
     
     // Asegurar que el overlay se elimine en caso de error
     if (overlayEntry.mounted) {

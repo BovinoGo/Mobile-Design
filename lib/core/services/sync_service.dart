@@ -2,6 +2,7 @@ import 'dart:async';
 import 'connectivity_service.dart';
 import 'offline_data_service.dart';
 import 'notification_service.dart';
+import 'package:flutter/foundation.dart';
 
 class SyncService {
   static final SyncService _instance = SyncService._internal();
@@ -61,7 +62,7 @@ class SyncService {
       await _notificationService.showConnectionRestoredNotification();
       
     } catch (e) {
-      print('Error during sync: $e');
+      debugPrint('Error during sync: $e');
       _syncController.add(SyncStatus.error);
     } finally {
       _isSyncing = false;
@@ -103,7 +104,7 @@ class SyncService {
         await Future.delayed(const Duration(milliseconds: 100));
         await _offlineService.markAsSynced('stables', stable['id'], stable['id'] + 1000);
       } catch (e) {
-        print('Error syncing stable ${stable['id']}: $e');
+        debugPrint('Error syncing stable ${stable['id']}: $e');
       }
     }
   }
@@ -120,7 +121,7 @@ class SyncService {
         await Future.delayed(const Duration(milliseconds: 100));
         await _offlineService.markAsSynced('animals', animal['id'], animal['id'] + 1000);
       } catch (e) {
-        print('Error syncing animal ${animal['id']}: $e');
+        debugPrint('Error syncing animal ${animal['id']}: $e');
       }
     }
   }
@@ -137,7 +138,7 @@ class SyncService {
         await Future.delayed(const Duration(milliseconds: 100));
         await _offlineService.markAsSynced('vaccines', vaccine['id'], vaccine['id'] + 1000);
       } catch (e) {
-        print('Error syncing vaccine ${vaccine['id']}: $e');
+        debugPrint('Error syncing vaccine ${vaccine['id']}: $e');
       }
     }
   }
@@ -154,7 +155,7 @@ class SyncService {
         await Future.delayed(const Duration(milliseconds: 100));
         await _offlineService.markAsSynced('campaigns', campaign['id'], campaign['id'] + 1000);
       } catch (e) {
-        print('Error syncing campaign ${campaign['id']}: $e');
+        debugPrint('Error syncing campaign ${campaign['id']}: $e');
       }
     }
   }
@@ -171,7 +172,7 @@ class SyncService {
         await Future.delayed(const Duration(milliseconds: 100));
         await _offlineService.markAsSynced('staff', member['id'], member['id'] + 1000);
       } catch (e) {
-        print('Error syncing staff member ${member['id']}: $e');
+        debugPrint('Error syncing staff member ${member['id']}: $e');
       }
     }
   }

@@ -71,25 +71,25 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
                     end: Alignment.bottomRight,
                     colors: [
                       Colors.white,
-                      lightGreen.withOpacity(0.1),
+                      lightGreen.withValues(alpha: 0.1),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     color: widget.selectedVaccine != null 
-                      ? accent.withOpacity(0.5)
+                      ? accent.withValues(alpha: 0.5)
                       : Colors.grey.shade200,
                     width: 2,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: primary.withOpacity(0.08),
+                      color: primary.withValues(alpha: 0.08),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                       spreadRadius: 0,
                     ),
                     BoxShadow(
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                       blurRadius: 10,
                       offset: const Offset(0, -2),
                       spreadRadius: 0,
@@ -97,6 +97,7 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
                   ],
                 ),
                 child: DropdownButtonFormField<VaccineTypeDto>(
+                  // ignore: deprecated_member_use
                   value: widget.selectedVaccine,
                   decoration: InputDecoration(
                     labelText: 'Seleccionar vacuna',
@@ -153,13 +154,13 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    accent.withOpacity(0.2),
-                                    primary.withOpacity(0.1),
+                                    accent.withValues(alpha: 0.2),
+                                    primary.withValues(alpha: 0.1),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
-                                  color: accent.withOpacity(0.3),
+                                  color: accent.withValues(alpha: 0.3),
                                   width: 1,
                                 ),
                               ),
@@ -209,7 +210,7 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: accent.withOpacity(0.1),
+                        color: accent.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
@@ -243,18 +244,18 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        lightGreen.withOpacity(0.3),
-                        accent.withOpacity(0.1),
+                        lightGreen.withValues(alpha: 0.3),
+                        accent.withValues(alpha: 0.1),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(
-                      color: accent.withOpacity(0.3),
+                      color: accent.withValues(alpha: 0.3),
                       width: 1.5,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: primary.withOpacity(0.05),
+                        color: primary.withValues(alpha: 0.05),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),
@@ -275,7 +276,7 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: accent.withOpacity(0.3),
+                                  color: accent.withValues(alpha: 0.3),
                                   blurRadius: 8,
                                   offset: const Offset(0, 3),
                                 ),
@@ -353,13 +354,13 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Colors.orange.withOpacity(0.1),
-                                Colors.deepOrange.withOpacity(0.05),
+                                Colors.orange.withValues(alpha: 0.1),
+                                Colors.deepOrange.withValues(alpha: 0.05),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(14),
                             border: Border.all(
-                              color: Colors.orange.withOpacity(0.3),
+                              color: Colors.orange.withValues(alpha: 0.3),
                               width: 1,
                             ),
                           ),
@@ -413,10 +414,10 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: Colors.white.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -425,7 +426,7 @@ class _VaccineDropdownState extends State<VaccineDropdown> with SingleTickerProv
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(

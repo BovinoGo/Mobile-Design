@@ -112,7 +112,7 @@ class _AppLoadingOverlayState extends State<AppLoadingOverlay>
             child: Container(
               width: double.infinity,
               height: double.infinity,
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
               child: Center(
                 child: ScaleTransition(
                   scale: _scaleAnimation,
@@ -123,7 +123,7 @@ class _AppLoadingOverlayState extends State<AppLoadingOverlay>
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),

@@ -141,7 +141,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
             end: Alignment.bottomCenter,
             colors: [
               const Color(0xFFF8F9FA),
-              lightGreen.withOpacity(0.3),
+              lightGreen.withValues(alpha: 0.3),
             ],
           ),
         ),
@@ -213,7 +213,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: primary.withOpacity(0.1),
+            color: primary.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -227,7 +227,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: primary.withOpacity(0.1),
+                  color: primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -336,7 +336,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: primary.withOpacity(0.1),
+                  color: primary.withValues(alpha: 0.1),
                   blurRadius: 15,
                   offset: const Offset(0, 5),
                 ),
@@ -379,7 +379,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: primary.withOpacity(0.1),
+                      color: primary.withValues(alpha: 0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -413,7 +413,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: primary.withOpacity(0.1),
+                      color: primary.withValues(alpha: 0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -433,9 +433,9 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: primary.withOpacity(0.1),
+                  color: primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: primary.withOpacity(0.3)),
+                  border: Border.all(color: primary.withValues(alpha: 0.3)),
                 ),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
@@ -477,13 +477,13 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          lightGreen.withOpacity(0.3),
-                          lightGreen.withOpacity(0.1),
+                          lightGreen.withValues(alpha: 0.3),
+                          lightGreen.withValues(alpha: 0.1),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(
-                        color: primary.withOpacity(0.2),
+                        color: primary.withValues(alpha: 0.2),
                         width: 2,
                       ),
                     ),
@@ -491,7 +491,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                       child: Icon(
                         Icons.campaign_outlined,
                         size: 64,
-                        color: primary.withOpacity(0.7),
+                        color: primary.withValues(alpha: 0.7),
                       ),
                     ),
                   ),
@@ -523,14 +523,14 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                     height: 56,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [primary, primary.withOpacity(0.8)],
+                        colors: [primary, primary.withValues(alpha: 0.8)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: primary.withOpacity(0.3),
+                          color: primary.withValues(alpha: 0.3),
                           blurRadius: 12,
                           offset: const Offset(0, 6),
                         ),
@@ -605,7 +605,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: primary.withOpacity(0.1),
+                              color: primary.withValues(alpha: 0.1),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -641,7 +641,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: primary.withOpacity(0.1),
+                                  color: primary.withValues(alpha: 0.1),
                                   blurRadius: 8,
                                   offset: const Offset(0, 2),
                                 ),
@@ -668,9 +668,9 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: primary.withOpacity(0.1),
+                          color: primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: primary.withOpacity(0.3)),
+                          border: Border.all(color: primary.withValues(alpha: 0.3)),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -702,14 +702,14 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                     height: 56,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [primary, primary.withOpacity(0.8)],
+                        colors: [primary, primary.withValues(alpha: 0.8)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: primary.withOpacity(0.3),
+                          color: primary.withValues(alpha: 0.3),
                           blurRadius: 12,
                           offset: const Offset(0, 6),
                         ),
@@ -797,7 +797,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: primary.withOpacity(0.1),
+                      color: primary.withValues(alpha: 0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -831,7 +831,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: primary.withOpacity(0.1),
+                      color: primary.withValues(alpha: 0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -851,9 +851,9 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.1),
+                  color: Colors.red.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.red.withOpacity(0.3)),
+                  border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
                 ),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
@@ -1001,7 +1001,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -1014,7 +1014,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.1),
+                  color: Colors.red.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -1053,7 +1053,7 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF00695C).withOpacity(0.1),
+                            color: const Color(0xFF00695C).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Icon(
@@ -1098,9 +1098,9 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.orange.withOpacity(0.1),
+                              color: Colors.orange.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                              border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -1136,9 +1136,9 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF00695C).withOpacity(0.1),
+                              color: const Color(0xFF00695C).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: const Color(0xFF00695C).withOpacity(0.3)),
+                              border: Border.all(color: const Color(0xFF00695C).withValues(alpha: 0.3)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1203,9 +1203,9 @@ class _CampaignManagementPageState extends State<CampaignManagementPage> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.05),
+                  color: Colors.red.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.red.withOpacity(0.2)),
+                  border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
                 ),
                 child: Column(
                   children: [

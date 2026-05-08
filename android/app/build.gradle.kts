@@ -34,10 +34,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("C:/Users/Oscar/OneDrive/Documentos/UPC/MOBILE/vacapp-key.jks")
-            storePassword = "123456"  // Reemplaza con tu contraseña real
-            keyAlias = "vacapp-key"
-            keyPassword = "123456"  // Reemplaza con tu contraseña real
+            storeFile = file("vacapp-key.jks")
+            storePassword = "vacapp123"
+            keyAlias = "vacapp"
+            keyPassword = "vacapp123"
         }
     }
 

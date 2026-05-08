@@ -4,7 +4,7 @@ class DeleteAnimal {
   final AnimalRepository repository;
   DeleteAnimal(this.repository);
 
-  Future<void> call(int id) async {
-    await repository.deleteAnimal(id);
+  Future<void> call(String id) async {
+    await repository.deactivateAnimal(id);
   }
 }

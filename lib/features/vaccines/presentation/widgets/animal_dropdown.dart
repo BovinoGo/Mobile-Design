@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:vacapp/features/animals/data/models/animal_dto.dart';
 
 class AnimalDropdown extends StatefulWidget {
-  final int? selectedAnimalId;
+  final String? selectedAnimalId;
   final List<AnimalDto> animals;
-  final ValueChanged<int?> onChanged;
-  final String? Function(int?)? validator;
+  final ValueChanged<String?> onChanged;
+  final String? Function(String?)? validator;
   final String? Function(AnimalDto)? genderFilter;
 
   const AnimalDropdown({
@@ -118,32 +118,33 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                     end: Alignment.bottomRight,
                     colors: [
                       Colors.white,
-                      lightGreen.withOpacity(0.1),
+                      lightGreen.withValues(alpha: 0.1),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     color: widget.selectedAnimalId != null 
-                      ? accent.withOpacity(0.5)
+                      ? accent.withValues(alpha: 0.5)
                       : Colors.grey.shade200,
                     width: 2,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: primary.withOpacity(0.08),
+                      color: primary.withValues(alpha: 0.08),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                       spreadRadius: 0,
                     ),
                     BoxShadow(
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                       blurRadius: 10,
                       offset: const Offset(0, -2),
                       spreadRadius: 0,
                     ),
                   ],
                 ),
-                child: DropdownButtonFormField<int>(
+                child: DropdownButtonFormField<String>(
+                  // ignore: deprecated_member_use
                   value: widget.selectedAnimalId,
                   decoration: InputDecoration(
                     labelText: 'Seleccionar animal',
@@ -190,7 +191,7 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                     final genderError = widget.genderFilter?.call(animal);
                     final isDisabled = genderError != null;
                     
-                    return DropdownMenuItem<int>(
+                    return DropdownMenuItem<String>(
                       value: animal.id,
                       enabled: !isDisabled,
                       child: Container(
@@ -206,16 +207,16 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                                   colors: isDisabled 
                                     ? [Colors.grey.shade200, Colors.grey.shade100]
                                     : _isMale(animal.gender)
-                                      ? [Colors.blue.withOpacity(0.2), accent.withOpacity(0.1)]
-                                      : [Colors.pink.withOpacity(0.2), accent.withOpacity(0.1)],
+                                      ? [Colors.blue.withValues(alpha: 0.2), accent.withValues(alpha: 0.1)]
+                                      : [Colors.pink.withValues(alpha: 0.2), accent.withValues(alpha: 0.1)],
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
                                   color: isDisabled 
                                     ? Colors.grey.shade300 
                                     : _isMale(animal.gender)
-                                      ? Colors.blue.withOpacity(0.3)
-                                      : Colors.pink.withOpacity(0.3),
+                                      ? Colors.blue.withValues(alpha: 0.3)
+                                      : Colors.pink.withValues(alpha: 0.3),
                                   width: 1,
                                 ),
                               ),
@@ -236,7 +237,7 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                             // Animal info with name only
                             Expanded(
                               child: Text(
-                                animal.name,
+                                animal.displayName,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -253,7 +254,7 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                               Container(
                                 padding: const EdgeInsets.all(3),
                                 decoration: BoxDecoration(
-                                  color: Colors.red.withOpacity(0.1),
+                                  color: Colors.red.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Icon(
@@ -267,7 +268,7 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                       ),
                     );
                   }).toList(),
-                  onChanged: (int? animalId) {
+                  onChanged: (String? animalId) {
                     widget.onChanged(animalId);
                     if (animalId != null) {
                       _animationController.forward().then((_) {
@@ -287,7 +288,7 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: accent.withOpacity(0.1),
+                        color: accent.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
@@ -327,18 +328,21 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
     final selectedAnimal = widget.animals.firstWhere(
       (animal) => animal.id == widget.selectedAnimalId,
       orElse: () => AnimalDto(
-        id: 0, 
-        name: '', 
-        gender: '', 
-        birthDate: '', 
-        breed: '', 
-        location: '', 
-        bovineImg: '', 
-        stableId: 0
+        id: '',
+        earTagCode: '',
+        breed: '',
+        sex: '',
+        ageInMonths: 0,
+        healthStatus: '',
+        lifeStatus: '',
+        ranchId: '',
+        ownerId: '',
+        isActive: false,
+        currentWeightKg: 0,
       ),
     );
-    
-    if (selectedAnimal.id == 0) return const SizedBox.shrink();
+
+    if (selectedAnimal.id.isEmpty) return const SizedBox.shrink();
     
     return Container(
       width: double.infinity,
@@ -348,18 +352,18 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            lightGreen.withOpacity(0.3),
-            accent.withOpacity(0.1),
+            lightGreen.withValues(alpha: 0.3),
+            accent.withValues(alpha: 0.1),
           ],
         ),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: accent.withOpacity(0.3),
+          color: accent.withValues(alpha: 0.3),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: primary.withOpacity(0.05),
+            color: primary.withValues(alpha: 0.05),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -385,7 +389,7 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                     BoxShadow(
                       color: (_isMale(selectedAnimal.gender)
                         ? Colors.blue
-                        : Colors.pink).withOpacity(0.3),
+                        : Colors.pink).withValues(alpha: 0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),
@@ -414,7 +418,7 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      selectedAnimal.name,
+                      selectedAnimal.displayName,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -442,10 +446,10 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.7),
+              color: Colors.white.withValues(alpha: 0.7),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: accent.withOpacity(0.2),
+                color: accent.withValues(alpha: 0.2),
                 width: 1,
               ),
             ),
@@ -505,10 +509,10 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -517,7 +521,7 @@ class _AnimalDropdownState extends State<AnimalDropdown> with SingleTickerProvid
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Icon(

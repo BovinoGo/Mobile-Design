@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:vacapp/core/constants/endpoints.dart';
 import 'package:vacapp/core/services/token_service.dart';
 import 'package:vacapp/features/stables/data/models/stable_dto.dart';
+import 'package:flutter/foundation.dart';
 
 class StablesService {
   
@@ -24,7 +25,7 @@ class StablesService {
     
     // Retornar el establo creado con su ID asignado por el backend
     final createdStable = StableDto.fromJson(jsonDecode(response.body));
-    print('✅ Stable created with ID: ${createdStable.id}');
+    debugPrint('✅ Stable created with ID: ${createdStable.id}');
     return createdStable;
   }
 
@@ -68,7 +69,7 @@ class StablesService {
     if (response.statusCode != HttpStatus.ok) {
       throw Exception(jsonDecode(response.body)['message'] ?? 'Error al actualizar el establo');
     }
-    print('✅ Stable $id updated');
+    debugPrint('✅ Stable $id updated');
   }
 
   Future<void> deleteStable(int id) async {
@@ -80,7 +81,7 @@ class StablesService {
     if (response.statusCode != HttpStatus.noContent) {
       throw Exception(jsonDecode(response.body)['message'] ?? 'Error al eliminar el establo');
     }
-    print('✅ Stable $id deleted');
+    debugPrint('✅ Stable $id deleted');
   }
 
 }

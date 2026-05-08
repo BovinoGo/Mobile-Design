@@ -268,7 +268,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withValues(alpha: 0.08),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -281,7 +281,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                       height: 60,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [primary, primary.withOpacity(0.8)],
+                          colors: [primary, primary.withValues(alpha: 0.8)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -341,7 +341,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
+                            color: Colors.black.withValues(alpha: 0.08),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),
@@ -355,7 +355,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: primary.withOpacity(0.1),
+                                  color: primary.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -420,7 +420,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
+                            color: Colors.black.withValues(alpha: 0.08),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),
@@ -434,7 +434,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.orange.withOpacity(0.1),
+                                  color: Colors.orange.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -456,7 +456,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: Colors.red.withOpacity(0.1),
+                                  color: Colors.red.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
@@ -540,6 +540,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                                 color: Colors.white,
                               ),
                               child: DropdownButtonFormField<CampaingsDto>(
+                                // ignore: deprecated_member_use
                                 value: _selectedCampaign,
                                 decoration: InputDecoration(
                                   hintText: 'Seleccione una campaña',
@@ -691,7 +692,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.blue.withOpacity(0.08),
+                                    color: Colors.blue.withValues(alpha: 0.08),
                                     blurRadius: 8,
                                     offset: const Offset(0, 2),
                                   ),
@@ -784,7 +785,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
+                            color: Colors.black.withValues(alpha: 0.08),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),
@@ -798,7 +799,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.1),
+                                  color: Colors.blue.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -829,6 +830,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                               color: Colors.white,
                             ),
                             child: DropdownButtonFormField<int>(
+                              // ignore: deprecated_member_use
                               value: _selectedStatus,
                               decoration: InputDecoration(
                                 hintText: 'Seleccione el estado',
@@ -1142,7 +1144,7 @@ class _UpdateStaffViewState extends State<UpdateStaffView> {
                                         _getStatusDescription(_selectedStatus),
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: _getStatusTextColor(_selectedStatus).withOpacity(0.8),
+                                          color: _getStatusTextColor(_selectedStatus).withValues(alpha: 0.8),
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),

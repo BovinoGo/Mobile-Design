@@ -32,11 +32,11 @@ class PermissionService {
     for (Permission permission in _criticalPermissions) {
       final status = await permission.status;
       if (!status.isGranted) {
-        print('❌ Permiso ${permission.toString()} no concedido: $status');
+        debugPrint('❌ Permiso ${permission.toString()} no concedido: $status');
         return false;
       }
     }
-    print('✅ Todos los permisos críticos están concedidos');
+    debugPrint('✅ Todos los permisos críticos están concedidos');
     return true;
   }
 
@@ -53,14 +53,14 @@ class PermissionService {
 
   /// Solicitar todos los permisos críticos
   Future<Map<Permission, PermissionStatus>> requestCriticalPermissions() async {
-    print('🔐 Solicitando permisos críticos...');
+    debugPrint('🔐 Solicitando permisos críticos...');
     Map<Permission, PermissionStatus> statuses = {};
     
     for (Permission permission in _criticalPermissions) {
-      print('🔐 Solicitando permiso: $permission');
+      debugPrint('🔐 Solicitando permiso: $permission');
       final status = await permission.request();
       statuses[permission] = status;
-      print('🔐 Estado del permiso $permission: $status');
+      debugPrint('🔐 Estado del permiso $permission: $status');
     }
     
     return statuses;
@@ -68,7 +68,7 @@ class PermissionService {
 
   /// Solicitar todos los permisos necesarios
   Future<Map<Permission, PermissionStatus>> requestAllPermissions() async {
-    print('🔐 Solicitando todos los permisos...');
+    debugPrint('🔐 Solicitando todos los permisos...');
     Map<Permission, PermissionStatus> statuses = {};
     
     for (Permission permission in allPermissions) {
@@ -146,12 +146,12 @@ class PermissionService {
   /// Solicitar permisos críticos directamente del sistema
   Future<bool> requestPermissionsDirectly() async {
     try {
-      print('🔐 Solicitando permisos críticos directamente del sistema...');
+      debugPrint('🔐 Solicitando permisos críticos directamente del sistema...');
 
       // Primero verificar si ya tenemos los permisos críticos
       final hasCritical = await hasAllCriticalPermissions();
       if (hasCritical) {
-        print('✅ Ya tenemos todos los permisos críticos');
+        debugPrint('✅ Ya tenemos todos los permisos críticos');
         return true;
       }
 
@@ -167,16 +167,16 @@ class PermissionService {
       }
 
       if (deniedPermissions.isNotEmpty) {
-        print('❌ Algunos permisos fueron denegados: $deniedPermissions');
-        print('ℹ️ La app continuará con funcionalidad limitada');
+        debugPrint('❌ Algunos permisos fueron denegados: $deniedPermissions');
+        debugPrint('ℹ️ La app continuará con funcionalidad limitada');
         return false;
       }
 
-      print('✅ Todos los permisos críticos fueron concedidos');
+      debugPrint('✅ Todos los permisos críticos fueron concedidos');
       return true;
 
     } catch (e) {
-      print('❌ Error solicitando permisos: $e');
+      debugPrint('❌ Error solicitando permisos: $e');
       return false;
     }
   }
@@ -250,7 +250,8 @@ class PermissionService {
 
     // Mostrar diálogo explicativo
     bool permissionsGranted = false;
-    
+
+    if (!context.mounted) return false;
     await showDialog(
       context: context,
       barrierDismissible: false,

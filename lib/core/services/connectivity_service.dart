@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 
 class ConnectivityService {
   static final ConnectivityService _instance = ConnectivityService._internal();
@@ -31,7 +32,7 @@ class ConnectivityService {
       final List<ConnectivityResult> connectivityResult = await _connectivity.checkConnectivity();
       _updateConnectionStatus(connectivityResult);
     } catch (e) {
-      print('Error checking connectivity: $e');
+      debugPrint('Error checking connectivity: $e');
       _isConnected = false;
       _connectivityController.add(false);
     }
@@ -48,7 +49,7 @@ class ConnectivityService {
     if (_isConnected != connected) {
       _isConnected = connected;
       _connectivityController.add(connected);
-      print('Connectivity changed: ${connected ? "Connected" : "Disconnected"}');
+      debugPrint('Connectivity changed: ${connected ? "Connected" : "Disconnected"}');
     }
   }
 

@@ -1,57 +1,79 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:vacapp/core/constants/endpoints.dart';
 import 'package:vacapp/features/auth/data/models/user_dto.dart';
-import 'package:vacapp/features/auth/data/models/user_request_dto.dart';
-import 'package:http/http.dart' as http;
 
 class AuthService {
-  Future<UserDTO> login({required String usernameOrEmail, required String password}) async {
-    final Uri uri = Uri.parse(Endpoints.login);
+  Future<UserDTO> login({required String email, required String password}) async {
     final response = await http.post(
-      uri,
+      Uri.parse(Endpoints.login),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(
-        UserRequestDto(
-          usernameOrEmail: usernameOrEmail,
-          password: password,
-        ).toJson(isSignUp: false),
-      ),
+      body: jsonEncode({'email': email, 'password': password}),
     );
-
     if (response.statusCode == HttpStatus.ok) {
-      final json = jsonDecode(response.body);
-      return UserDTO.fromJson(json);
-    } else {
-      throw Exception(jsonDecode(response.body)['message']);
+      return UserDTO.fromJson(jsonDecode(response.body));
     }
+    _throwError(response, 'Login failed');
   }
 
-  Future<UserDTO> signUp({
-    required String username,
-    required String password,
+  Future<UserDTO> registerCompany({
+    required String fullName,
     required String email,
-  }) async {
-    final Uri uri = Uri.parse(Endpoints.register);
-    final response = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(
-        UserRequestDto(
-          usernameOrEmail: username,
-          password: password,
-          email: email,
-        ).toJson(isSignUp: true),
-      ),
-    );
+    required String password,
+    String? phone,
+  }) =>
+      _register(Endpoints.registerCompany, fullName, email, password, phone);
 
+  Future<UserDTO> registerRancher({
+    required String fullName,
+    required String email,
+    required String password,
+    String? phone,
+  }) =>
+      _register(Endpoints.registerRancher, fullName, email, password, phone);
+
+  Future<UserDTO> registerBuyer({
+    required String fullName,
+    required String email,
+    required String password,
+    String? phone,
+  }) =>
+      _register(Endpoints.registerBuyer, fullName, email, password, phone);
+
+  Future<UserDTO> _register(
+    String url,
+    String fullName,
+    String email,
+    String password,
+    String? phone,
+  ) async {
+    final body = {
+      'fullName': fullName,
+      'email': email,
+      'password': password,
+      if (phone != null && phone.isNotEmpty) 'phone': phone,
+    };
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(body),
+    );
     if (response.statusCode == HttpStatus.ok ||
         response.statusCode == HttpStatus.created) {
-      final json = jsonDecode(response.body);
-      return UserDTO.fromJson(json);
-    } else {
-      throw Exception(jsonDecode(response.body)['message']);
+      return UserDTO.fromJson(jsonDecode(response.body));
+    }
+    _throwError(response, 'Registration failed');
+  }
+
+  Never _throwError(http.Response response, String fallback) {
+    try {
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      throw Exception(body['error'] ?? body['message'] ?? fallback);
+    } catch (e) {
+      if (e is Exception) rethrow;
+      throw Exception(fallback);
     }
   }
 }

@@ -47,7 +47,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
         });
       }
     } catch (e) {
-      print('❌ Error loading stables');
+      debugPrint('❌ Error loading stables');
       if (mounted) {
         setState(() {
           _stables = [];
@@ -69,7 +69,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
         counts[stable.id] = count;
         percent[stable.id] = stable.limit > 0 ? count / stable.limit : 0.0;
       } catch (e) {
-        print('Error loading animals for stable ${stable.id}');
+        debugPrint('Error loading animals for stable ${stable.id}');
         counts[stable.id] = 0;
         percent[stable.id] = 0.0;
       }
@@ -99,7 +99,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
         });
       }
     } catch (e) {
-      print('❌ Error loading stables in background: $e');
+      debugPrint('❌ Error loading stables in background: $e');
       // En caso de error, usar el método de refresh regular
       await _refreshStables();
     }
@@ -263,7 +263,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
       // Buscar el establo en la lista actual
       final stableIndex = _stables.indexWhere((s) => s.id == stableId);
       if (stableIndex == -1) {
-        print('⚠️ Establo con ID $stableId no encontrado en la lista local');
+        debugPrint('⚠️ Establo con ID $stableId no encontrado en la lista local');
         return;
       }
       
@@ -276,10 +276,10 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
           _animatedBovinoPercent[stableId] = percentage;
         });
         
-        print('✅ Establo ${stable.name} actualizado: $count/$stable.limit animales (${(percentage * 100).toStringAsFixed(1)}%)');
+        debugPrint('✅ Establo ${stable.name} actualizado: $count/$stable.limit animales (${(percentage * 100).toStringAsFixed(1)}%)');
       }
     } catch (e) {
-      print('❌ Error updating animal count for stable $stableId: $e');
+      debugPrint('❌ Error updating animal count for stable $stableId: $e');
       
       // En caso de error, intentar refrescar toda la página
       if (mounted) {
@@ -325,7 +325,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [primary, primary.withOpacity(0.8)],
+                        colors: [primary, primary.withValues(alpha: 0.8)],
                       ),
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                     ),
@@ -337,7 +337,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                           height: 4,
                           margin: const EdgeInsets.only(bottom: 16),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.3),
+                            color: Colors.white.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(2),
                           ),
                         ),
@@ -347,13 +347,13 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Icon(
                                 Icons.pets,
                                 size: 32,
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha: 0.8),
                               ),
                             ),
                             const SizedBox(width: 16),
@@ -373,7 +373,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                   Text(
                                     '${_bovinoCount[stable.id] ?? 0} / ${stable.limit} animales',
                                     style: TextStyle(
-                                      color: Colors.white.withOpacity(0.9),
+                                      color: Colors.white.withValues(alpha: 0.9),
                                       fontSize: 14,
                                     ),
                                   ),
@@ -385,7 +385,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Icon(
@@ -446,7 +446,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                 Container(
                                   padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
-                                    color: lightGreen.withOpacity(0.1),
+                                    color: lightGreen.withValues(alpha: 0.1),
                                     shape: BoxShape.circle,
                                   ),
                                   child: const Text(
@@ -525,17 +525,17 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                         ),
                                         borderRadius: BorderRadius.circular(20),
                                         border: Border.all(
-                                          color: primary.withOpacity(0.15),
+                                          color: primary.withValues(alpha: 0.15),
                                           width: 1.5,
                                         ),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: primary.withOpacity(0.12),
+                                            color: primary.withValues(alpha: 0.12),
                                             blurRadius: 15,
                                             offset: const Offset(0, 4),
                                           ),
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.05),
+                                            color: Colors.black.withValues(alpha: 0.05),
                                             blurRadius: 8,
                                             offset: const Offset(0, 2),
                                           ),
@@ -558,13 +558,13 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                                   decoration: BoxDecoration(
                                                     gradient: LinearGradient(
                                                       colors: [
-                                                        primary.withOpacity(0.15),
-                                                        primary.withOpacity(0.08),
+                                                        primary.withValues(alpha: 0.15),
+                                                        primary.withValues(alpha: 0.08),
                                                       ],
                                                     ),
                                                     borderRadius: BorderRadius.circular(8),
                                                     border: Border.all(
-                                                      color: primary.withOpacity(0.2),
+                                                      color: primary.withValues(alpha: 0.2),
                                                       width: 1,
                                                     ),
                                                   ),
@@ -593,12 +593,12 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                                   height: 8,
                                                   decoration: BoxDecoration(
                                                     gradient: LinearGradient(
-                                                      colors: [primary, primary.withOpacity(0.7)],
+                                                      colors: [primary, primary.withValues(alpha: 0.7)],
                                                     ),
                                                     shape: BoxShape.circle,
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: primary.withOpacity(0.3),
+                                                        color: primary.withValues(alpha: 0.3),
                                                         blurRadius: 3,
                                                         offset: const Offset(0, 1),
                                                       ),
@@ -617,10 +617,10 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                                 vertical: 6,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: lightGreen.withOpacity(0.3),
+                                                color: lightGreen.withValues(alpha: 0.3),
                                                 borderRadius: BorderRadius.circular(10),
                                                 border: Border.all(
-                                                  color: primary.withOpacity(0.1),
+                                                  color: primary.withValues(alpha: 0.1),
                                                   width: 1,
                                                 ),
                                               ),
@@ -769,7 +769,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: primary.withOpacity(0.1),
+                          color: primary.withValues(alpha: 0.1),
                           blurRadius: 15,
                           offset: const Offset(0, 5),
                         ),
@@ -833,7 +833,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                         decoration: BoxDecoration(                        gradient: LinearGradient(
                           colors: [
                             primary,
-                            primary.withOpacity(0.7),
+                            primary.withValues(alpha: 0.7),
                             primary,
                           ],
                         ),
@@ -852,9 +852,9 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  Colors.white.withOpacity(0.0),
-                                  Colors.white.withOpacity(0.5),
-                                  Colors.white.withOpacity(0.0),
+                                  Colors.white.withValues(alpha: 0.0),
+                                  Colors.white.withValues(alpha: 0.5),
+                                  Colors.white.withValues(alpha: 0.0),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(3),
@@ -877,7 +877,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                   '${percentage.toInt()}%',                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: primary.withOpacity(0.7),
+                  color: primary.withValues(alpha: 0.7),
                 ),
                   textAlign: TextAlign.center,
                 );
@@ -918,18 +918,18 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            lightGreen.withOpacity(0.3),
-                            lightGreen.withOpacity(0.1),
+                            lightGreen.withValues(alpha: 0.3),
+                            lightGreen.withValues(alpha: 0.1),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(
-                          color: primary.withOpacity(0.2),
+                          color: primary.withValues(alpha: 0.2),
                           width: 2,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: primary.withOpacity(0.1),
+                            color: primary.withValues(alpha: 0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -939,7 +939,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                         child: Icon(
                           Icons.home_work_outlined,
                           size: 64,
-                          color: primary.withOpacity(0.7),
+                          color: primary.withValues(alpha: 0.7),
                         ),
                       ),
                     ),
@@ -980,14 +980,14 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                 height: 56,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [primary, primary.withOpacity(0.8)],
+                    colors: [primary, primary.withValues(alpha: 0.8)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: primary.withOpacity(0.3),
+                      color: primary.withValues(alpha: 0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),
@@ -1033,10 +1033,10 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 decoration: BoxDecoration(
-                  color: lightGreen.withOpacity(0.2),
+                  color: lightGreen.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: primary.withOpacity(0.1),
+                    color: primary.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -1046,7 +1046,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                     Icon(
                       Icons.lightbulb_outline,
                       size: 20,
-                      color: primary.withOpacity(0.8),
+                      color: primary.withValues(alpha: 0.8),
                     ),
                     const SizedBox(width: 8),
                     Flexible(
@@ -1054,7 +1054,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                         'Un establo te permitirá organizar y administrar tus animales de manera eficiente',
                         style: TextStyle(
                           fontSize: 13,
-                          color: primary.withOpacity(0.8),
+                          color: primary.withValues(alpha: 0.8),
                           fontWeight: FontWeight.w500,
                         ),
                         textAlign: TextAlign.center,
@@ -1084,7 +1084,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
             end: Alignment.bottomCenter,
             colors: [
               const Color(0xFFF8F9FA),
-              lightGreen.withOpacity(0.3),
+              lightGreen.withValues(alpha: 0.3),
             ],
           ),
         ),
@@ -1101,13 +1101,13 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                       spreadRadius: 0,
                     ),
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.02),
+                      color: Colors.black.withValues(alpha: 0.02),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                       spreadRadius: 0,
@@ -1148,14 +1148,14 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                       width: 36,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [primary, primary.withOpacity(0.8)],
+                          colors: [primary, primary.withValues(alpha: 0.8)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
-                            color: primary.withOpacity(0.25),
+                            color: primary.withValues(alpha: 0.25),
                             blurRadius: 8,
                             offset: const Offset(0, 4),
                             spreadRadius: 0,
@@ -1224,15 +1224,15 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                           boxShadow: [
                                             BoxShadow(
                                               color: (isAlmostFull || isNearlyFull)
-                                                  ? (isFull ? Colors.red.withOpacity(0.2) : Colors.orange.withOpacity(0.2))
-                                                  : Colors.black.withOpacity(0.08), // Sombra más sutil
+                                                  ? (isFull ? Colors.red.withValues(alpha: 0.2) : Colors.orange.withValues(alpha: 0.2))
+                                                  : Colors.black.withValues(alpha: 0.08), // Sombra más sutil
                                               blurRadius: (isAlmostFull || isNearlyFull) ? 15 : 12,
                                               offset: const Offset(0, 6), // Sombra ligeramente más pronunciada
                                               spreadRadius: 0,
                                             ),
                                             // Sombra adicional para más profundidad
                                             BoxShadow(
-                                              color: Colors.black.withOpacity(0.04),
+                                              color: Colors.black.withValues(alpha: 0.04),
                                               blurRadius: 6,
                                               offset: const Offset(0, 2),
                                               spreadRadius: 0,
@@ -1399,8 +1399,8 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                                   decoration: BoxDecoration(
                                                     gradient: LinearGradient(
                                                       colors: [
-                                                        (isFull ? Colors.red : Colors.orange).withOpacity(0.6),
-                                                        (isFull ? Colors.red : Colors.orange).withOpacity(0.0),
+                                                        (isFull ? Colors.red : Colors.orange).withValues(alpha: 0.6),
+                                                        (isFull ? Colors.red : Colors.orange).withValues(alpha: 0.0),
                                                       ],
                                                     ),
                                                     borderRadius: BorderRadius.circular(4),
@@ -1439,7 +1439,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                           ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: (isFull ? Colors.red : Colors.orange).withOpacity(0.1),
+                                              color: (isFull ? Colors.red : Colors.orange).withValues(alpha: 0.1),
                                               blurRadius: 8,
                                               offset: const Offset(0, 2),
                                             ),
@@ -1492,7 +1492,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: primary.withOpacity(0.1),
+                                            color: primary.withValues(alpha: 0.1),
                                             blurRadius: 4,
                                             offset: const Offset(0, 2),
                                           ),
@@ -1540,7 +1540,7 @@ class _StablePageState extends State<StablePage> with SingleTickerProviderStateM
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.red.withOpacity(0.1),
+                                            color: Colors.red.withValues(alpha: 0.1),
                                             blurRadius: 4,
                                             offset: const Offset(0, 2),
                                           ),

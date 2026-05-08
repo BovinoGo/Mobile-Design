@@ -106,7 +106,7 @@ class _StablesOverviewWidgetState extends State<StablesOverviewWidget> {
         final animals = await _animalsService.fetchAnimalByStableId(stable.id);
         counts[stable.id] = animals.length;
       } catch (e) {
-        print('Error loading animals for stable ${stable.id}');
+        debugPrint('Error loading animals for stable ${stable.id}');
         counts[stable.id] = 0;
       }
     }
@@ -127,7 +127,7 @@ class _StablesOverviewWidgetState extends State<StablesOverviewWidget> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -376,9 +376,9 @@ class _StablesOverviewWidgetState extends State<StablesOverviewWidget> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.05),
+        color: color.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -393,7 +393,7 @@ class _StablesOverviewWidgetState extends State<StablesOverviewWidget> {
             title,
             style: TextStyle(
               fontSize: 12,
-              color: color.withOpacity(0.8),
+              color: color.withValues(alpha: 0.8),
               fontWeight: FontWeight.w600,
             ),
             maxLines: 1,
@@ -434,7 +434,7 @@ class _StablesOverviewWidgetState extends State<StablesOverviewWidget> {
         ),
         boxShadow: [
           BoxShadow(
-            color: isFull ? Colors.red.withOpacity(0.1) : Colors.black.withOpacity(0.05),
+            color: isFull ? Colors.red.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -449,7 +449,7 @@ class _StablesOverviewWidgetState extends State<StablesOverviewWidget> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: primary.withOpacity(0.1),
+                  color: primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -488,7 +488,7 @@ class _StablesOverviewWidgetState extends State<StablesOverviewWidget> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: _getOcupacionColor(porcentaje).withOpacity(0.1),
+                  color: _getOcupacionColor(porcentaje).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(

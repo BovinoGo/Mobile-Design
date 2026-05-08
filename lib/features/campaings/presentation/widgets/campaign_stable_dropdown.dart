@@ -74,7 +74,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
         border: Border.all(color: Colors.grey.shade300),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -96,7 +96,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.orange.withOpacity(0.1),
+              color: Colors.orange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(
@@ -136,7 +136,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.red.withOpacity(0.1),
+              color: Colors.red.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(
@@ -191,7 +191,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.grey.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
@@ -216,6 +216,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
     }
 
     return DropdownButtonFormField<int>(
+      // ignore: deprecated_member_use
       value: widget.selectedStableId,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -224,7 +225,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
           margin: const EdgeInsets.all(12),
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.orange.withOpacity(0.1),
+            color: Colors.orange.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Icon(
@@ -280,7 +281,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: statusColor.withOpacity(0.1),
+              color: statusColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Icon(
@@ -314,7 +315,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: statusColor.withOpacity(0.1),
+                color: statusColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Icon(
@@ -354,7 +355,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: statusColor.withOpacity(0.1),
+                          color: statusColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -376,7 +377,7 @@ class _CampaignStableDropdownState extends State<CampaignStableDropdown> {
               width: 4,
               height: 32,
               decoration: BoxDecoration(
-                color: statusColor.withOpacity(0.3),
+                color: statusColor.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
               child: FractionallySizedBox(

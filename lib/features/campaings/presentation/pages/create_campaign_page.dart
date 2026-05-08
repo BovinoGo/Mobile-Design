@@ -79,7 +79,7 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
       context: context,
       barrierDismissible: true,
       barrierLabel: '',
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, animation, secondaryAnimation) {
         return _ModernDatePickerDialog(
@@ -168,9 +168,9 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                primary.withOpacity(0.05),
+                primary.withValues(alpha: 0.05),
                 Colors.white,
-                lightGreen.withOpacity(0.1),
+                lightGreen.withValues(alpha: 0.1),
               ],
             ),
           ),
@@ -190,7 +190,7 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -224,7 +224,7 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: primary.withOpacity(0.15),
+                                color: primary.withValues(alpha: 0.15),
                                 blurRadius: 20,
                                 offset: const Offset(0, 8),
                               ),
@@ -236,14 +236,14 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: [primary, primary.withOpacity(0.8)],
+                                    colors: [primary, primary.withValues(alpha: 0.8)],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: primary.withOpacity(0.3),
+                                      color: primary.withValues(alpha: 0.3),
                                       blurRadius: 12,
                                       offset: const Offset(0, 4),
                                     ),
@@ -373,10 +373,10 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.amber.withOpacity(0.3)),
+                            border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: Colors.black.withValues(alpha: 0.05),
                                 blurRadius: 8,
                                 offset: const Offset(0, 2),
                               ),
@@ -387,7 +387,7 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                               Container(
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: Colors.amber.withOpacity(0.1),
+                                  color: Colors.amber.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: const Icon(
@@ -434,19 +434,19 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Colors.blue.withOpacity(0.05),
-                                Colors.blue.withOpacity(0.02),
+                                Colors.blue.withValues(alpha: 0.05),
+                                Colors.blue.withValues(alpha: 0.02),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.blue.withOpacity(0.2)),
+                            border: Border.all(color: Colors.blue.withValues(alpha: 0.2)),
                           ),
                           child: Row(
                             children: [
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.1),
+                                  color: Colors.blue.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: const Icon(
@@ -533,14 +533,14 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                                 height: 56,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: [primary, primary.withOpacity(0.8)],
+                                    colors: [primary, primary.withValues(alpha: 0.8)],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: primary.withOpacity(0.3),
+                                      color: primary.withValues(alpha: 0.3),
                                       blurRadius: 12,
                                       offset: const Offset(0, 6),
                                     ),
@@ -602,19 +602,19 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            color.withOpacity(0.05),
-            color.withOpacity(0.02),
+            color.withValues(alpha: 0.05),
+            color.withValues(alpha: 0.02),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.15),
+              color: color.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -667,7 +667,7 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -685,7 +685,7 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
             margin: const EdgeInsets.all(12),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: const Color(0xFF00695C).withOpacity(0.1),
+              color: const Color(0xFF00695C).withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -731,18 +731,18 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: date != null ? Colors.blue.withOpacity(0.3) : Colors.grey.shade300,
+            color: date != null ? Colors.blue.withValues(alpha: 0.3) : Colors.grey.shade300,
             width: date != null ? 2 : 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
             if (date != null)
               BoxShadow(
-                color: Colors.blue.withOpacity(0.1),
+                color: Colors.blue.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -758,7 +758,7 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.1),
+                      color: Colors.blue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -798,8 +798,8 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: date != null 
-                          ? Colors.blue.withOpacity(0.1) 
-                          : Colors.grey.withOpacity(0.1),
+                          ? Colors.blue.withValues(alpha: 0.1) 
+                          : Colors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -815,7 +815,7 @@ class _CreateCampaignPageState extends State<CreateCampaignPage> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.1),
+                    color: Colors.blue.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -912,7 +912,7 @@ class _DatePickerModalState extends State<_DatePickerModal> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 30,
             offset: const Offset(0, -10),
           ),
@@ -996,7 +996,7 @@ class _DatePickerModalState extends State<_DatePickerModal> {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
+                          color: Colors.blue.withValues(alpha: 0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -1023,21 +1023,21 @@ class _DatePickerModalState extends State<_DatePickerModal> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.blue.withOpacity(0.05),
-                  Colors.blue.withOpacity(0.02),
+                  Colors.blue.withValues(alpha: 0.05),
+                  Colors.blue.withValues(alpha: 0.02),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.blue.withOpacity(0.2)),
+              border: Border.all(color: Colors.blue.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.1),
+                    color: Colors.blue.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -1172,7 +1172,7 @@ class _ModernDatePickerDialogState extends State<_ModernDatePickerDialog> with T
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
+                      color: Colors.black.withValues(alpha: 0.15),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -1203,7 +1203,7 @@ class _ModernDatePickerDialogState extends State<_ModernDatePickerDialog> with T
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(
@@ -1243,7 +1243,7 @@ class _ModernDatePickerDialogState extends State<_ModernDatePickerDialog> with T
                         color: const Color(0xFFF1F8E9),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: const Color(0xFF4CAF50).withOpacity(0.3),
+                          color: const Color(0xFF4CAF50).withValues(alpha: 0.3),
                           width: 1,
                         ),
                       ),

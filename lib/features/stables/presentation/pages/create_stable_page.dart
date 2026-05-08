@@ -91,7 +91,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 8,
                               offset: const Offset(0, 4),
                             ),
@@ -134,13 +134,13 @@ class _CreateStablePageState extends State<CreateStablePage> {
                             borderRadius: BorderRadius.circular(24),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.08),
+                                color: Colors.black.withValues(alpha: 0.08),
                                 blurRadius: 20,
                                 offset: const Offset(0, 8),
                               ),
                             ],
                             border: Border.all(
-                              color: cream.withOpacity(0.3),
+                              color: cream.withValues(alpha: 0.3),
                               width: 1.5,
                             ),
                           ),
@@ -149,10 +149,10 @@ class _CreateStablePageState extends State<CreateStablePage> {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: cream.withOpacity(0.3),
+                                  color: cream.withValues(alpha: 0.3),
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                    color: primary.withOpacity(0.2),
+                                    color: primary.withValues(alpha: 0.2),
                                     width: 1,
                                   ),
                                 ),
@@ -205,7 +205,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                             gradient: LinearGradient(
                               colors: [
                                 Colors.white,
-                                cardColor.withOpacity(0.1),
+                                cardColor.withValues(alpha: 0.1),
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
@@ -213,18 +213,18 @@ class _CreateStablePageState extends State<CreateStablePage> {
                             borderRadius: BorderRadius.circular(24),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.08),
+                                color: Colors.black.withValues(alpha: 0.08),
                                 blurRadius: 20,
                                 offset: const Offset(0, 8),
                               ),
                               BoxShadow(
-                                color: primary.withOpacity(0.05),
+                                color: primary.withValues(alpha: 0.05),
                                 blurRadius: 40,
                                 offset: const Offset(0, 20),
                               ),
                             ],
                             border: Border.all(
-                              color: primary.withOpacity(0.1),
+                              color: primary.withValues(alpha: 0.1),
                               width: 1.5,
                             ),
                           ),
@@ -239,13 +239,13 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          primary.withOpacity(0.1),
-                                          primary.withOpacity(0.05),
+                                          primary.withValues(alpha: 0.1),
+                                          primary.withValues(alpha: 0.05),
                                         ],
                                       ),
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
-                                        color: primary.withOpacity(0.2),
+                                        color: primary.withValues(alpha: 0.2),
                                         width: 1,
                                       ),
                                     ),
@@ -289,10 +289,10 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                   Container(
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(
-                                      color: primary.withOpacity(0.03),
+                                      color: primary.withValues(alpha: 0.03),
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
-                                        color: primary.withOpacity(0.1),
+                                        color: primary.withValues(alpha: 0.1),
                                         width: 1,
                                       ),
                                     ),
@@ -304,7 +304,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                             Container(
                                               padding: const EdgeInsets.all(8),
                                               decoration: BoxDecoration(
-                                                color: primary.withOpacity(0.1),
+                                                color: primary.withValues(alpha: 0.1),
                                                 borderRadius: BorderRadius.circular(8),
                                               ),
                                               child: Icon(
@@ -349,7 +349,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                             ),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.black.withOpacity(0.03),
+                                                color: Colors.black.withValues(alpha: 0.03),
                                                 blurRadius: 8,
                                                 offset: const Offset(0, 2),
                                               ),
@@ -365,7 +365,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                               ),
                                               prefixIcon: Icon(
                                                 Icons.home_work_rounded,
-                                                color: primary.withOpacity(0.6),
+                                                color: primary.withValues(alpha: 0.6),
                                                 size: 22,
                                               ),
                                               border: InputBorder.none,
@@ -401,10 +401,10 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                   Container(
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(
-                                      color: Colors.blue.withOpacity(0.03),
+                                      color: Colors.blue.withValues(alpha: 0.03),
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
-                                        color: Colors.blue.withOpacity(0.1),
+                                        color: Colors.blue.withValues(alpha: 0.1),
                                         width: 1,
                                       ),
                                     ),
@@ -416,7 +416,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                             Container(
                                               padding: const EdgeInsets.all(8),
                                               decoration: BoxDecoration(
-                                                color: Colors.blue.withOpacity(0.1),
+                                                color: Colors.blue.withValues(alpha: 0.1),
                                                 borderRadius: BorderRadius.circular(8),
                                               ),
                                               child: const Icon(
@@ -486,10 +486,10 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                                     child: Container(
                                                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                                       decoration: BoxDecoration(
-                                                        color: Colors.blue.withOpacity(0.1),
+                                                        color: Colors.blue.withValues(alpha: 0.1),
                                                         borderRadius: BorderRadius.circular(20),
                                                         border: Border.all(
-                                                          color: Colors.blue.withOpacity(0.3),
+                                                          color: Colors.blue.withValues(alpha: 0.3),
                                                           width: 1,
                                                         ),
                                                       ),
@@ -520,7 +520,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                             ),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.black.withOpacity(0.03),
+                                                color: Colors.black.withValues(alpha: 0.03),
                                                 blurRadius: 8,
                                                 offset: const Offset(0, 2),
                                               ),
@@ -602,7 +602,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                             gradient: LinearGradient(
                               colors: [
                                 primary,
-                                primary.withOpacity(0.8),
+                                primary.withValues(alpha: 0.8),
                               ],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
@@ -610,7 +610,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
-                                color: primary.withOpacity(0.3),
+                                color: primary.withValues(alpha: 0.3),
                                 blurRadius: 12,
                                 offset: const Offset(0, 6),
                               ),
@@ -672,10 +672,10 @@ class _CreateStablePageState extends State<CreateStablePage> {
                         child: Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: cardColor.withOpacity(0.3),
+                            color: cardColor.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color: primary.withOpacity(0.1),
+                              color: primary.withValues(alpha: 0.1),
                               width: 1,
                             ),
                           ),
@@ -687,7 +687,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
                                   Container(
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: Colors.blue.withOpacity(0.1),
+                                      color: Colors.blue.withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: const Icon(
@@ -748,7 +748,7 @@ class _CreateStablePageState extends State<CreateStablePage> {
         Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: Colors.green.withOpacity(0.1),
+            color: Colors.green.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(6),
           ),
           child: Icon(

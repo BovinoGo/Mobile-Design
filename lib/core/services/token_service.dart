@@ -5,6 +5,9 @@ class TokenService {
   static const String _usernameKey = 'username';
   static const String _userIdKey = 'user_id';
   static const String _emailKey = 'email';
+  static const String _fullNameKey = 'full_name';
+  static const String _accountTypeKey = 'account_type';
+  static const String _roleKey = 'role';
   static const String _loginDateKey = 'login_date';
   static const String _lastSyncKey = 'last_sync';
   static const String _keepSessionKey = 'keep_session';
@@ -43,16 +46,16 @@ class TokenService {
     return prefs.getString(_usernameKey) ?? '';
   }
 
-  /// Guarda el ID del usuario
-  Future<void> saveUserId(int userId) async {
+  /// Guarda el ID del usuario (UUID como String)
+  Future<void> saveUserId(String userId) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_userIdKey, userId);
+    await prefs.setString(_userIdKey, userId);
   }
 
-  /// Obtiene el ID del usuario
-  Future<int?> getUserId() async {
+  /// Obtiene el ID del usuario (UUID como String)
+  Future<String?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_userIdKey);
+    return prefs.getString(_userIdKey);
   }
 
   /// Guarda el email del usuario
@@ -67,26 +70,65 @@ class TokenService {
     return prefs.getString(_emailKey) ?? '';
   }
 
+  /// Guarda el nombre completo del usuario
+  Future<void> saveFullName(String fullName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_fullNameKey, fullName);
+  }
+
+  /// Obtiene el nombre completo del usuario
+  Future<String> getFullName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_fullNameKey) ?? '';
+  }
+
+  /// Guarda el tipo de cuenta (LivestockCompany, IndependentRancher, etc.)
+  Future<void> saveAccountType(String accountType) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_accountTypeKey, accountType);
+  }
+
+  /// Obtiene el tipo de cuenta
+  Future<String> getAccountType() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_accountTypeKey) ?? '';
+  }
+
+  /// Guarda el rol del usuario (CompanyAdmin, CompanyWorker, etc.)
+  Future<void> saveRole(String role) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_roleKey, role);
+  }
+
+  /// Obtiene el rol del usuario
+  Future<String> getRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_roleKey) ?? '';
+  }
+
   /// Guarda toda la sesión del usuario incluyendo fecha de login
-  Future<void> saveUserSession(String token, String username, {
-    int? userId,
+  Future<void> saveUserSession(
+    String token,
+    String username, {
+    String? userId,
     String? email,
+    String? fullName,
+    String? accountType,
+    String? role,
     bool keepSession = true,
   }) async {
     final prefs = await SharedPreferences.getInstance();
-    
+
     await prefs.setString(_tokenKey, token);
     await prefs.setString(_usernameKey, username);
     await prefs.setString(_loginDateKey, DateTime.now().toIso8601String());
     await prefs.setBool(_keepSessionKey, keepSession);
-    
-    if (userId != null) {
-      await prefs.setInt(_userIdKey, userId);
-    }
-    
-    if (email != null) {
-      await prefs.setString(_emailKey, email);
-    }
+
+    if (userId != null) await prefs.setString(_userIdKey, userId);
+    if (email != null) await prefs.setString(_emailKey, email);
+    if (fullName != null) await prefs.setString(_fullNameKey, fullName);
+    if (accountType != null) await prefs.setString(_accountTypeKey, accountType);
+    if (role != null) await prefs.setString(_roleKey, role);
   }
 
   /// Obtiene la fecha del último login
@@ -130,15 +172,18 @@ class TokenService {
   /// Elimina toda la sesión del usuario
   Future<void> clearUserSession({bool keepOfflineData = false}) async {
     final prefs = await SharedPreferences.getInstance();
-    
+
     await prefs.remove(_tokenKey);
     await prefs.remove(_usernameKey);
     await prefs.remove(_userIdKey);
     await prefs.remove(_emailKey);
+    await prefs.remove(_fullNameKey);
+    await prefs.remove(_accountTypeKey);
+    await prefs.remove(_roleKey);
     await prefs.remove(_loginDateKey);
     await prefs.remove(_lastSyncKey);
     await prefs.remove(_keepSessionKey);
-    
+
     if (!keepOfflineData) {
       await prefs.remove(_hasOfflineDataKey);
     }
@@ -171,6 +216,9 @@ class TokenService {
       'username': await getUsername(),
       'email': await getEmail(),
       'userId': await getUserId(),
+      'fullName': await getFullName(),
+      'accountType': await getAccountType(),
+      'role': await getRole(),
       'loginDate': await getLoginDate(),
       'lastSync': await getLastSync(),
       'keepSession': await shouldKeepSession(),

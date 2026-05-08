@@ -28,7 +28,7 @@ class _PermissionInitializerState extends State<PermissionInitializer> {
 
   Future<void> _checkAndRequestPermissions() async {
     try {
-      print('🔐 [PERMISSION] Verificando permisos...');
+      debugPrint('🔐 [PERMISSION] Verificando permisos...');
       
       final permissionService = PermissionService();
       
@@ -36,14 +36,14 @@ class _PermissionInitializerState extends State<PermissionInitializer> {
       final hasCritical = await permissionService.hasAllCriticalPermissions();
       
       if (hasCritical) {
-        print('✅ [PERMISSION] Todos los permisos críticos ya están concedidos');
+        debugPrint('✅ [PERMISSION] Todos los permisos críticos ya están concedidos');
         setState(() {
           _permissionsChecked = true;
         });
         return;
       }
 
-      print('⚠️ [PERMISSION] Solicitando permisos críticos directamente del sistema...');
+      debugPrint('⚠️ [PERMISSION] Solicitando permisos críticos directamente del sistema...');
       
       // Solicitar permisos críticos directamente sin diálogos personalizados
       final statuses = await permissionService.requestCriticalPermissions();
@@ -62,12 +62,12 @@ class _PermissionInitializerState extends State<PermissionInitializer> {
       }
 
       if (grantedPermissions.isNotEmpty) {
-        print('✅ [PERMISSION] Permisos concedidos: ${grantedPermissions.join(', ')}');
+        debugPrint('✅ [PERMISSION] Permisos concedidos: ${grantedPermissions.join(', ')}');
       }
       
       if (deniedPermissions.isNotEmpty) {
-        print('⚠️ [PERMISSION] Permisos denegados: ${deniedPermissions.join(', ')}');
-        print('ℹ️ [PERMISSION] La app continuará con funcionalidad limitada');
+        debugPrint('⚠️ [PERMISSION] Permisos denegados: ${deniedPermissions.join(', ')}');
+        debugPrint('ℹ️ [PERMISSION] La app continuará con funcionalidad limitada');
       }
 
       setState(() {
@@ -75,7 +75,7 @@ class _PermissionInitializerState extends State<PermissionInitializer> {
       });
       
     } catch (e) {
-      print('❌ [PERMISSION] Error verificando permisos: $e');
+      debugPrint('❌ [PERMISSION] Error verificando permisos: $e');
       setState(() {
         _permissionsChecked = true;
       });
@@ -96,8 +96,8 @@ class _PermissionInitializerState extends State<PermissionInitializer> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      primary.withOpacity(0.1),
-                      accent.withOpacity(0.05),
+                      primary.withValues(alpha: 0.1),
+                      accent.withValues(alpha: 0.05),
                     ],
                   ),
                   shape: BoxShape.circle,

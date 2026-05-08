@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vacapp/core/services/token_service.dart';
-import 'package:vacapp/features/auth/presentation/pages/login_page.dart';
+import 'package:vacapp/features/auth/presentation/pages/welcome_page.dart';
 import 'package:vacapp/features/auth/presentation/pages/profile_page.dart';
 
 class WelcomeHeader extends StatefulWidget {
@@ -53,39 +52,16 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
   }
 
   Future<String> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    
-    // Obtener y mostrar el token actual en la consola debug
-    final token = await TokenService.instance.getToken();
-    final username = await TokenService.instance.getUsername();
-    
-    print('═══════════════════════════════════════');
-    print('🏠 HOME DEBUG INFO');
-    print('═══════════════════════════════════════');
-    
-    if (token.isNotEmpty) {
-      print('🔑 TOKEN ACTUAL: $token');
-      print('📋 Token length: ${token.length} caracteres');
-      print('👤 Username: $username');
-      
-      // Verificar si el token es válido
-      final hasValidToken = await TokenService.instance.hasValidToken();
-      print('✅ Token válido: $hasValidToken');
-    } else {
-      print('❌ No hay token disponible');
-    }
-    
-    print('═══════════════════════════════════════');
-    
-    return prefs.getString('username') ?? 'Usuario';
+    final fullName = await TokenService.instance.getFullName();
+    if (fullName.isNotEmpty) return fullName;
+    return await TokenService.instance.getUsername();
   }
 
   Future<void> _logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await TokenService.instance.clearUserSession();
     if (mounted) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const LoginPage()),
+        MaterialPageRoute(builder: (_) => const WelcomePage()),
         (route) => false,
       );
     }
@@ -134,7 +110,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: primaryColor.withOpacity(0.3),
+                      color: primaryColor.withValues(alpha: 0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -146,7 +122,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
@@ -263,12 +239,12 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: 0.2),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -279,7 +255,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -341,12 +317,12 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
               ),
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: Colors.white.withOpacity(0.13),
+                color: Colors.white.withValues(alpha: 0.13),
                 width: 1.2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: accentColor.withOpacity(0.18),
+                  color: accentColor.withValues(alpha: 0.18),
                   blurRadius: 18,
                   offset: const Offset(0, 6),
                 ),
@@ -404,7 +380,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
                           borderRadius: BorderRadius.circular(14),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.07),
+                              color: Colors.black.withValues(alpha: 0.07),
                               blurRadius: 10,
                               offset: const Offset(0, 2),
                             ),
@@ -424,7 +400,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: lightGreen.withOpacity(0.7),
+                                  color: lightGreen.withValues(alpha: 0.7),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: const Icon(
@@ -538,10 +514,10 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
           width: 42,
           padding: const EdgeInsets.all(0),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               width: 1,
             ),
           ),
@@ -566,7 +542,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
                     width: 80,
                     height: 16,
                     child: LinearProgressIndicator(
-                      backgroundColor: lightGreen.withOpacity(0.5),
+                      backgroundColor: lightGreen.withValues(alpha: 0.5),
                       color: accentColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -583,7 +559,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
-                              color: Colors.white.withOpacity(0.85),
+                              color: Colors.white.withValues(alpha: 0.85),
                               height: 1.1,
                             ),
                           ),       
@@ -620,7 +596,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
           width: 44,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
           child: const Icon(
@@ -641,7 +617,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     letterSpacing: 0.3,
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vacapp/core/services/user_api_service.dart';
+import 'package:flutter/services.dart';
+import 'package:vacapp/core/services/token_service.dart';
 import 'package:vacapp/features/auth/presentation/pages/welcome_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -10,1256 +11,290 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  static const Color primary = Color(0xFF00695C); // Modern teal
-  static const Color lightGreen = Color(0xFFD0F5E8);
-  static const Color cardBackground = Color(0xFFFDFDFD);
+  static const _green = Color(0xFF00695C);
 
-  
-  Map<String, dynamic>? _userInfo;
+  Map<String, String> _info = {};
   bool _isLoading = true;
-  bool _isEditing = false;
-  String? _error;
-
-  final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadUserInfo();
+    _load();
   }
 
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _loadUserInfo() async {
-    try {
+  Future<void> _load() async {
+    final raw = await TokenService.instance.getUserInfo();
+    if (mounted) {
       setState(() {
-        _isLoading = true;
-        _error = null;
-      });
-
-      final userInfo = await UserApiService.getUserInfo();
-      setState(() {
-        _userInfo = userInfo;
-        _isLoading = false;
-        // Llenar los controladores
-        _usernameController.text = userInfo['name'] ?? '';
-        _emailController.text = userInfo['email'] ?? '';
-      });
-    } catch (e) {
-      setState(() {
-        _error = e.toString();
+        _info = {
+          'fullName': raw['fullName']?.toString() ?? '',
+          'email': raw['email']?.toString() ?? '',
+          'accountType': raw['accountType']?.toString() ?? '',
+          'role': raw['role']?.toString() ?? '',
+          'userId': raw['userId']?.toString() ?? '',
+        };
         _isLoading = false;
       });
     }
   }
 
-  Future<void> _updateProfile() async {
-    if (!_formKey.currentState!.validate()) return;
-    try {
-      setState(() => _isLoading = true);
-      final profileData = {
-        'username': _usernameController.text.trim(),
-        'email': _emailController.text.trim(),
-      };
-      await UserApiService.updateProfile(profileData);
-      setState(() {
-        _isEditing = false;
-        _isLoading = false;
-      });
-      _showSuccessSnackBar('¡Perfil actualizado exitosamente!');
-      await _loadUserInfo();
-    } catch (e) {
-      setState(() => _isLoading = false);
-      _showErrorSnackBar('Error al actualizar perfil: $e');
-    }
-  }
-
- Future<void> _confirmDeleteAccount() async {
-    final username = _userInfo?['name'] ?? '';
-    final TextEditingController confirmController = TextEditingController();
-    bool isNameCorrect = false;
-    bool acceptedTerms = false;
-    
+  Future<void> _logout() async {
     final confirmed = await showDialog<bool>(
       context: context,
-      barrierDismissible: false,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setState) => Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: Colors.transparent,
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 380),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 15,
-                  offset: const Offset(0, 5),
-                ),
-              ],
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Cerrar Sesión'),
+        content: const Text(
+            '¿Seguro que deseas cerrar sesión? Tendrás que volver a iniciar sesión.'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancelar',
+                  style: TextStyle(color: Colors.grey))),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red.shade600,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Header compacto
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.red.shade400, Colors.red.shade600],
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.delete_forever_rounded,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Eliminar Cuenta',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'Acción permanente',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                
-                // Contenido compacto
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Advertencia
-                      Container(
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.orange.shade200),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.warning_amber_rounded, color: Colors.orange.shade600, size: 20),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                'Se eliminarán todos tus datos permanentemente',
-                                style: TextStyle(
-                                  color: Colors.orange.shade800,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 16),
-                      
-                      // Datos que se eliminan - más compacto
-                      Text(
-                        'Se eliminarán:',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey.shade800,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      
-                      Text(
-                        '• Animales registrados • Campañas de vacunación\n• Datos de establos • Historial y reportes',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontSize: 12,
-                          height: 1.4,
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 16),
-                      
-                      // Checkbox compacto
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 1.1,
-                            child: Checkbox(
-                              value: acceptedTerms,
-                              onChanged: (value) {
-                                setState(() {
-                                  acceptedTerms = value ?? false;
-                                });
-                              },
-                              activeColor: Colors.red.shade600,
-                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              'Acepto eliminar mi cuenta definitivamente',
-                              style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 16),
-                      
-                      // Campo de nombre
-                      Text(
-                        'Confirma escribiendo tu nombre de usuario:',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey.shade800,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      
-                      TextField(
-                        controller: confirmController,
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                        decoration: InputDecoration(
-                          hintText: 'Escribe tu nombre de usuario',
-                          hintStyle: TextStyle(fontSize: 13, color: Colors.grey.shade500),
-                          filled: true,
-                          fillColor: Colors.grey.shade50,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Colors.grey.shade300),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Colors.red.shade500, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          prefixIcon: Icon(Icons.person_outline, color: Colors.grey.shade500, size: 20),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            isNameCorrect = value.trim().toLowerCase() == username.trim().toLowerCase();
-                          });
-                        },
-                      ),
-                      
-                      const SizedBox(height: 6),
-                      
-                      // Validación compacta
-                      if (confirmController.text.isNotEmpty)
-                        Row(
-                          children: [
-                            Icon(
-                              isNameCorrect ? Icons.check_circle : Icons.error_outline,
-                              color: isNameCorrect ? Colors.green.shade600 : Colors.red.shade400,
-                              size: 14,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              isNameCorrect ? 'Verificado' : 'No coincide',
-                              style: TextStyle(
-                                color: isNameCorrect ? Colors.green.shade600 : Colors.red.shade400,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Botones compactos
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextButton(
-                              onPressed: () => Navigator.of(context).pop(false),
-                              style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: Text(
-                                'Cancelar',
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: (isNameCorrect && acceptedTerms) 
-                                    ? Colors.red.shade600 
-                                    : Colors.grey.shade300,
-                                foregroundColor: Colors.white,
-                                elevation: (isNameCorrect && acceptedTerms) ? 2 : 0,
-                                padding: const EdgeInsets.symmetric(vertical: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              onPressed: (isNameCorrect && acceptedTerms) 
-                                  ? () => Navigator.of(context).pop(true) 
-                                  : null,
-                              child: const Text(
-                                'ELIMINAR',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Cerrar Sesión'),
           ),
-        ),
+        ],
       ),
     );
-
-    if (confirmed == true) {
-      await _deleteAccount();
+    if (confirmed != true) return;
+    await TokenService.instance.clearUserSession();
+    if (mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const WelcomePage()),
+        (route) => false,
+      );
     }
   }
 
-   Future<void> _deleteAccount() async {
-    try {
-      setState(() => _isLoading = true);
-      await UserApiService.deleteAccount();
-      // No navegues aquí, la navegación se hace tras el diálogo de éxito en _confirmDeleteAccount
-
-      if (mounted) {
-        // Si la confirmación es exitosa el loading se detiene para dar paso a la redirección
-        setState(() => _isLoading = false);
-        await _showSuccessDialog();
-      }
-
-    } catch (e) {
-      _showErrorSnackBar('Error al eliminar cuenta: $e');
+  String _accountTypeLabel(String type) {
+    switch (type) {
+      case 'LivestockCompany':
+        return 'Empresa Ganadera';
+      case 'IndependentRancher':
+        return 'Ganadero Independiente';
+      case 'BuyerCustomer':
+        return 'Comprador';
+      case 'PlatformAccount':
+        return 'Administrador de Plataforma';
+      default:
+        return type.isEmpty ? '—' : type;
     }
   }
 
-
-  Future<void> _showSuccessDialog() async {
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => WillPopScope(
-        onWillPop: () async => false,
-        child: TweenAnimationBuilder<double>(
-          duration: const Duration(milliseconds: 500),
-          tween: Tween(begin: 0.0, end: 1.0),
-          curve: Curves.elasticOut,
-          builder: (context, value, child) => Transform.scale(
-            scale: value,
-            child: Dialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-              child: SingleChildScrollView(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 320, maxHeight: 600),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.12),
-                        blurRadius: 25,
-                        offset: const Offset(0, 12),
-                        spreadRadius: 3,
-                      ),
-                      BoxShadow(
-                        color: primary.withOpacity(0.15),
-                        blurRadius: 40,
-                        offset: const Offset(0, 0),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 32),
-                      
-                      // Icono principal estilo isla
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 24),
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              primary.withOpacity(0.9),
-                              primary,
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: primary.withOpacity(0.3),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            // Icono animado
-                            TweenAnimationBuilder<double>(
-                              duration: const Duration(milliseconds: 800),
-                              tween: Tween(begin: 0.0, end: 1.0),
-                              curve: Curves.bounceOut,
-                              builder: (context, iconValue, child) => Transform.scale(
-                                scale: iconValue,
-                                child: Container(
-                                  width: 64,
-                                  height: 64,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.2),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.white.withOpacity(0.3),
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: const Icon(
-                                    Icons.check_circle_rounded,
-                                    color: Colors.white,
-                                    size: 32,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            
-                            // Título
-                            TweenAnimationBuilder<double>(
-                              duration: const Duration(milliseconds: 600),
-                              tween: Tween(begin: 0.0, end: 1.0),
-                              curve: Curves.easeOut,
-                              builder: (context, textValue, child) => Opacity(
-                                opacity: textValue,
-                                child: const Text(
-                                  '¡Cuenta Eliminada!',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            
-                            // Subtítulo
-                            TweenAnimationBuilder<double>(
-                              duration: const Duration(milliseconds: 800),
-                              tween: Tween(begin: 0.0, end: 1.0),
-                              curve: Curves.easeOut,
-                              builder: (context, subtitleValue, child) => Opacity(
-                                opacity: subtitleValue,
-                                child: Text(
-                                  'Proceso completado',
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    
-                      // Contenido compacto estilo isla
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          children: [
-                            // Mensaje principal - estilo isla
-                            TweenAnimationBuilder<double>(
-                              duration: const Duration(milliseconds: 1000),
-                              tween: Tween(begin: 0.0, end: 1.0),
-                              curve: Curves.easeOut,
-                              builder: (context, contentValue, child) => Opacity(
-                                opacity: contentValue,
-                                child: Container(
-                                  padding: const EdgeInsets.all(18),
-                                  decoration: BoxDecoration(
-                                    color: lightGreen.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(16),
-                                    border: Border.all(
-                                      color: primary.withOpacity(0.2),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: primary.withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child: Icon(
-                                          Icons.info_outline_rounded,
-                                          color: primary,
-                                          size: 20,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: Text(
-                                          'Tu cuenta y datos han sido eliminados permanentemente.',
-                                          style: TextStyle(
-                                            color: Colors.grey.shade800,
-                                            fontSize: 13,
-                                            height: 1.4,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            
-                            const SizedBox(height: 16),
-                            
-                            // Mensaje de despedida - estilo isla
-                            TweenAnimationBuilder<double>(
-                              duration: const Duration(milliseconds: 1200),
-                              tween: Tween(begin: 0.0, end: 1.0),
-                              curve: Curves.easeOut,
-                              builder: (context, farewellValue, child) => Opacity(
-                                opacity: farewellValue,
-                                child: Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.pink.shade50,
-                                        Colors.purple.shade50,
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(14),
-                                    border: Border.all(
-                                      color: Colors.pink.shade200.withOpacity(0.3),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          color: Colors.pink.shade100,
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Icon(
-                                          Icons.favorite_rounded,
-                                          color: Colors.pink.shade400,
-                                          size: 16,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: Text(
-                                          '¡Gracias por usar VacApp!\nEsperamos verte pronto.',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.grey.shade700,
-                                            fontSize: 12,
-                                            fontStyle: FontStyle.italic,
-                                            height: 1.3,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            
-                            const SizedBox(height: 24),
-                          
-                            // Botón estilo isla
-                            TweenAnimationBuilder<double>(
-                              duration: const Duration(milliseconds: 1400),
-                              tween: Tween(begin: 0.0, end: 1.0),
-                              curve: Curves.elasticOut,
-                              builder: (context, buttonValue, child) => Transform.scale(
-                                scale: buttonValue,
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        primary.withOpacity(0.9),
-                                        primary,
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: primary.withOpacity(0.4),
-                                        blurRadius: 15,
-                                        offset: const Offset(0, 8),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(16),
-                                      onTap: () => _navigateToWelcome(),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(vertical: 18),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white.withOpacity(0.2),
-                                                borderRadius: BorderRadius.circular(6),
-                                              ),
-                                              child: const Icon(
-                                                Icons.home_rounded,
-                                                color: Colors.white,
-                                                size: 18,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 12),
-                                            const Text(
-                                              'Ir al Inicio',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  String _roleLabel(String role) {
+    switch (role) {
+      case 'CompanyAdmin':
+        return 'Administrador de Empresa';
+      case 'CompanyWorker':
+        return 'Trabajador';
+      case 'IndependentRancher':
+        return 'Ganadero';
+      case 'BuyerCustomer':
+        return 'Comprador';
+      case 'PlatformAdmin':
+        return 'Admin de Plataforma';
+      default:
+        return role.isEmpty ? '—' : role;
+    }
   }
 
-  void _navigateToWelcome() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const WelcomePage()),
-      (route) => false,
-    );
-  }
-
-  void _showSuccessSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle, color: Colors.white),
-            const SizedBox(width: 12),
-            Expanded(child: Text(message)),
-          ],
-        ),
-        backgroundColor: Colors.green.shade600,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-    );
-  }
-
-  void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.error, color: Colors.white),
-            const SizedBox(width: 12),
-            Expanded(child: Text(message)),
-          ],
-        ),
-        backgroundColor: Colors.red.shade600,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-    );
+  String _initials(String name) {
+    if (name.isEmpty) return '?';
+    final parts = name.trim().split(' ');
+    if (parts.length == 1) return parts[0][0].toUpperCase();
+    return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Fondo degradado moderno
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF00695C).withOpacity(0.08),
-                  lightGreen.withOpacity(0.3),
-                  Colors.white,
-                ],
-                stops: const [0.0, 0.3, 1.0],
-              ),
-            ),
-          ),
-          Builder(
-            builder: (context) {
-              if (_isLoading) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0xFF00695C).withOpacity(0.1),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
+      backgroundColor: const Color(0xFFF8F9FA),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator(color: _green))
+          : CustomScrollView(
+              slivers: [
+                // App bar with avatar
+                SliverAppBar(
+                  expandedHeight: 220,
+                  pinned: true,
+                  backgroundColor: _green,
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [_green, Color(0xFF00897B)],
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 40),
+                          // Avatar
+                          Container(
+                            width: 88,
+                            height: 88,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white.withValues(alpha: 0.25),
+                              border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.6),
+                                  width: 2.5),
                             ),
-                          ],
-                        ),
-                        child: const CircularProgressIndicator(color: primary),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Cargando perfil...',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              } else if (_error != null) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.red.withOpacity(0.1),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
+                            child: Center(
+                              child: Text(
+                                _initials(_info['fullName'] ?? ''),
+                                style: const TextStyle(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                        child: Icon(Icons.error_outline, size: 64, color: Colors.red.shade400),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Error al cargar perfil',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red.shade600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Text(
-                          _error!,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey.shade600),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        onPressed: _loadUserInfo,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primary,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
-                        child: const Text('Reintentar'),
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(0),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 60), // Espacio superior
-                      _buildTitleIsland(),
-                      const SizedBox(height: 24),
-                      _buildProfileHeader(),
-                      const SizedBox(height: 40), // Más separación
-                      _buildProfileContent(),
-                      const SizedBox(height: 24),
-                      _buildDangerZone(),
-                      const SizedBox(height: 40),
-                    ],
-                  ),
-                );
-              }
-            },
-          ),
-        ],
-      ),
-    );  
-  }
-
-  Widget _buildTitleIsland() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Color(0xFF00695C).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.arrow_back_ios_rounded,
-                color: Color(0xFF00695C),
-                size: 20,
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              Icon(
-                Icons.person_rounded,
-                color: Color(0xFF00695C),
-                size: 28,
-              ),
-              const SizedBox(width: 12),
-              const Text(
-                'Mi Perfil',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 40), // Espacio para balance visual
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProfileHeader() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            primary.withOpacity(0.9),
-            primary.withOpacity(0.7),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(28),
-        boxShadow: [
-          BoxShadow(
-            color: primary.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Avatar y nombre
-          Row(
-            children: [
-              Hero(
-                tag: 'profile_avatar',
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
-                  ),
-                  child: const Icon(
-                    Icons.person,
-                    size: 42,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _userInfo?['name'] ?? 'Usuario',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            _info['fullName'] ?? '',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            _accountTypeLabel(_info['accountType'] ?? ''),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white.withValues(alpha: 0.85),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          // Estadísticas
-          Row(
-            children: [
-              _buildStatCard('Bovinos', _userInfo?['totalBovines']?.toString() ?? '0', Icons.pets),
-              const SizedBox(width: 12),
-              _buildStatCard('Vacunas', _userInfo?['totalVaccinations']?.toString() ?? '0', Icons.medical_services),
-              const SizedBox(width: 12),
-              _buildStatCard('Establos', _userInfo?['totalStables']?.toString() ?? '0', Icons.home_work),
-            ],
-          ),
-        ],
-      ),
+
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 8),
+                        _infoCard('Información de cuenta', [
+                          _infoRow(Icons.person_outline, 'Nombre completo',
+                              _info['fullName'] ?? '—'),
+                          _infoRow(Icons.email_outlined, 'Email',
+                              _info['email'] ?? '—'),
+                          _infoRow(Icons.business_outlined, 'Tipo de cuenta',
+                              _accountTypeLabel(_info['accountType'] ?? '')),
+                          _infoRow(Icons.badge_outlined, 'Rol',
+                              _roleLabel(_info['role'] ?? '')),
+                        ]),
+                        const SizedBox(height: 12),
+                        _infoCard('Identificador', [
+                          _copyRow(Icons.fingerprint, 'User ID',
+                              _info['userId'] ?? '—'),
+                        ]),
+                        const SizedBox(height: 24),
+                        // Logout button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: ElevatedButton.icon(
+                            onPressed: _logout,
+                            icon: const Icon(Icons.logout_rounded),
+                            label: const Text(
+                              'Cerrar Sesión',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red.shade600,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14)),
+                              elevation: 0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
-  Widget _buildStatCard(String label, String value, IconData icon) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withOpacity(0.2)),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: Colors.white, size: 24),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              label,
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.9),
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProfileContent() {
+  Widget _infoCard(String title, List<Widget> rows) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: cardBackground,
-        borderRadius: BorderRadius.circular(24),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 20,
+            color: _green.withValues(alpha: 0.08),
+            blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Información del Perfil',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey.shade800,
-              ),
-            ),
-            const SizedBox(height: 20),
-            _isEditing ? _buildEditForm() : _buildViewForm(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildViewForm() {
-    return Column(
-      children: [
-        _buildInfoRow(Icons.person, 'Nombre de Usuario', _userInfo?['name'] ?? 'N/A'),
-        const SizedBox(height: 32),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            onPressed: () => setState(() => _isEditing = true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            ),
-            icon: const Icon(Icons.edit),
-            label: const Text(
-              'Editar Perfil',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildEditForm() {
-    return Form(
-      key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTextField(
-            _usernameController, 
-            'Nombre de Usuario', 
-            Icons.person,
-            'Ingrese su nuevo usuario'
-          ),
-          const SizedBox(height: 16),
-          _buildTextField(
-            _emailController, 
-            'Correo Electrónico', 
-            Icons.email,
-            'Ingrese su nuevo correo'
-          ),
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    setState(() => _isEditing = false);
-                    // Restaurar valores originales
-                    _usernameController.text = _userInfo?['name'] ?? '';
-                    _emailController.text = _userInfo?['email'] ?? '';
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: Colors.grey.shade400),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  icon: const Icon(Icons.close),
-                  label: const Text(
-                    'Cancelar',
-                    style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: _updateProfile,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  icon: const Icon(Icons.save),
-                  label: const Text(
-                    'Guardar',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          Text(title,
+              style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: _green,
+                  letterSpacing: 0.3)),
+          const Divider(height: 16),
+          ...rows,
         ],
       ),
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label, IconData icon, String hint) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: Icon(icon, color: primary),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: primary, width: 2),
-        ),
-        filled: true,
-        fillColor: Colors.grey.shade50,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      ),
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return '$label es requerido';
-        }
-        if (label.contains('Correo') && !value.contains('@')) {
-          return 'Correo electrónico inválido';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: lightGreen.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: primary.withOpacity(0.1)),
-      ),
+  Widget _infoRow(IconData icon, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: primary, size: 24),
-          ),
-          const SizedBox(width: 16),
+          Icon(icon, color: _green, size: 20),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey.shade800,
-                  ),
-                ),
+                Text(label,
+                    style: TextStyle(
+                        fontSize: 11,
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w500)),
+                const SizedBox(height: 2),
+                Text(value,
+                    style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87)),
               ],
             ),
           ),
@@ -1268,93 +303,52 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildDangerZone() {
+  Widget _copyRow(IconData icon, String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.red.shade200, width: 1.5),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.red.withOpacity(0.08),
-              blurRadius: 20,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
-              decoration: BoxDecoration(
-                color: Colors.red.shade50,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.warning_amber_rounded, color: Colors.red.shade600, size: 28),
-                  const SizedBox(width: 12),
-                  Text(
-                    'Zona Peligrosa',
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Icon(icon, color: _green, size: 20),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label,
                     style: TextStyle(
-                      color: Colors.red.shade700,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Eliminar cuenta',
-                    style: TextStyle(
-                      fontSize: 16,
+                        fontSize: 11,
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w500)),
+                const SizedBox(height: 2),
+                Text(
+                  value.length > 20
+                      ? '${value.substring(0, 8)}...${value.substring(value.length - 8)}'
+                      : value,
+                  style: const TextStyle(
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade800,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Esta acción eliminará permanentemente tu cuenta y todos los datos asociados. No se puede deshacer.',
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: SizedBox(
-                      width: 260,
-                      child: OutlinedButton.icon(
-                        onPressed: _confirmDeleteAccount,
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.red.shade400, width: 2),
-                          foregroundColor: Colors.red.shade600,
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                        ),
-                        icon: const Icon(Icons.delete_forever),
-                        label: const Text('Eliminar mi cuenta'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                      color: Colors.black87,
+                      fontFamily: 'monospace'),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.copy_outlined, size: 18, color: _green),
+            tooltip: 'Copiar',
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: value));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('ID copiado al portapapeles'),
+                  backgroundColor: _green,
+                  duration: Duration(seconds: 2),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

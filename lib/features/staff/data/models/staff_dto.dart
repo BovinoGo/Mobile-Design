@@ -1,4 +1,5 @@
 import 'package:vacapp/features/staff/domain/staff.dart';
+import 'package:flutter/foundation.dart';
 
 class StaffDto {
   final int id;
@@ -26,7 +27,7 @@ class StaffDto {
             : int.parse(json['campaignId'].toString()),
       );
     } catch (e) {
-      print('❌ Error parsing StaffDto: $e');
+      debugPrint('❌ Error parsing StaffDto: $e');
       rethrow;
     }
   }

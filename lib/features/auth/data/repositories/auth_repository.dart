@@ -7,30 +7,50 @@ class AuthRepository {
 
   AuthRepository(this._authService);
 
-  Future<User> login({required String usernameOrEmail, required String password}) async {
-    final UserDTO userDTO = await _authService.login(
-      usernameOrEmail: usernameOrEmail,
-      password: password,
-    );
-    return User(
-      username: userDTO.username,
-      email: userDTO.email,
-      password: '', // Por seguridad, no guardes el password
-      token: userDTO.token,
-    );
+  Future<User> login({required String email, required String password}) async {
+    final dto = await _authService.login(email: email, password: password);
+    return _dtoToUser(dto);
   }
 
-  Future<User> signUp({required String username, required String password, required String email}) async {
-    final UserDTO userDTO = await _authService.signUp(
-      username: username,
-      password: password,
-      email: email,
-    );
-    return User(
-      username: userDTO.username,
-      email: userDTO.email,
-      password: '', // Por seguridad, no guardes el password
-      token: userDTO.token,
-    );
+  Future<User> registerCompany({
+    required String fullName,
+    required String email,
+    required String password,
+    String? phone,
+  }) async {
+    final dto = await _authService.registerCompany(
+        fullName: fullName, email: email, password: password, phone: phone);
+    return _dtoToUser(dto);
   }
+
+  Future<User> registerRancher({
+    required String fullName,
+    required String email,
+    required String password,
+    String? phone,
+  }) async {
+    final dto = await _authService.registerRancher(
+        fullName: fullName, email: email, password: password, phone: phone);
+    return _dtoToUser(dto);
+  }
+
+  Future<User> registerBuyer({
+    required String fullName,
+    required String email,
+    required String password,
+    String? phone,
+  }) async {
+    final dto = await _authService.registerBuyer(
+        fullName: fullName, email: email, password: password, phone: phone);
+    return _dtoToUser(dto);
+  }
+
+  User _dtoToUser(UserDTO dto) => User(
+        userId: dto.userId,
+        fullName: dto.fullName,
+        email: dto.email,
+        token: dto.token,
+        accountType: dto.accountType,
+        role: dto.role,
+      );
 }

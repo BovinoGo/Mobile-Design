@@ -87,7 +87,7 @@ class _EditStablePageState extends State<EditStablePage> {
             end: Alignment.bottomCenter,
             colors: [
               const Color(0xFFF8F9FA),
-              lightGreen.withOpacity(0.3),
+              lightGreen.withValues(alpha: 0.3),
             ],
           ),
         ),
@@ -103,18 +103,18 @@ class _EditStablePageState extends State<EditStablePage> {
                 borderRadius: BorderRadius.circular(28),
                 boxShadow: [
                   BoxShadow(
-                    color: primary.withOpacity(0.15),
+                    color: primary.withValues(alpha: 0.15),
                     blurRadius: 25,
                     offset: const Offset(0, 8),
                   ),
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 2),
                   ),
                 ],
                 border: Border.all(
-                  color: lightGreen.withOpacity(0.3),
+                  color: lightGreen.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -129,13 +129,13 @@ class _EditStablePageState extends State<EditStablePage> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            primary.withOpacity(0.15),
-                            primary.withOpacity(0.08),
+                            primary.withValues(alpha: 0.15),
+                            primary.withValues(alpha: 0.08),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: primary.withOpacity(0.2),
+                          color: primary.withValues(alpha: 0.2),
                           width: 1,
                         ),
                       ),
@@ -164,7 +164,7 @@ class _EditStablePageState extends State<EditStablePage> {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: primary.withOpacity(0.1),
+                              color: primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
@@ -196,18 +196,18 @@ class _EditStablePageState extends State<EditStablePage> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            lightGreen.withOpacity(0.8),
-                            lightGreen.withOpacity(0.6),
+                            lightGreen.withValues(alpha: 0.8),
+                            lightGreen.withValues(alpha: 0.6),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: primary.withOpacity(0.2),
+                          color: primary.withValues(alpha: 0.2),
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: primary.withOpacity(0.1),
+                            color: primary.withValues(alpha: 0.1),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -264,24 +264,24 @@ class _EditStablePageState extends State<EditStablePage> {
                                     end: Alignment.bottomRight,
                                     colors: [
                                       Colors.white,
-                                      lightGreen.withOpacity(0.05),
+                                      lightGreen.withValues(alpha: 0.05),
                                     ],
                                   ),
                                   borderRadius: BorderRadius.circular(28),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: primary.withOpacity(0.08),
+                                      color: primary.withValues(alpha: 0.08),
                                       blurRadius: 25,
                                       offset: const Offset(0, 10),
                                     ),
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.05),
+                                      color: Colors.black.withValues(alpha: 0.05),
                                       blurRadius: 10,
                                       offset: const Offset(0, 2),
                                     ),
                                   ],
                                   border: Border.all(
-                                    color: lightGreen.withOpacity(0.2),
+                                    color: lightGreen.withValues(alpha: 0.2),
                                     width: 1,
                                   ),
                                 ),
@@ -298,8 +298,8 @@ class _EditStablePageState extends State<EditStablePage> {
                                             decoration: BoxDecoration(
                                               gradient: LinearGradient(
                                                 colors: [
-                                                  primary.withOpacity(0.1),
-                                                  primary.withOpacity(0.05),
+                                                  primary.withValues(alpha: 0.1),
+                                                  primary.withValues(alpha: 0.05),
                                                 ],
                                               ),
                                               borderRadius: BorderRadius.circular(16),
@@ -409,8 +409,8 @@ class _EditStablePageState extends State<EditStablePage> {
                                     end: Alignment.bottomRight,
                                     colors: _isLoading 
                                         ? [
-                                            primary.withOpacity(0.6),
-                                            primary.withOpacity(0.4),
+                                            primary.withValues(alpha: 0.6),
+                                            primary.withValues(alpha: 0.4),
                                           ]
                                         : [
                                             primary,
@@ -421,12 +421,12 @@ class _EditStablePageState extends State<EditStablePage> {
                                       ? []
                                       : [
                                           BoxShadow(
-                                            color: primary.withOpacity(0.4),
+                                            color: primary.withValues(alpha: 0.4),
                                             blurRadius: 20,
                                             offset: const Offset(0, 8),
                                           ),
                                           BoxShadow(
-                                            color: primary.withOpacity(0.2),
+                                            color: primary.withValues(alpha: 0.2),
                                             blurRadius: 8,
                                             offset: const Offset(0, 4),
                                           ),
@@ -441,7 +441,7 @@ class _EditStablePageState extends State<EditStablePage> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
                                         border: Border.all(
-                                          color: Colors.white.withOpacity(0.2),
+                                          color: Colors.white.withValues(alpha: 0.2),
                                           width: 1,
                                         ),
                                       ),
@@ -457,7 +457,7 @@ class _EditStablePageState extends State<EditStablePage> {
                                                 child: CircularProgressIndicator(
                                                   strokeWidth: 2.5,
                                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                                    Colors.white.withOpacity(0.8),
+                                                    Colors.white.withValues(alpha: 0.8),
                                                   ),
                                                 ),
                                               )
@@ -466,7 +466,7 @@ class _EditStablePageState extends State<EditStablePage> {
                                                 padding: const EdgeInsets.all(6),
                                                 margin: const EdgeInsets.only(right: 12),
                                                 decoration: BoxDecoration(
-                                                  color: Colors.white.withOpacity(0.2),
+                                                  color: Colors.white.withValues(alpha: 0.2),
                                                   borderRadius: BorderRadius.circular(8),
                                                 ),
                                                 child: const Icon(
@@ -528,7 +528,7 @@ class _EditStablePageState extends State<EditStablePage> {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: primary.withOpacity(0.1),
+                color: primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
@@ -565,7 +565,7 @@ class _EditStablePageState extends State<EditStablePage> {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18),
               borderSide: BorderSide(
-                color: primary.withOpacity(0.1),
+                color: primary.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -582,14 +582,14 @@ class _EditStablePageState extends State<EditStablePage> {
               borderSide: const BorderSide(color: Colors.red, width: 2),
             ),
             filled: true,
-            fillColor: lightGreen.withOpacity(0.05),
+            fillColor: lightGreen.withValues(alpha: 0.05),
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             prefixIcon: Container(
               margin: const EdgeInsets.only(left: 16, right: 12),
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: primary.withOpacity(0.1),
+                  color: primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(

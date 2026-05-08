@@ -167,7 +167,7 @@ class _CampaignCardState extends State<CampaignCard> {
         border: _getStatusBorder(),
         boxShadow: [
           BoxShadow(
-            color: _getStatusColor().withOpacity(0.1),
+            color: _getStatusColor().withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -184,8 +184,8 @@ class _CampaignCardState extends State<CampaignCard> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  _getStatusColor().withOpacity(0.1),
-                  _getStatusColor().withOpacity(0.05),
+                  _getStatusColor().withValues(alpha: 0.1),
+                  _getStatusColor().withValues(alpha: 0.05),
                 ],
               ),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
@@ -198,7 +198,7 @@ class _CampaignCardState extends State<CampaignCard> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: _getStatusColor().withOpacity(0.2),
+                        color: _getStatusColor().withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
@@ -246,9 +246,9 @@ class _CampaignCardState extends State<CampaignCard> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF5A623).withOpacity(0.1),
+                        color: const Color(0xFFF5A623).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFF5A623).withOpacity(0.3)),
+                        border: Border.all(color: const Color(0xFFF5A623).withValues(alpha: 0.3)),
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -297,9 +297,9 @@ class _CampaignCardState extends State<CampaignCard> {
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: primary.withOpacity(0.1),
+                          color: primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: primary.withOpacity(0.3)),
+                          border: Border.all(color: primary.withValues(alpha: 0.3)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,12 +452,12 @@ class _CampaignCardState extends State<CampaignCard> {
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
-                                  colors: [primary.withOpacity(0.1), primary.withOpacity(0.05)],
+                                  colors: [primary.withValues(alpha: 0.1), primary.withValues(alpha: 0.05)],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: primary.withOpacity(0.2)),
+                                border: Border.all(color: primary.withValues(alpha: 0.2)),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -545,7 +545,7 @@ class _CampaignCardState extends State<CampaignCard> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: primary.withOpacity(0.1),
+                                  color: primary.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Row(
@@ -619,7 +619,7 @@ class _CampaignCardState extends State<CampaignCard> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.1),
+                                  color: Colors.blue.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: const Row(
@@ -705,7 +705,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: primary.withOpacity(0.1),
+                          color: primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: IconButton(
@@ -732,7 +732,7 @@ class _CampaignCardState extends State<CampaignCard> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: primary.withOpacity(0.2)),
+                          border: Border.all(color: primary.withValues(alpha: 0.2)),
                         ),
                         child: InkWell(
                           onTap: () => _showAddGoalDialog(context),
@@ -766,7 +766,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                   'Toca para agregar',
                                   style: TextStyle(
                                     fontSize: 10,
-                                    color: primary.withOpacity(0.7),
+                                    color: primary.withValues(alpha: 0.7),
                                   ),
                                 ),
                               ],
@@ -783,7 +783,7 @@ class _CampaignCardState extends State<CampaignCard> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.blue.withOpacity(0.2)),
+                          border: Border.all(color: Colors.blue.withValues(alpha: 0.2)),
                         ),
                         child: InkWell(
                           onTap: () => _showAddChannelDialog(context),
@@ -817,7 +817,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                   'Toca para agregar',
                                   style: TextStyle(
                                     fontSize: 10,
-                                    color: Colors.blue.withOpacity(0.7),
+                                    color: Colors.blue.withValues(alpha: 0.7),
                                   ),
                                 ),
                               ],
@@ -839,8 +839,8 @@ class _CampaignCardState extends State<CampaignCard> {
                     label: const Text('Eliminar Campaña'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.red,
-                      side: BorderSide(color: Colors.red.withOpacity(0.3)),
-                      backgroundColor: Colors.red.withOpacity(0.05),
+                      side: BorderSide(color: Colors.red.withValues(alpha: 0.3)),
+                      backgroundColor: Colors.red.withValues(alpha: 0.05),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -936,7 +936,7 @@ class _CampaignCardState extends State<CampaignCard> {
 
   Border _getStatusBorder() {
     return Border.all(
-      color: _getStatusColor().withOpacity(0.3),
+      color: _getStatusColor().withValues(alpha: 0.3),
       width: 2,
     );
   }
@@ -1034,7 +1034,7 @@ class _CampaignCardState extends State<CampaignCard> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -1049,7 +1049,7 @@ class _CampaignCardState extends State<CampaignCard> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: primary.withOpacity(0.1),
+                      color: primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
@@ -1097,9 +1097,9 @@ class _CampaignCardState extends State<CampaignCard> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: _getStatusColor().withOpacity(0.1),
+                      color: _getStatusColor().withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _getStatusColor().withOpacity(0.3)),
+                      border: Border.all(color: _getStatusColor().withValues(alpha: 0.3)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -1160,12 +1160,12 @@ class _CampaignCardState extends State<CampaignCard> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: isCurrentStatus 
-                                  ? _getColorForStatus(status).withOpacity(0.15)
+                                  ? _getColorForStatus(status).withValues(alpha: 0.15)
                                   : Colors.grey.shade50,
                               border: Border.all(
                                 color: isCurrentStatus
                                     ? _getColorForStatus(status)
-                                    : _getColorForStatus(status).withOpacity(0.3),
+                                    : _getColorForStatus(status).withValues(alpha: 0.3),
                                 width: isCurrentStatus ? 2 : 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
@@ -1175,7 +1175,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                 Container(
                                   padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                    color: _getColorForStatus(status).withOpacity(0.2),
+                                    color: _getColorForStatus(status).withValues(alpha: 0.2),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
@@ -1343,7 +1343,7 @@ class _CampaignCardState extends State<CampaignCard> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -1358,7 +1358,7 @@ class _CampaignCardState extends State<CampaignCard> {
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [primary, primary.withOpacity(0.8)],
+                      colors: [primary, primary.withValues(alpha: 0.8)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -1372,7 +1372,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
@@ -1416,9 +1416,9 @@ class _CampaignCardState extends State<CampaignCard> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: primary.withOpacity(0.05),
+                      color: primary.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: primary.withOpacity(0.2)),
+                      border: Border.all(color: primary.withValues(alpha: 0.2)),
                     ),
                     child: Column(
                       children: [
@@ -1476,7 +1476,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: (metric['color'] as Color).withOpacity(0.3),
+                                    color: (metric['color'] as Color).withValues(alpha: 0.3),
                                   ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -1485,7 +1485,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                     Container(
                                       padding: const EdgeInsets.all(12),
                                       decoration: BoxDecoration(
-                                        color: (metric['color'] as Color).withOpacity(0.1),
+                                        color: (metric['color'] as Color).withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Icon(
@@ -1629,7 +1629,7 @@ class _CampaignCardState extends State<CampaignCard> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -1645,7 +1645,7 @@ class _CampaignCardState extends State<CampaignCard> {
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [primary, primary.withOpacity(0.8)],
+                        colors: [primary, primary.withValues(alpha: 0.8)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -1659,7 +1659,7 @@ class _CampaignCardState extends State<CampaignCard> {
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Icon(
@@ -1705,10 +1705,10 @@ class _CampaignCardState extends State<CampaignCard> {
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: (selectedMetric['color'] as Color).withOpacity(0.05),
+                            color: (selectedMetric['color'] as Color).withValues(alpha: 0.05),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: (selectedMetric['color'] as Color).withOpacity(0.2),
+                              color: (selectedMetric['color'] as Color).withValues(alpha: 0.2),
                             ),
                           ),
                           child: Row(
@@ -1765,7 +1765,7 @@ class _CampaignCardState extends State<CampaignCard> {
                               margin: const EdgeInsets.all(12),
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: primary.withOpacity(0.1),
+                                color: primary.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(
@@ -1815,10 +1815,10 @@ class _CampaignCardState extends State<CampaignCard> {
                                         vertical: 8,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: primary.withOpacity(0.1),
+                                        color: primary.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(20),
                                         border: Border.all(
-                                          color: primary.withOpacity(0.3),
+                                          color: primary.withValues(alpha: 0.3),
                                         ),
                                       ),
                                       child: Text(
@@ -1850,7 +1850,7 @@ class _CampaignCardState extends State<CampaignCard> {
                               margin: const EdgeInsets.all(12),
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: primary.withOpacity(0.1),
+                                color: primary.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(
@@ -2004,7 +2004,7 @@ class _CampaignCardState extends State<CampaignCard> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -2020,7 +2020,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.1),
+                          color: Colors.blue.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
@@ -2082,9 +2082,9 @@ class _CampaignCardState extends State<CampaignCard> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.05),
+                      color: Colors.blue.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.blue.withOpacity(0.2)),
+                      border: Border.all(color: Colors.blue.withValues(alpha: 0.2)),
                     ),
                     child: Column(
                       children: [
@@ -2191,7 +2191,7 @@ class _CampaignCardState extends State<CampaignCard> {
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(color: channelColor.withOpacity(0.3)),
+                                border: Border.all(color: channelColor.withValues(alpha: 0.3)),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Row(
@@ -2199,7 +2199,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                   Container(
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: channelColor.withOpacity(0.1),
+                                      color: channelColor.withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Icon(
@@ -2324,7 +2324,7 @@ class _CampaignCardState extends State<CampaignCard> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -2340,7 +2340,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.1),
+                          color: Colors.blue.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
@@ -2402,9 +2402,9 @@ class _CampaignCardState extends State<CampaignCard> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.05),
+                      color: Colors.blue.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.blue.withOpacity(0.2)),
+                      border: Border.all(color: Colors.blue.withValues(alpha: 0.2)),
                     ),
                     child: Row(
                       children: [
@@ -2454,7 +2454,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.1),
+                          color: Colors.blue.withValues(alpha: 0.1),
                           blurRadius: 10,
                           offset: const Offset(0, 2),
                         ),
@@ -2472,7 +2472,7 @@ class _CampaignCardState extends State<CampaignCard> {
                           margin: const EdgeInsets.all(12),
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
+                            color: Colors.blue.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Icon(
@@ -2536,7 +2536,7 @@ class _CampaignCardState extends State<CampaignCard> {
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.blue.withOpacity(0.3),
+                                color: Colors.blue.withValues(alpha: 0.3),
                                 blurRadius: 8,
                                 offset: const Offset(0, 4),
                               ),
@@ -2607,7 +2607,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                     Container(
                                       padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.2),
+                                        color: Colors.white.withValues(alpha: 0.2),
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: const Icon(
@@ -2697,7 +2697,7 @@ class _CampaignCardState extends State<CampaignCard> {
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withValues(alpha: 0.15),
                   blurRadius: 30,
                   offset: const Offset(0, 15),
                 ),
@@ -2715,7 +2715,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       end: Alignment.bottomRight,
                       colors: [
                         Colors.green.shade50,
-                        Colors.green.shade100.withOpacity(0.7),
+                        Colors.green.shade100.withValues(alpha: 0.7),
                       ],
                     ),
                     borderRadius: const BorderRadius.only(
@@ -2728,7 +2728,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.15),
+                          color: Colors.green.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: const Icon(
@@ -2764,7 +2764,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
@@ -2795,7 +2795,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                 Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    color: Colors.green.withOpacity(0.1),
+                                    color: Colors.green.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: const CircularProgressIndicator(
@@ -2822,9 +2822,9 @@ class _CampaignCardState extends State<CampaignCard> {
                             child: Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: Colors.red.withOpacity(0.05),
+                                color: Colors.red.withValues(alpha: 0.05),
                                 borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.red.withOpacity(0.2)),
+                                border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -2922,10 +2922,10 @@ class _CampaignCardState extends State<CampaignCard> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.green.withOpacity(0.2)),
+                                border: Border.all(color: Colors.green.withValues(alpha: 0.2)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.green.withOpacity(0.08),
+                                    color: Colors.green.withValues(alpha: 0.08),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   ),
@@ -2942,8 +2942,8 @@ class _CampaignCardState extends State<CampaignCard> {
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
                                         colors: [
-                                          Colors.green.withOpacity(0.05),
-                                          Colors.green.withOpacity(0.02),
+                                          Colors.green.withValues(alpha: 0.05),
+                                          Colors.green.withValues(alpha: 0.02),
                                         ],
                                       ),
                                       borderRadius: const BorderRadius.only(
@@ -2956,7 +2956,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                         Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            color: Colors.green.withOpacity(0.15),
+                                            color: Colors.green.withValues(alpha: 0.15),
                                             borderRadius: BorderRadius.circular(12),
                                           ),
                                           child: Icon(
@@ -2979,7 +2979,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                         Container(
                                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                           decoration: BoxDecoration(
-                                            color: Colors.green.withOpacity(0.1),
+                                            color: Colors.green.withValues(alpha: 0.1),
                                             borderRadius: BorderRadius.circular(20),
                                           ),
                                           child: Text(
@@ -3132,7 +3132,7 @@ class _CampaignCardState extends State<CampaignCard> {
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withValues(alpha: 0.15),
                   blurRadius: 30,
                   offset: const Offset(0, 15),
                 ),
@@ -3150,7 +3150,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       end: Alignment.bottomRight,
                       colors: [
                         Colors.blue.shade50,
-                        Colors.blue.shade100.withOpacity(0.7),
+                        Colors.blue.shade100.withValues(alpha: 0.7),
                       ],
                     ),
                     borderRadius: const BorderRadius.only(
@@ -3163,7 +3163,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.15),
+                          color: Colors.blue.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: const Icon(
@@ -3199,7 +3199,7 @@ class _CampaignCardState extends State<CampaignCard> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
@@ -3230,7 +3230,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                 Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    color: Colors.blue.withOpacity(0.1),
+                                    color: Colors.blue.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: const CircularProgressIndicator(
@@ -3257,9 +3257,9 @@ class _CampaignCardState extends State<CampaignCard> {
                             child: Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: Colors.red.withOpacity(0.05),
+                                color: Colors.red.withValues(alpha: 0.05),
                                 borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.red.withOpacity(0.2)),
+                                border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -3401,10 +3401,10 @@ class _CampaignCardState extends State<CampaignCard> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: channelColor.withOpacity(0.2)),
+                                border: Border.all(color: channelColor.withValues(alpha: 0.2)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: channelColor.withOpacity(0.08),
+                                    color: channelColor.withValues(alpha: 0.08),
                                     blurRadius: 12,
                                     offset: const Offset(0, 4),
                                   ),
@@ -3421,8 +3421,8 @@ class _CampaignCardState extends State<CampaignCard> {
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
                                         colors: [
-                                          channelColor.withOpacity(0.05),
-                                          channelColor.withOpacity(0.02),
+                                          channelColor.withValues(alpha: 0.05),
+                                          channelColor.withValues(alpha: 0.02),
                                         ],
                                       ),
                                       borderRadius: const BorderRadius.only(
@@ -3435,7 +3435,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                         Container(
                                           padding: const EdgeInsets.all(12),
                                           decoration: BoxDecoration(
-                                            color: channelColor.withOpacity(0.15),
+                                            color: channelColor.withValues(alpha: 0.15),
                                             borderRadius: BorderRadius.circular(12),
                                           ),
                                           child: Icon(
@@ -3461,7 +3461,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                               Container(
                                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                                 decoration: BoxDecoration(
-                                                  color: channelColor.withOpacity(0.1),
+                                                  color: channelColor.withValues(alpha: 0.1),
                                                   borderRadius: BorderRadius.circular(12),
                                                 ),
                                                 child: Text(
@@ -3479,7 +3479,7 @@ class _CampaignCardState extends State<CampaignCard> {
                                         Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            color: channelColor.withOpacity(0.1),
+                                            color: channelColor.withValues(alpha: 0.1),
                                             borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Icon(

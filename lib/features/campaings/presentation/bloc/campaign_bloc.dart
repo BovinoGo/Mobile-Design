@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vacapp/features/campaings/data/repositories/campaign_repository.dart';
 import 'package:vacapp/features/campaings/presentation/bloc/campaign_event.dart';
 import 'package:vacapp/features/campaings/presentation/bloc/campaign_state.dart';
+import 'package:flutter/foundation.dart';
 
 class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
   final CampaignRepository _repository;
@@ -36,9 +37,9 @@ class CampaignBloc extends Bloc<CampaignEvent, CampaignState> {
         emit(const CampaignEmpty('No hay campañas registradas'));
       } else {
         // Mostrar información de campañas cargadas
-        print('Campañas cargadas: ${campaigns.length} campañas encontradas');
+        debugPrint('Campañas cargadas: ${campaigns.length} campañas encontradas');
         for (final campaign in campaigns) {
-          print('  - ID: ${campaign.id}, Nombre: ${campaign.name}, Estado: ${campaign.status}, Establo: ${campaign.stableId}');
+          debugPrint('  - ID: ${campaign.id}, Nombre: ${campaign.name}, Estado: ${campaign.status}, Establo: ${campaign.stableId}');
         }
         emit(CampaignLoaded(campaigns));
       }

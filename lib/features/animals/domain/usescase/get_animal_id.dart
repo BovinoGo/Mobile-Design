@@ -5,7 +5,7 @@ class GetAnimalById {
   final AnimalRepository repository;
   GetAnimalById(this.repository);
 
-  Future<AnimalDto> call(int id) async {
+  Future<AnimalDto> call(String id) async {
     return await repository.getAnimalById(id);
   }
 }

@@ -74,7 +74,7 @@ class _StableDropdownState extends State<StableDropdown> {
           ];
         });
       }
-      print('Error cargando establos disponibles: $e');
+      debugPrint('Error cargando establos disponibles: $e');
     }
   }
 
@@ -115,7 +115,7 @@ class _StableDropdownState extends State<StableDropdown> {
                   end: Alignment.bottomRight,
                   colors: [
                     ColorPalette.primaryColor,
-                    ColorPalette.primaryColor.withOpacity(0.8),
+                    ColorPalette.primaryColor.withValues(alpha: 0.8),
                   ],
                 ),
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -125,7 +125,7 @@ class _StableDropdownState extends State<StableDropdown> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(
@@ -165,7 +165,7 @@ class _StableDropdownState extends State<StableDropdown> {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -204,12 +204,12 @@ class _StableDropdownState extends State<StableDropdown> {
                             border: Border.all(
                               color: s.stable.id == -1 
                                   ? Colors.grey.shade300 
-                                  : ColorPalette.primaryColor.withOpacity(0.2),
+                                  : ColorPalette.primaryColor.withValues(alpha: 0.2),
                               width: 1,
                             ),
                             boxShadow: s.stable.id == -1 ? [] : [
                               BoxShadow(
-                                color: ColorPalette.primaryColor.withOpacity(0.05),
+                                color: ColorPalette.primaryColor.withValues(alpha: 0.05),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -223,7 +223,7 @@ class _StableDropdownState extends State<StableDropdown> {
                                 decoration: BoxDecoration(
                                   color: s.stable.id == -1 
                                       ? Colors.grey.shade200 
-                                      : ColorPalette.primaryColor.withOpacity(0.1),
+                                      : ColorPalette.primaryColor.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -327,7 +327,7 @@ class _StableDropdownState extends State<StableDropdown> {
                                           end: Alignment.topCenter,
                                           colors: [
                                             ColorPalette.primaryColor,
-                                            ColorPalette.primaryColor.withOpacity(0.7),
+                                            ColorPalette.primaryColor.withValues(alpha: 0.7),
                                           ],
                                         ),
                                         borderRadius: BorderRadius.circular(2),
@@ -418,12 +418,12 @@ class _StableDropdownState extends State<StableDropdown> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: ColorPalette.primaryColor.withOpacity(0.2),
+            color: ColorPalette.primaryColor.withValues(alpha: 0.2),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: ColorPalette.primaryColor.withOpacity(0.08),
+              color: ColorPalette.primaryColor.withValues(alpha: 0.08),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -441,7 +441,7 @@ class _StableDropdownState extends State<StableDropdown> {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: ColorPalette.primaryColor.withOpacity(0.1),
+                      color: ColorPalette.primaryColor.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -486,7 +486,7 @@ class _StableDropdownState extends State<StableDropdown> {
                           gradient: LinearGradient(
                             colors: [
                               ColorPalette.primaryColor,
-                              ColorPalette.primaryColor.withOpacity(0.7),
+                              ColorPalette.primaryColor.withValues(alpha: 0.7),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(2),
@@ -531,7 +531,7 @@ class _StableDropdownState extends State<StableDropdown> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.red.withOpacity(0.1),
+              color: Colors.red.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -592,12 +592,12 @@ class _StableDropdownState extends State<StableDropdown> {
           border: Border.all(
             color: selectedStable.stable.id == -1 
                 ? Colors.grey.shade300 
-                : ColorPalette.primaryColor.withOpacity(0.5),
+                : ColorPalette.primaryColor.withValues(alpha: 0.5),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: ColorPalette.primaryColor.withOpacity(0.08),
+              color: ColorPalette.primaryColor.withValues(alpha: 0.08),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -620,8 +620,8 @@ class _StableDropdownState extends State<StableDropdown> {
                         colors: selectedStable.stable.id == -1
                             ? [Colors.grey.shade200, Colors.grey.shade100]
                             : [
-                                ColorPalette.primaryColor.withOpacity(0.2),
-                                ColorPalette.primaryColor.withOpacity(0.1),
+                                ColorPalette.primaryColor.withValues(alpha: 0.2),
+                                ColorPalette.primaryColor.withValues(alpha: 0.1),
                               ],
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -664,7 +664,7 @@ class _StableDropdownState extends State<StableDropdown> {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: ColorPalette.primaryColor.withOpacity(0.1),
+                                  color: ColorPalette.primaryColor.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(

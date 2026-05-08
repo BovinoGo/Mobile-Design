@@ -1,203 +1,161 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:vacapp/core/constants/endpoints.dart';
-import 'package:vacapp/core/services/token_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+import 'package:vacapp/core/constants/endpoints.dart';
+import 'package:vacapp/core/services/token_service.dart';
 import 'package:vacapp/features/animals/data/models/animal_dto.dart';
 
-
 class AnimalsService {
-  // 🔼 Subir imagen a Cloudinary
-  Future<String> uploadImageToCloudinary(File imageFile) async {
-    const cloudName = 'dgcgdxn0u';         // ⚠️ tu cloud_name
-    const uploadPreset = 'vacapp_unsigned'; // ⚠️ tu upload_preset
+  Future<List<AnimalDto>> fetchAnimals() async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response = await http.get(Uri.parse(Endpoints.bovines), headers: headers);
+    if (response.statusCode == HttpStatus.ok) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((e) => AnimalDto.fromJson(e)).toList();
+    }
+    _throwError(response, 'Error al cargar bovinos');
+  }
 
-    final uri = Uri.parse('https://api.cloudinary.com/v1_1/$cloudName/image/upload');
+  Future<AnimalDto> fetchAnimalById(String id) async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response =
+        await http.get(Uri.parse(Endpoints.bovineById(id)), headers: headers);
+    if (response.statusCode == HttpStatus.ok) {
+      return AnimalDto.fromJson(jsonDecode(response.body));
+    }
+    _throwError(response, 'Error al cargar el bovino');
+  }
 
+  Future<AnimalDto> registerBovine(Map<String, dynamic> body) async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response = await http.post(
+      Uri.parse(Endpoints.bovines),
+      headers: headers,
+      body: jsonEncode(body),
+    );
+    if (response.statusCode == HttpStatus.created ||
+        response.statusCode == HttpStatus.ok) {
+      return AnimalDto.fromJson(jsonDecode(response.body));
+    }
+    _throwError(response, 'Error al registrar el bovino');
+  }
+
+  Future<void> updateBovine(String id, Map<String, dynamic> body) async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response = await http.put(
+      Uri.parse(Endpoints.bovineById(id)),
+      headers: headers,
+      body: jsonEncode(body),
+    );
+    if (response.statusCode == HttpStatus.ok ||
+        response.statusCode == HttpStatus.noContent) {
+      return;
+    }
+    _throwError(response, 'Error al actualizar el bovino');
+  }
+
+  Future<void> deactivateBovine(String id) async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response =
+        await http.delete(Uri.parse(Endpoints.bovineById(id)), headers: headers);
+    if (response.statusCode == HttpStatus.ok ||
+        response.statusCode == HttpStatus.noContent) {
+      return;
+    }
+    _throwError(response, 'Error al desactivar el bovino');
+  }
+
+  Future<VitalSignsResultDto> simulateVitalSigns(
+      String bovineId, String userId, Map<String, dynamic> vitalData) async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final body = {
+      'bovineId': bovineId,
+      'userId': userId,
+      ...vitalData,
+    };
+    final response = await http.post(
+      Uri.parse(Endpoints.bovineVitalSigns(bovineId)),
+      headers: headers,
+      body: jsonEncode(body),
+    );
+    if (response.statusCode == HttpStatus.ok) {
+      return VitalSignsResultDto.fromJson(jsonDecode(response.body));
+    }
+    _throwError(response, 'Error al simular signos vitales');
+  }
+
+  Future<List<VitalSignsResultDto>> fetchVitalSignsHistory(String bovineId) async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response = await http.get(
+        Uri.parse(Endpoints.bovineVitalSignsHistory(bovineId)),
+        headers: headers);
+    if (response.statusCode == HttpStatus.ok) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((e) => VitalSignsResultDto.fromJson(e)).toList();
+    }
+    _throwError(response, 'Error al cargar historial de signos vitales');
+  }
+
+  Future<List<CriticalAlertDto>> fetchAlerts() async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response =
+        await http.get(Uri.parse(Endpoints.bovineAlerts), headers: headers);
+    if (response.statusCode == HttpStatus.ok) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((e) => CriticalAlertDto.fromJson(e)).toList();
+    }
+    _throwError(response, 'Error al cargar alertas');
+  }
+
+  Future<List<CriticalAlertDto>> fetchUnreadAlerts() async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response =
+        await http.get(Uri.parse(Endpoints.bovineAlertsUnread), headers: headers);
+    if (response.statusCode == HttpStatus.ok) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((e) => CriticalAlertDto.fromJson(e)).toList();
+    }
+    _throwError(response, 'Error al cargar alertas no leídas');
+  }
+
+  Future<void> markAlertRead(String alertId) async {
+    final headers = await TokenService.instance.getJsonAuthHeaders();
+    final response = await http.patch(
+        Uri.parse(Endpoints.bovineAlertRead(alertId)),
+        headers: headers);
+    if (response.statusCode == HttpStatus.ok) return;
+    _throwError(response, 'Error al marcar alerta como leída');
+  }
+
+  // Legacy stub — VacApp does not have stables; returns empty list.
+  Future<List<AnimalDto>> fetchAnimalByStableId(int stableId) async => [];
+
+  // Upload photo to Cloudinary, returns public URL
+  Future<String?> uploadPhoto(File imageFile) async {
+    const cloudName = 'dgcgdxn0u';
+    const uploadPreset = 'vacapp_unsigned';
+    final uri =
+        Uri.parse('https://api.cloudinary.com/v1_1/$cloudName/image/upload');
     final request = http.MultipartRequest('POST', uri)
       ..fields['upload_preset'] = uploadPreset
       ..files.add(await http.MultipartFile.fromPath('file', imageFile.path,
           filename: path.basename(imageFile.path)));
-
     final response = await request.send();
-
     if (response.statusCode == 200) {
-      final responseData = await http.Response.fromStream(response);
-      final data = jsonDecode(responseData.body);
-      return data['secure_url']; // ✅ URL pública
-    } else {
-      throw Exception('Error al subir imagen a Cloudinary');
+      final data = jsonDecode(await http.Response.fromStream(response).then((r) => r.body));
+      return data['secure_url'] as String?;
     }
+    return null;
   }
 
-  // 🔁 Crear animal (ahora con imagen)
-  Future<void> createAnimal(AnimalDto animal, File imageFile) async {
-    // 1. Subir imagen a Cloudinary
-    final imageUrl = await uploadImageToCloudinary(imageFile);
-
-    // 2. Preparar request multipart/form-data
-    final token = await TokenService.instance.getToken();
-    final uri = Uri.parse(Endpoints.animal);
-
-    final request = http.MultipartRequest('POST', uri)
-      ..headers['Authorization'] = 'Bearer $token'
-      ..fields['name'] = animal.name
-      ..fields['gender'] = animal.gender
-      ..fields['birthDate'] = animal.birthDate
-      ..fields['breed'] = animal.breed
-      ..fields['location'] = animal.location
-      ..fields['bovineImg'] = imageUrl // ← esta es la URL pública
-      ..fields['stableId'] = animal.stableId.toString();
-
-    // 3. Enviar
-    final response = await request.send();
-    final responseBody = await http.Response.fromStream(response);
-  
-    if (response.statusCode != HttpStatus.created) {
-      throw Exception(
-        responseBody.body.isNotEmpty
-            ? jsonDecode(responseBody.body)['message'] ?? 'Error al crear animal'
-            : 'Error al crear animal. Código: ${response.statusCode}',
-      );
-    }
-    print('✅ Animal created');
-  }
-
-
-
-  Future<List<AnimalDto>> fetchAnimals() async {
-    final headers = await TokenService.instance.getJsonAuthHeaders();
-
-    final Uri uri = Uri.parse(Endpoints.animal);
-    final response = await http.get(uri, headers: headers);
-
-    if (response.statusCode == HttpStatus.ok) {
-      final List<dynamic> data = jsonDecode(response.body);
-      return data.map((e) => AnimalDto.fromJson(e)).toList();
-    } else {
-      throw Exception(jsonDecode(response.body)['message'] ?? 'Error al cargar animales');
-    }
-  }
-
-  Future<AnimalDto> fetchAnimalById(int id) async {
-    final headers = await TokenService.instance.getJsonAuthHeaders();
-
-    final Uri uri = Uri.parse('${Endpoints.animal}/$id');
-    final response = await http.get(uri, headers: headers);
-
-    if (response.statusCode == HttpStatus.ok) {
-      return AnimalDto.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception(jsonDecode(response.body)['message'] ?? 'Error al cargar el animal');
-    }
-  }
-
-
-  Future<void> updateAnimal(int id, Map<String, dynamic> data) async {
-    final token = await TokenService.instance.getToken();
-
-    final uri = Uri.parse('${Endpoints.animal}/$id');
-    final request = http.MultipartRequest('PUT', uri);
-
-    // Header con autorización
-    request.headers['Authorization'] = 'Bearer $token';
-
-    // Mapear los datos según el backend
-    request.fields['name'] = data['name'];
-    request.fields['gender'] = data['gender'];
-
-    if (data['birthDate'] != null) {
-      request.fields['birthDate'] = data['birthDate']; // Ya debe venir como yyyy-MM-dd
-    }
-
-    if (data['breed'] != null) {
-      request.fields['breed'] = data['breed'];
-    }
-
-    if (data['location'] != null) {
-      request.fields['location'] = data['location'];
-    }
-
-    if (data['stableId'] != null) {
-      request.fields['stableId'] = data['stableId'].toString();
-    }
-
-    // Enviar y obtener respuesta
-    final streamedResponse = await request.send();
-    final response = await http.Response.fromStream(streamedResponse);
-
-    if (response.statusCode == 200 || response.statusCode == 204) {
-      print('✅ Animal $id updated');
-      return;
-    } else {
-      final message = response.body.isNotEmpty
-          ? response.body
-          : 'Respuesta vacía del backend con código ${response.statusCode}';
-      throw Exception('Error al actualizar el animal: $message');
-    }
-  }
-
-
-  Future<void> deleteAnimal(int id) async {
-    final headers = await TokenService.instance.getJsonAuthHeaders();
-
-    final Uri uri = Uri.parse('${Endpoints.animal}/$id');
-    final response = await http.delete(uri, headers: headers);
-
-    // Verificar múltiples códigos de éxito para eliminación
-    if (response.statusCode != HttpStatus.noContent && 
-        response.statusCode != HttpStatus.ok && 
-        response.statusCode != HttpStatus.accepted) {
-      
-      String errorMessage = 'Error al eliminar el animal';
-      try {
-        final responseBody = jsonDecode(response.body);
-        errorMessage = responseBody['message'] ?? errorMessage;
-      } catch (e) {
-        // Si no se puede decodificar el JSON, usar el mensaje por defecto
-        errorMessage = 'Error al eliminar el animal (Status: ${response.statusCode})';
-      }
-      
-      throw Exception(errorMessage);
-    }
-    print('✅ Animal $id deleted successfully');
-  }
-
-  Future<List<AnimalDto>> fetchAnimalByStableId(int stableId) async {
-    final headers = await TokenService.instance.getJsonAuthHeaders();
-
-    final Uri uri = Uri.parse('${Endpoints.animal}/stable/$stableId');
-    
-    final response = await http.get(uri, headers: headers);
-
-    if (response.statusCode == HttpStatus.ok) {
-      final List<dynamic> data = jsonDecode(response.body);
-      print('Stable $stableId: ${data.length} animals');
-      return data.map((e) => AnimalDto.fromJson(e)).toList();
-    } else if (response.statusCode == HttpStatus.notFound) {
-      // Si el endpoint no existe o no hay animales, retornamos lista vacía
-      print('Stable $stableId: No animals found');
-      return [];
-    } else {
-      // Como respaldo, intentamos obtener todos los animales y filtrar
-      print('Fallback method for stable $stableId');
-      return await _fetchAnimalsByStableIdFallback(stableId);
-    }
-  }
-
-  // Método de respaldo: obtener todos los animales y filtrar por establo
-  Future<List<AnimalDto>> _fetchAnimalsByStableIdFallback(int stableId) async {
+  Never _throwError(http.Response response, String fallback) {
     try {
-      final allAnimals = await fetchAnimals();
-      final filteredAnimals = allAnimals.where((animal) => animal.stableId == stableId).toList();
-      print('Fallback found ${filteredAnimals.length} animals for stable $stableId');
-      return filteredAnimals;
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      throw Exception(body['error'] ?? body['message'] ?? body['title'] ?? fallback);
     } catch (e) {
-      print('❌ Fallback failed: $e');
-      return []; // Retornar lista vacía en lugar de lanzar excepción
+      if (e is Exception) rethrow;
+      throw Exception(fallback);
     }
   }
-  
-
 }

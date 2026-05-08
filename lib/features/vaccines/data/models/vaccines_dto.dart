@@ -1,4 +1,5 @@
 import 'package:vacapp/features/vaccines/domain/vaccines.dart';
+import 'package:flutter/foundation.dart';
 
 class VaccinesDto {
   final int id;
@@ -18,7 +19,7 @@ class VaccinesDto {
   });
 
   factory VaccinesDto.fromJson(Map<String, dynamic> json) {
-    print('🔍 [DEBUG] Parseando JSON: $json');
+    debugPrint('🔍 [DEBUG] Parseando JSON: $json');
     try {
       final dto = VaccinesDto(
         id: json['id'] is int ? json['id'] : int.parse(json['id'].toString()),
@@ -28,11 +29,11 @@ class VaccinesDto {
         vaccineImg: json['vaccineImg']?.toString() ?? '',
         bovineId: json['bovineId'] is int ? json['bovineId'] : int.parse(json['bovineId'].toString()),
       );
-      print('✅ [DEBUG] DTO creado exitosamente: ${dto.name} (ID: ${dto.id})');
+      debugPrint('✅ [DEBUG] DTO creado exitosamente: ${dto.name} (ID: ${dto.id})');
       return dto;
     } catch (e) {
-      print('❌ [DEBUG] Error parseando DTO: $e');
-      print('❌ [DEBUG] JSON problemático: $json');
+      debugPrint('❌ [DEBUG] Error parseando DTO: $e');
+      debugPrint('❌ [DEBUG] JSON problemático: $json');
       rethrow;
     }
   }

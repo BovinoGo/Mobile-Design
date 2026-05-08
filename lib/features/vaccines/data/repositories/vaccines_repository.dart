@@ -5,6 +5,7 @@ import 'package:vacapp/features/vaccines/data/models/vaccines_dto.dart';
 import 'package:vacapp/core/services/connectivity_service.dart';
 import 'package:vacapp/core/services/offline_data_service.dart';
 import 'package:vacapp/core/services/token_service.dart';
+import 'package:flutter/foundation.dart';
 
 class VaccinesRepository {
   final VaccinesService _vaccinesService;
@@ -14,12 +15,12 @@ class VaccinesRepository {
   VaccinesRepository(this._vaccinesService);
 
   Future<List<VaccinesDto>> getVaccines() async {
-    print('🔍 [DEBUG] Repositorio: Iniciando getVaccines...');
+    debugPrint('🔍 [DEBUG] Repositorio: Iniciando getVaccines...');
     try {
       // Si hay conexión, intentar obtener datos del servidor
       if (_connectivityService.isConnected) {
         final vaccines = await _vaccinesService.fetchVaccines();
-        print('✅ [DEBUG] Repositorio: Vacunas obtenidas del servicio: ${vaccines.length}');
+        debugPrint('✅ [DEBUG] Repositorio: Vacunas obtenidas del servicio: ${vaccines.length}');
         
         // Guardar en el sistema offline
         for (final vaccine in vaccines) {
@@ -32,7 +33,7 @@ class VaccinesRepository {
         }
         
         for (int i = 0; i < vaccines.length; i++) {
-          print('🔍 [DEBUG] Repositorio: Vacuna $i: ${vaccines[i].name} (ID: ${vaccines[i].id})');
+          debugPrint('🔍 [DEBUG] Repositorio: Vacuna $i: ${vaccines[i].name} (ID: ${vaccines[i].id})');
         }
         return vaccines;
       } else {
@@ -40,28 +41,28 @@ class VaccinesRepository {
         final offlineData = await _offlineService.getVaccinesOffline();
         if (offlineData.isNotEmpty) {
           final vaccines = offlineData.map((data) => _mapFromOfflineFormat(data)).toList();
-          print('✅ [DEBUG] Repositorio: Vacunas obtenidas offline: ${vaccines.length}');
+          debugPrint('✅ [DEBUG] Repositorio: Vacunas obtenidas offline: ${vaccines.length}');
           return vaccines;
         }
         
-        print('⚠️ [DEBUG] Repositorio: No hay datos offline disponibles');
+        debugPrint('⚠️ [DEBUG] Repositorio: No hay datos offline disponibles');
         return [];
       }
     } catch (e) {
-      print('❌ [DEBUG] Repositorio: Error en getVaccines: $e');
+      debugPrint('❌ [DEBUG] Repositorio: Error en getVaccines: $e');
       
       // En caso de error, intentar usar datos offline
       try {
         final offlineData = await _offlineService.getVaccinesOffline();
         if (offlineData.isNotEmpty) {
           final vaccines = offlineData.map((data) => _mapFromOfflineFormat(data)).toList();
-          print('✅ [DEBUG] Repositorio: Vacunas obtenidas offline (fallback): ${vaccines.length}');
+          debugPrint('✅ [DEBUG] Repositorio: Vacunas obtenidas offline (fallback): ${vaccines.length}');
           return vaccines;
         }
         
         return [];
       } catch (offlineError) {
-        print('❌ [DEBUG] Repositorio: Error accessing offline vaccines: $offlineError');
+        debugPrint('❌ [DEBUG] Repositorio: Error accessing offline vaccines: $offlineError');
         return [];
       }
     }
@@ -77,13 +78,13 @@ class VaccinesRepository {
         // Sin conexión, guardar offline
         await _offlineService.saveVaccineOffline(_mapToOfflineFormat(vaccine));
         await TokenService.instance.setHasOfflineData(true);
-        print('Vacuna guardada offline para sincronización posterior');
+        debugPrint('Vacuna guardada offline para sincronización posterior');
       }
     } catch (e) {
       // En caso de error, guardar offline
       await _offlineService.saveVaccineOffline(_mapToOfflineFormat(vaccine));
       await TokenService.instance.setHasOfflineData(true);
-      print('Error creating vaccine, saved offline: $e');
+      debugPrint('Error creating vaccine, saved offline: $e');
       rethrow;
     }
   }
@@ -98,13 +99,13 @@ class VaccinesRepository {
         // Sin conexión, guardar offline
         await _offlineService.saveVaccineOffline(_mapToOfflineFormat(vaccine));
         await TokenService.instance.setHasOfflineData(true);
-        print('Vacuna guardada offline para sincronización posterior');
+        debugPrint('Vacuna guardada offline para sincronización posterior');
       }
     } catch (e) {
       // En caso de error, guardar offline
       await _offlineService.saveVaccineOffline(_mapToOfflineFormat(vaccine));
       await TokenService.instance.setHasOfflineData(true);
-      print('Error creating vaccine, saved offline: $e');
+      debugPrint('Error creating vaccine, saved offline: $e');
       rethrow;
     }
   }
@@ -120,7 +121,7 @@ class VaccinesRepository {
         final vaccineDto = VaccinesDto.fromJson(data);
         await _offlineService.saveVaccineOffline(_mapToOfflineFormat(vaccineDto));
         await TokenService.instance.setHasOfflineData(true);
-        print('Vaccine update guardado offline para sincronización posterior');
+        debugPrint('Vaccine update guardado offline para sincronización posterior');
       }
     } catch (e) {
       // En caso de error, guardar offline
@@ -128,7 +129,7 @@ class VaccinesRepository {
       final vaccineDto = VaccinesDto.fromJson(data);
       await _offlineService.saveVaccineOffline(_mapToOfflineFormat(vaccineDto));
       await TokenService.instance.setHasOfflineData(true);
-      print('Error updating vaccine, saved offline: $e');
+      debugPrint('Error updating vaccine, saved offline: $e');
       rethrow;
     }
   }
@@ -140,11 +141,11 @@ class VaccinesRepository {
         await _vaccinesService.deleteVaccine(id);
         await getVaccines();
       } else {
-        print('Vaccine deletion will be synced when connection is restored');
+        debugPrint('Vaccine deletion will be synced when connection is restored');
         throw Exception('No se puede eliminar sin conexión. Intenta cuando tengas internet.');
       }
     } catch (e) {
-      print('Error deleting vaccine: $e');
+      debugPrint('Error deleting vaccine: $e');
       rethrow;
     }
   }
@@ -164,7 +165,7 @@ class VaccinesRepository {
         return _mapFromOfflineFormat(vaccine);
       }
     } catch (e) {
-      print('Error getting vaccine by ID: $e');
+      debugPrint('Error getting vaccine by ID: $e');
       rethrow;
     }
   }
@@ -180,7 +181,7 @@ class VaccinesRepository {
         return offlineVaccines.map((data) => _mapFromOfflineFormat(data)).toList();
       }
     } catch (e) {
-      print('Error getting vaccines by bovine ID: $e');
+      debugPrint('Error getting vaccines by bovine ID: $e');
       
       // Fallback: buscar en todos los datos offline
       try {
@@ -191,7 +192,7 @@ class VaccinesRepository {
         
         return filteredVaccines.map((data) => _mapFromOfflineFormat(data)).toList();
       } catch (offlineError) {
-        print('Error accessing offline vaccines: $offlineError');
+        debugPrint('Error accessing offline vaccines: $offlineError');
         return [];
       }
     }

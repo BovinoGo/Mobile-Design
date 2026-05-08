@@ -1,13 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vacapp/features/stables/data/datasources/stables_service.dart';
-import 'package:vacapp/features/vaccines/data/datasources/vaccines_services.dart';
 import 'package:vacapp/features/animals/data/dataasources/animals_service.dart';
-import 'package:vacapp/features/stables/data/models/stable_dto.dart';
-import 'package:vacapp/features/vaccines/data/models/vaccines_dto.dart';
 import 'package:vacapp/features/animals/data/models/animal_dto.dart';
-import 'package:vacapp/core/services/connectivity_service.dart';
 
-// Events
+// ── Events ────────────────────────────────────────────────────────────────────
 abstract class StatisticsEvent {
   const StatisticsEvent();
 }
@@ -16,7 +11,7 @@ class LoadStatistics extends StatisticsEvent {}
 
 class RefreshStatistics extends StatisticsEvent {}
 
-// States
+// ── States ────────────────────────────────────────────────────────────────────
 abstract class StatisticsState {
   const StatisticsState();
 }
@@ -27,13 +22,11 @@ class StatisticsLoading extends StatisticsState {}
 
 class StatisticsLoaded extends StatisticsState {
   final HomeStatistics statistics;
-
   const StatisticsLoaded(this.statistics);
 }
 
 class StatisticsError extends StatisticsState {
   final String message;
-
   const StatisticsError(this.message);
 }
 
@@ -41,290 +34,102 @@ class StatisticsOffline extends StatisticsState {
   const StatisticsOffline();
 }
 
-// Data Model
+// ── Data model ────────────────────────────────────────────────────────────────
 class HomeStatistics {
-  final List<StableDto> stables;
-  final List<VaccinesDto> vaccines;
   final List<AnimalDto> animals;
+  final List<CriticalAlertDto> alerts;
 
-  const HomeStatistics({
-    required this.stables,
-    required this.vaccines,
-    required this.animals,
-  });
+  const HomeStatistics({required this.animals, required this.alerts});
 
-  // Estadísticas de establos
-  int get totalStables => stables.length;
-  int get totalAnimals => animals.length;
-  int get totalCapacity => stables.fold(0, (sum, stable) => sum + stable.limit);
-  double get occupationPercentage {
-    if (totalCapacity == 0) return 0.0;
-    return (totalAnimals / totalCapacity * 100);
+  // Bovine counts
+  int get totalBovines => animals.length;
+  int get activeBovines => animals.where((a) => a.isActive).length;
+  int get maleBovines =>
+      animals.where((a) => a.sex.toLowerCase() == 'male').length;
+  int get femaleBovines =>
+      animals.where((a) => a.sex.toLowerCase() == 'female').length;
+
+  // Health
+  int get healthyBovines =>
+      animals.where((a) => a.healthStatus == 'Sano').length;
+  int get sickBovines =>
+      animals.where((a) => a.healthStatus != 'Sano' && a.isActive).length;
+  int get criticalBovines =>
+      animals.where((a) => a.vitalSignsStatus == 'Critico').length;
+
+  // Backward-compat aliases used by existing home widgets
+  int get totalAnimals => totalBovines;
+  int get maleAnimals => maleBovines;
+  int get femaleAnimals => femaleBovines;
+  int get totalStables => 0;
+  int get totalCapacity => 0;
+  double get occupationPercentage => 0;
+  int get totalVaccines => 0;
+  int get appliedVaccines => 0;
+  int get pendingVaccines => 0;
+  int get animalsWithVaccines => 0;
+  double get vaccinationPercentage => 0;
+  List<AnimalDto> get animalsInQuarantineList => [];
+  List<AnimalDto> get animalsInMaternityList => [];
+  List<AnimalDto> get animalsWithVetAppointmentList => [];
+
+  // Weight
+  double get avgWeightKg {
+    if (animals.isEmpty) return 0;
+    return animals.fold(0.0, (s, a) => s + a.currentWeightKg) / animals.length;
   }
 
-  // Estadísticas de género
-  int get maleAnimals => animals.where((animal) => 
-    animal.gender.toLowerCase() == 'macho' || 
-    animal.gender.toLowerCase() == 'm' ||
-    animal.gender.toLowerCase() == 'male'
-  ).length;
-  
-  int get femaleAnimals => animals.where((animal) => 
-    animal.gender.toLowerCase() == 'hembra' || 
-    animal.gender.toLowerCase() == 'h' ||
-    animal.gender.toLowerCase() == 'female'
-  ).length;
+  // Alerts
+  int get unreadAlerts => alerts.where((a) => !a.isRead).length;
+  int get totalAlerts => alerts.length;
 
-  // Estadísticas de vacunas
-  int get totalVaccines => vaccines.length;
-  int get appliedVaccines => vaccines.where((v) => v.vaccineDate.isNotEmpty).length;
-  int get pendingVaccines => totalVaccines - appliedVaccines;
-  
-  Set<int> get animalIdsWithVaccines => vaccines.map((v) => v.bovineId).toSet();
-  int get animalsWithVaccines => animalIdsWithVaccines.length;
-  int get animalsWithoutVaccines => totalAnimals - animalsWithVaccines;
-
-  // Lista de animales sin vacuna
-  List<AnimalDto> get animalsWithoutVaccinesList {
-    final vaccinatedAnimalIds = animalIdsWithVaccines;
-    return animals.where((animal) => !vaccinatedAnimalIds.contains(animal.id)).toList();
-  }
-
-  // Estadísticas por raza
+  // Distributions
   Map<String, int> get breedDistribution {
-    final Map<String, int> distribution = {};
-    for (final animal in animals) {
-      distribution[animal.breed] = (distribution[animal.breed] ?? 0) + 1;
+    final dist = <String, int>{};
+    for (final a in animals) {
+      dist[a.breed] = (dist[a.breed] ?? 0) + 1;
     }
-    return distribution;
+    return dist;
   }
 
-  // Estadísticas por establo
-  Map<int, int> get animalsPerStable {
-    final Map<int, int> distribution = {};
-    for (final animal in animals) {
-      distribution[animal.stableId] = (distribution[animal.stableId] ?? 0) + 1;
+  Map<String, int> get healthDistribution {
+    final dist = <String, int>{};
+    for (final a in animals) {
+      dist[a.healthStatus] = (dist[a.healthStatus] ?? 0) + 1;
     }
-    return distribution;
+    return dist;
   }
 
-  // Porcentaje de vacunación
-  double get vaccinationPercentage {
-    if (totalAnimals == 0) return 0.0;
-    return (animalsWithVaccines / totalAnimals * 100);
-  }
-
-  // Estadísticas detalladas de vacunas
-  Map<String, int> get vaccineTypesDistribution {
-    final Map<String, int> distribution = {};
-    for (final vaccine in vaccines) {
-      final type = vaccine.vaccineType.isNotEmpty ? vaccine.vaccineType : 'Sin tipo';
-      distribution[type] = (distribution[type] ?? 0) + 1;
-    }
-    return distribution;
-  }
-
-  List<String> get topVaccineTypes {
-    final distribution = vaccineTypesDistribution;
-    final sortedEntries = distribution.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
-    return sortedEntries.take(3).map((e) => e.key).toList();
-  }
-
-  // Estadísticas detalladas de establos
-  double get avgAnimalsPerStable {
-    if (totalStables == 0) return 0.0;
-    return totalAnimals / totalStables;
-  }
-
-  int get mostPopulatedStableCount {
-    final distribution = animalsPerStable;
-    if (distribution.isEmpty) return 0;
-    return distribution.values.reduce((a, b) => a > b ? a : b);
-  }
-
-  double get stableUtilizationPercentage {
-    if (totalCapacity == 0) return 0.0;
-    return (totalAnimals / totalCapacity) * 100;
-  }
-
-  // Estadísticas especiales de establos
-  List<int> get fullStables {
-    final avgCapacity = totalCapacity / totalStables;
-    return animalsPerStable.entries
-        .where((entry) => entry.value >= avgCapacity)
-        .map((entry) => entry.key)
-        .toList();
-  }
-
-  List<int> get emptyStables {
-    final allStableIds = stables.map((s) => s.id).toSet();
-    final occupiedStableIds = animalsPerStable.keys.toSet();
-    return allStableIds.difference(occupiedStableIds).toList();
-  }
-
-  List<int> get lowOccupancyStables {
-    final avgCapacity = totalCapacity / totalStables;
-    return animalsPerStable.entries
-        .where((entry) => entry.value > 0 && entry.value < (avgCapacity * 0.5))
-        .map((entry) => entry.key)
-        .toList();
-  }
-
-  int get mostPopulatedStableId {
-    if (animalsPerStable.isEmpty) return 0;
-    return animalsPerStable.entries
-        .reduce((a, b) => a.value > b.value ? a : b)
-        .key;
-  }
-
-  // Estadísticas detalladas de vacunas
-  int get recentVaccines {
-    final now = DateTime.now();
-    final thirtyDaysAgo = now.subtract(const Duration(days: 30));
-    return vaccines.where((vaccine) {
-      if (vaccine.vaccineDate.isEmpty) return false;
-      try {
-        final vaccineDate = DateTime.parse(vaccine.vaccineDate);
-        return vaccineDate.isAfter(thirtyDaysAgo);
-      } catch (e) {
-        return false;
-      }
-    }).length;
-  }
-
-  Map<String, int> get vaccinesByMonth {
-    final Map<String, int> distribution = {};
-    
-    for (final vaccine in vaccines) {
-      if (vaccine.vaccineDate.isEmpty) continue;
-      try {
-        final vaccineDate = DateTime.parse(vaccine.vaccineDate);
-        final monthKey = '${vaccineDate.year}-${vaccineDate.month.toString().padLeft(2, '0')}';
-        distribution[monthKey] = (distribution[monthKey] ?? 0) + 1;
-      } catch (e) {
-        // Ignorar fechas mal formateadas
-      }
-    }
-    return distribution;
-  }
-
-  // Estadísticas de animales en estados especiales
-  int get animalsInQuarantine => animals.where((animal) => 
-    animal.location.toLowerCase().contains('cuarentena') ||
-    animal.location.toLowerCase().contains('quarantine') ||
-    animal.location.toLowerCase().contains('aislado')
-  ).length;
-
-  int get animalsInMaternity => animals.where((animal) => 
-    animal.location.toLowerCase().contains('maternidad') ||
-    animal.location.toLowerCase().contains('maternity') ||
-    animal.location.toLowerCase().contains('parto') ||
-    animal.location.toLowerCase().contains('gestante')
-  ).length;
-
-  int get animalsWithVetAppointment => animals.where((animal) => 
-    animal.location.toLowerCase().contains('veterinario') ||
-    animal.location.toLowerCase().contains('veterinary') ||
-    animal.location.toLowerCase().contains('consulta') ||
-    animal.location.toLowerCase().contains('tratamiento')
-  ).length;
-
-  // Listas de animales en estados especiales
-  List<AnimalDto> get animalsInQuarantineList => animals.where((animal) => 
-    animal.location.toLowerCase().contains('cuarentena') ||
-    animal.location.toLowerCase().contains('quarantine') ||
-    animal.location.toLowerCase().contains('aislado')
-  ).toList();
-
-  List<AnimalDto> get animalsInMaternityList => animals.where((animal) => 
-    animal.location.toLowerCase().contains('maternidad') ||
-    animal.location.toLowerCase().contains('maternity') ||
-    animal.location.toLowerCase().contains('parto') ||
-    animal.location.toLowerCase().contains('gestante')
-  ).toList();
-
-  List<AnimalDto> get animalsWithVetAppointmentList => animals.where((animal) => 
-    animal.location.toLowerCase().contains('veterinario') ||
-    animal.location.toLowerCase().contains('veterinary') ||
-    animal.location.toLowerCase().contains('consulta') ||
-    animal.location.toLowerCase().contains('tratamiento')
-  ).toList();
+  // Compat for AlertStatsCard: maps critical bovines to the old "without vaccines" concept
+  int get animalsWithoutVaccines => criticalBovines + unreadAlerts;
+  List<AnimalDto> get animalsWithoutVaccinesList =>
+      animals.where((a) => a.vitalSignsStatus == 'Critico').toList();
 }
 
-// Bloc
+// ── Bloc ──────────────────────────────────────────────────────────────────────
 class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
-  final StablesService _stablesService;
-  final VaccinesService _vaccinesService;
   final AnimalsService _animalsService;
-  final ConnectivityService _connectivityService;
 
-  StatisticsBloc({
-    StablesService? stablesService,
-    VaccinesService? vaccinesService,
-    AnimalsService? animalsService,
-    ConnectivityService? connectivityService,
-  })  : _stablesService = stablesService ?? StablesService(),
-        _vaccinesService = vaccinesService ?? VaccinesService(),
-        _animalsService = animalsService ?? AnimalsService(),
-        _connectivityService = connectivityService ?? ConnectivityService(),
+  StatisticsBloc({AnimalsService? animalsService})
+      : _animalsService = animalsService ?? AnimalsService(),
         super(StatisticsInitial()) {
-    on<LoadStatistics>(_onLoadStatistics);
-    on<RefreshStatistics>(_onRefreshStatistics);
+    on<LoadStatistics>(_onLoad);
+    on<RefreshStatistics>(_onLoad);
   }
 
-  Future<void> _onLoadStatistics(
-    LoadStatistics event,
-    Emitter<StatisticsState> emit,
-  ) async {
-    await _loadData(emit);
-  }
-
-  Future<void> _onRefreshStatistics(
-    RefreshStatistics event,
-    Emitter<StatisticsState> emit,
-  ) async {
-    await _loadData(emit);
-  }
-
-  Future<void> _loadData(Emitter<StatisticsState> emit) async {
+  Future<void> _onLoad(
+      StatisticsEvent event, Emitter<StatisticsState> emit) async {
     try {
       emit(StatisticsLoading());
-
-      // Verificar conectividad primero
-      if (!_connectivityService.isConnected) {
-        emit(const StatisticsOffline());
-        return;
-      }
-
-      // Cargar datos en paralelo
-      final futures = await Future.wait([
-        _stablesService.fetchStables(),
-        _vaccinesService.fetchVaccines(),
+      final results = await Future.wait([
         _animalsService.fetchAnimals(),
+        _animalsService.fetchUnreadAlerts(),
       ]);
-
-      final stables = futures[0] as List<StableDto>;
-      final vaccines = futures[1] as List<VaccinesDto>;
-      final animals = futures[2] as List<AnimalDto>;
-
-      final statistics = HomeStatistics(
-        stables: stables,
-        vaccines: vaccines,
-        animals: animals,
-      );
-
-      emit(StatisticsLoaded(statistics));
+      final animals = results[0] as List<AnimalDto>;
+      final alerts = results[1] as List<CriticalAlertDto>;
+      emit(StatisticsLoaded(HomeStatistics(animals: animals, alerts: alerts)));
     } catch (e) {
-      // Si hay un error de conexión específico, mostrar estado offline
-      if (e.toString().contains('network') || 
-          e.toString().contains('connection') ||
-          e.toString().contains('internet') ||
-          !_connectivityService.isConnected) {
-        emit(const StatisticsOffline());
-      } else {
-        emit(StatisticsError('Error al cargar las estadísticas: $e'));
-      }
+      emit(StatisticsError(e.toString().replaceAll('Exception: ', '')));
     }
   }
 }

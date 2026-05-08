@@ -3,6 +3,7 @@ import 'package:vacapp/features/stables/data/models/stable_dto.dart';
 import 'package:vacapp/core/services/connectivity_service.dart';
 import 'package:vacapp/core/services/offline_data_service.dart';
 import 'package:vacapp/core/services/token_service.dart';
+import 'package:flutter/foundation.dart';
 
 class StableRepository {
   final StablesService _stablesService;
@@ -38,7 +39,7 @@ class StableRepository {
         return [];
       }
     } catch (e) {
-      print('Error in getStables: $e');
+      debugPrint('Error in getStables: $e');
       
       // En caso de error, intentar usar datos offline
       try {
@@ -49,7 +50,7 @@ class StableRepository {
         
         return [];
       } catch (offlineError) {
-        print('Error accessing offline stables: $offlineError');
+        debugPrint('Error accessing offline stables: $offlineError');
         return [];
       }
     }
@@ -66,14 +67,14 @@ class StableRepository {
         // Sin conexión, guardar offline
         await _offlineService.saveStableOffline(_mapToOfflineFormat(stable));
         await TokenService.instance.setHasOfflineData(true);
-        print('Establo guardado offline para sincronización posterior');
+        debugPrint('Establo guardado offline para sincronización posterior');
         return stable; // Devolver el establo original con ID temporal
       }
     } catch (e) {
       // En caso de error, guardar offline
       await _offlineService.saveStableOffline(_mapToOfflineFormat(stable));
       await TokenService.instance.setHasOfflineData(true);
-      print('Error creating stable, saved offline: $e');
+      debugPrint('Error creating stable, saved offline: $e');
       rethrow;
     }
   }
@@ -89,14 +90,14 @@ class StableRepository {
         final stableWithId = StableDto(id: id, name: stable.name, limit: stable.limit);
         await _offlineService.saveStableOffline(_mapToOfflineFormat(stableWithId));
         await TokenService.instance.setHasOfflineData(true);
-        print('Stable update guardado offline para sincronización posterior');
+        debugPrint('Stable update guardado offline para sincronización posterior');
       }
     } catch (e) {
       // En caso de error, guardar offline
       final stableWithId = StableDto(id: id, name: stable.name, limit: stable.limit);
       await _offlineService.saveStableOffline(_mapToOfflineFormat(stableWithId));
       await TokenService.instance.setHasOfflineData(true);
-      print('Error updating stable, saved offline: $e');
+      debugPrint('Error updating stable, saved offline: $e');
       rethrow;
     }
   }
@@ -108,11 +109,11 @@ class StableRepository {
         await _stablesService.deleteStable(id);
         await getStables();
       } else {
-        print('Stable deletion will be synced when connection is restored');
+        debugPrint('Stable deletion will be synced when connection is restored');
         throw Exception('No se puede eliminar sin conexión. Intenta cuando tengas internet.');
       }
     } catch (e) {
-      print('Error deleting stable: $e');
+      debugPrint('Error deleting stable: $e');
       rethrow;
     }
   }
@@ -132,7 +133,7 @@ class StableRepository {
         return _mapFromOfflineFormat(stable);
       }
     } catch (e) {
-      print('Error getting stable by ID: $e');
+      debugPrint('Error getting stable by ID: $e');
       rethrow;
     }
   }

@@ -24,7 +24,7 @@ class _VaccinesPageState extends State<VaccinesPage>
   late final AnimalsService _animalsService;
   List<VaccinesDto> _vaccines = [];
   List<VaccinesDto> _filteredVaccines = [];
-  Map<int, AnimalDto> _animalsMap = {};
+  Map<String, AnimalDto> _animalsMap = {};
   bool _isLoading = true;
   late AnimationController _animationController;
   late AnimationController _loadingController;
@@ -117,7 +117,7 @@ class _VaccinesPageState extends State<VaccinesPage>
         });
       }
     } catch (e) {
-      print('❌ [DEBUG] Error loading animals: $e');
+      debugPrint('❌ [DEBUG] Error loading animals: $e');
     }
   }
 
@@ -146,7 +146,7 @@ class _VaccinesPageState extends State<VaccinesPage>
         });
       }
     } catch (e) {
-      print('❌ [DEBUG] Error loading vaccines: $e');
+      debugPrint('❌ [DEBUG] Error loading vaccines: $e');
       if (mounted) {
         setState(() {
           _vaccines = [];
@@ -268,7 +268,7 @@ class _VaccinesPageState extends State<VaccinesPage>
             end: Alignment.bottomCenter,
             colors: [
               const Color(0xFFF8F9FA),
-              lightGreen.withOpacity(0.2),
+              lightGreen.withValues(alpha: 0.2),
             ],
           ),
         ),
@@ -373,7 +373,7 @@ class _VaccinesPageState extends State<VaccinesPage>
                             boxShadow: [
                               BoxShadow(
                                 color: _isFilterExpanded 
-                                    ? primary.withOpacity(0.3) 
+                                    ? primary.withValues(alpha: 0.3) 
                                     : cardShadow,
                                 blurRadius: 10,
                                 offset: const Offset(0, 2),
@@ -591,7 +591,7 @@ class _VaccinesPageState extends State<VaccinesPage>
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? primary.withOpacity(0.1) : Colors.transparent,
+            color: isSelected ? primary.withValues(alpha: 0.1) : Colors.transparent,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -600,7 +600,7 @@ class _VaccinesPageState extends State<VaccinesPage>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: isSelected ? primary.withOpacity(0.2) : iconColor.withOpacity(0.1),
+                  color: isSelected ? primary.withValues(alpha: 0.2) : iconColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
@@ -736,7 +736,7 @@ class _VaccinesPageState extends State<VaccinesPage>
                     borderRadius: BorderRadius.circular(40),
                     boxShadow: [
                       BoxShadow(
-                        color: primary.withOpacity(0.3),
+                        color: primary.withValues(alpha: 0.3),
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
@@ -815,12 +815,12 @@ class _VaccinesPageState extends State<VaccinesPage>
                     padding: const EdgeInsets.all(40),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [lightGreen.withOpacity(0.3), lightGreen.withOpacity(0.1)],
+                        colors: [lightGreen.withValues(alpha: 0.3), lightGreen.withValues(alpha: 0.1)],
                       ),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: primary.withOpacity(0.1),
+                          color: primary.withValues(alpha: 0.1),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -906,7 +906,7 @@ class _VaccinesPageState extends State<VaccinesPage>
 
   Widget _buildModernVaccineCard(VaccinesDto vaccine) {
     // Obtener el animal específico de esta vacuna
-    final animal = _animalsMap[vaccine.bovineId];
+    final animal = _animalsMap[vaccine.bovineId.toString()];
 
     return Container(
       decoration: BoxDecoration(
@@ -915,20 +915,20 @@ class _VaccinesPageState extends State<VaccinesPage>
           end: Alignment.bottomRight,
           colors: [
             Colors.white,
-            lightGreen.withOpacity(0.1),
+            lightGreen.withValues(alpha: 0.1),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: primary.withOpacity(0.08),
+            color: primary.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 8),
             spreadRadius: 2,
           ),
         ],
         border: Border.all(
-          color: lightGreen.withOpacity(0.3),
+          color: lightGreen.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -952,7 +952,7 @@ class _VaccinesPageState extends State<VaccinesPage>
                         borderRadius: BorderRadius.circular(16),
                         gradient: vaccine.vaccineImg.isEmpty 
                             ? LinearGradient(
-                                colors: [primary.withOpacity(0.1), lightGreen],
+                                colors: [primary.withValues(alpha: 0.1), lightGreen],
                               )
                             : null,
                         image: vaccine.vaccineImg.isNotEmpty
@@ -963,7 +963,7 @@ class _VaccinesPageState extends State<VaccinesPage>
                             : null,
                         boxShadow: [
                           BoxShadow(
-                            color: primary.withOpacity(0.2),
+                            color: primary.withValues(alpha: 0.2),
                             blurRadius: 12,
                             offset: const Offset(0, 6),
                           ),
@@ -1000,11 +1000,11 @@ class _VaccinesPageState extends State<VaccinesPage>
                             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [primary.withOpacity(0.1), accent.withOpacity(0.1)],
+                                colors: [primary.withValues(alpha: 0.1), accent.withValues(alpha: 0.1)],
                               ),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: primary.withOpacity(0.2),
+                                color: primary.withValues(alpha: 0.2),
                                 width: 1,
                               ),
                             ),
@@ -1030,10 +1030,10 @@ class _VaccinesPageState extends State<VaccinesPage>
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: primary.withOpacity(0.1),
+                      color: primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: primary.withOpacity(0.3),
+                        color: primary.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -1057,7 +1057,7 @@ class _VaccinesPageState extends State<VaccinesPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                animal.name,
+                                animal.displayName,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: primary,
@@ -1069,7 +1069,7 @@ class _VaccinesPageState extends State<VaccinesPage>
                                 '${_translateGender(animal.gender)} • ${_calculateAge(animal.birthDate)} años',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: primary.withOpacity(0.7),
+                                  color: primary.withValues(alpha: 0.7),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -1083,7 +1083,7 @@ class _VaccinesPageState extends State<VaccinesPage>
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: primary.withOpacity(0.3),
+                                color: primary.withValues(alpha: 0.3),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -1119,10 +1119,10 @@ class _VaccinesPageState extends State<VaccinesPage>
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: lightGreen.withOpacity(0.3),
+                    color: lightGreen.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: primary.withOpacity(0.2),
+                      color: primary.withValues(alpha: 0.2),
                       width: 1,
                     ),
                   ),
@@ -1131,7 +1131,7 @@ class _VaccinesPageState extends State<VaccinesPage>
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: primary.withOpacity(0.1),
+                          color: primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(
@@ -1210,10 +1210,10 @@ class _VaccinesPageState extends State<VaccinesPage>
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: color.withOpacity(0.3),
+            color: color.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -1257,7 +1257,7 @@ class _VaccinesPageState extends State<VaccinesPage>
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(

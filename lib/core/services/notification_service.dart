@@ -51,7 +51,7 @@ class NotificationService {
   void _onNotificationTap(NotificationResponse notificationResponse) {
     final String? payload = notificationResponse.payload;
     if (payload != null) {
-      print('Notification tapped with payload: $payload');
+      debugPrint('Notification tapped with payload: $payload');
       // Aquí puedes agregar lógica para navegar a páginas específicas
     }
   }

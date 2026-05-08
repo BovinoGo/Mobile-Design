@@ -35,7 +35,7 @@ class StaffView extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               lightBackground,
-              lightBackground.withOpacity(0.8),
+              lightBackground.withValues(alpha: 0.8),
             ],
           ),
         ),
@@ -50,7 +50,7 @@ class StaffView extends StatelessWidget {
                   color: cardBackground,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     ),
@@ -66,7 +66,7 @@ class StaffView extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: accent.withOpacity(0.1),
+                        color: accent.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
@@ -221,13 +221,13 @@ class StaffView extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.all(24),
                                   decoration: BoxDecoration(
-                                    color: accent.withOpacity(0.1),
+                                    color: accent.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Icon(
                                     Icons.people_outline,
                                     size: 80,
-                                    color: accent.withOpacity(0.7),
+                                    color: accent.withValues(alpha: 0.7),
                                   ),
                                 ),
                                 const SizedBox(height: 24),
@@ -304,6 +304,7 @@ class StaffView extends StatelessWidget {
     
     // Recargar la lista si se creó un empleado exitosamente
     if (result == true) {
+      // ignore: use_build_context_synchronously
       context.read<StaffBloc>().add(LoadStaffs());
     }
   }

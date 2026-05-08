@@ -36,7 +36,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
   static const String defaultImageUrl = 'https://res.cloudinary.com/dgcgdxn0u/image/upload/v1751348101/xiynxh6vlqy4ykjezhul.png';
 
   // Campos para los dropdowns
-  int? _selectedAnimalId;
+  String? _selectedAnimalId;
   List<VaccineTypeDto> _availableVaccines = [];
   List<AnimalDto> _availableAnimals = [];
   VaccineTypeDto? _selectedVaccineInfo;
@@ -51,7 +51,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
   void initState() {
     super.initState();
     _selectedDate = DateTime.tryParse(widget.vaccine.vaccineDate) ?? DateTime.now();
-    _selectedAnimalId = widget.vaccine.bovineId;
+    _selectedAnimalId = widget.vaccine.bovineId.toString();
     _loadInitialData();
   }
 
@@ -78,7 +78,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
         });
       }
     } catch (e) {
-      print('[DEBUG] Error loading initial data: $e');
+      debugPrint('[DEBUG] Error loading initial data: $e');
     }
   }
 
@@ -230,7 +230,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
         'vaccineType': _selectedVaccineInfo!.name,
         'vaccineDate': _selectedDate.toIso8601String().split('T')[0],
         'vaccineImg': _useDefaultImageUrl ? defaultImageUrl : widget.vaccine.vaccineImg, // Usar imagen predeterminada si se seleccionó
-        'bovineId': _selectedAnimalId!,
+        'bovineId': int.tryParse(_selectedAnimalId!) ?? 0,
       };
 
       await widget.repository.updateVaccine(
@@ -266,7 +266,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
             end: Alignment.bottomCenter,
             colors: [
               const Color(0xFFF8F9FA),
-              lightGreen.withOpacity(0.3),
+              lightGreen.withValues(alpha: 0.3),
             ],
           ),
         ),
@@ -370,7 +370,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: primary.withOpacity(0.1),
+                    color: primary.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, 2),
                   ),
@@ -426,7 +426,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: primary.withOpacity(0.1),
+              color: primary.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -490,7 +490,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
               
               // Overlay para cambiar imagen
               Container(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withValues(alpha: 0.3),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -531,7 +531,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: primary.withOpacity(0.1),
+              color: primary.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -574,12 +574,12 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
       height: 56,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [primary, primary.withOpacity(0.8)],
+          colors: [primary, primary.withValues(alpha: 0.8)],
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: primary.withOpacity(0.3),
+            color: primary.withValues(alpha: 0.3),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -625,12 +625,12 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
           ),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: Colors.blue.withOpacity(0.2),
+            color: Colors.blue.withValues(alpha: 0.2),
             width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.blue.withOpacity(0.1),
+              color: Colors.blue.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -641,7 +641,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: Colors.blue.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
@@ -689,7 +689,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
     showDialog(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.7),
+      barrierColor: Colors.black.withValues(alpha: 0.7),
       builder: (context) => Dialog(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -707,14 +707,14 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
               BoxShadow(
-                color: Colors.blue.withOpacity(0.3),
+                color: Colors.blue.withValues(alpha: 0.3),
                 blurRadius: 30,
                 offset: const Offset(0, 15),
                 spreadRadius: 2,
               ),
             ],
             border: Border.all(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
               width: 2,
             ),
           ),
@@ -740,7 +740,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: const Icon(
@@ -766,7 +766,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
                             'Guía rápida',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha: 0.9),
                             ),
                           ),
                         ],
@@ -777,7 +777,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
@@ -838,10 +838,10 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
       margin: const EdgeInsets.only(top: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: lightGreen.withOpacity(0.3),
+        color: lightGreen.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: primary.withOpacity(0.3),
+          color: primary.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -850,7 +850,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: primary.withOpacity(0.1),
+              color: primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(6),
             ),
             child: const Icon(
@@ -865,7 +865,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
               '¿Por qué seleccionar un bovino? En ganadería, cada vacuna se registra por animal individual para llevar un control preciso del historial médico y cumplir con regulaciones sanitarias.',
               style: TextStyle(
                 fontSize: 11,
-                color: primary.withOpacity(0.8),
+                color: primary.withValues(alpha: 0.8),
                 height: 1.3,
               ),
             ),
@@ -890,7 +890,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
         ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Colors.blue.withOpacity(0.3),
+          color: Colors.blue.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -902,7 +902,7 @@ class _UpdateVaccinesPageState extends State<UpdateVaccinesPage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
+                  color: Colors.blue.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(

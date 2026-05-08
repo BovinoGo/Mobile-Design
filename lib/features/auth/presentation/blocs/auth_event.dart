@@ -3,20 +3,46 @@ abstract class AuthEvent {
 }
 
 class LoginEvent extends AuthEvent {
-  final String usernameOrEmail;
+  final String email;
   final String password;
-
-  const LoginEvent({required this.usernameOrEmail, required this.password});
+  const LoginEvent({required this.email, required this.password});
 }
 
-class SignUpEvent extends AuthEvent {
-  final String username;
-  final String password;
+class RegisterCompanyEvent extends AuthEvent {
+  final String fullName;
   final String email;
-
-  const SignUpEvent({
-    required this.username,
-    required this.password,
+  final String password;
+  final String? phone;
+  const RegisterCompanyEvent({
+    required this.fullName,
     required this.email,
+    required this.password,
+    this.phone,
+  });
+}
+
+class RegisterRancherEvent extends AuthEvent {
+  final String fullName;
+  final String email;
+  final String password;
+  final String? phone;
+  const RegisterRancherEvent({
+    required this.fullName,
+    required this.email,
+    required this.password,
+    this.phone,
+  });
+}
+
+class RegisterBuyerEvent extends AuthEvent {
+  final String fullName;
+  final String email;
+  final String password;
+  final String? phone;
+  const RegisterBuyerEvent({
+    required this.fullName,
+    required this.email,
+    required this.password,
+    this.phone,
   });
 }

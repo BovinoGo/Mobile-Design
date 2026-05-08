@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:flutter/foundation.dart';
 
 class OfflineDataService {
   static final OfflineDataService _instance = OfflineDataService._internal();
@@ -175,23 +176,23 @@ class OfflineDataService {
 
   /// Guardar animales offline
   Future<int> saveAnimalOffline(Map<String, dynamic> animal) async {
-    print('DEBUG OfflineDataService: Guardando animal offline: $animal');
+    debugPrint('DEBUG OfflineDataService: Guardando animal offline: $animal');
     final db = await database;
     animal['created_at'] = DateTime.now().toIso8601String();
     animal['updated_at'] = DateTime.now().toIso8601String();
     animal['is_synced'] = 0;
     
     final result = await db.insert('animals', animal);
-    print('DEBUG OfflineDataService: Animal guardado con ID: $result');
+    debugPrint('DEBUG OfflineDataService: Animal guardado con ID: $result');
     return result;
   }
 
   /// Obtener animales offline
   Future<List<Map<String, dynamic>>> getAnimalsOffline() async {
-    print('DEBUG OfflineDataService: Obteniendo animales offline');
+    debugPrint('DEBUG OfflineDataService: Obteniendo animales offline');
     final db = await database;
     final result = await db.query('animals', orderBy: 'created_at DESC');
-    print('DEBUG OfflineDataService: Encontrados ${result.length} animales offline');
+    debugPrint('DEBUG OfflineDataService: Encontrados ${result.length} animales offline');
     return result;
   }
 

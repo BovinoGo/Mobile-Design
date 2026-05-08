@@ -76,7 +76,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
         });
       }
     } catch (e) {
-      print('❌ Error loading campaigns: $e');
+      debugPrint('❌ Error loading campaigns: $e');
       if (mounted) {
         setState(() {
           _isLoadingCampaigns = false;
@@ -98,7 +98,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
         });
       }
     } catch (e) {
-      print('❌ Error loading stables: $e');
+      debugPrint('❌ Error loading stables: $e');
       if (mounted) {
         setState(() {
           _stableNames = {};
@@ -158,7 +158,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                   color: cardBackground,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     ),
@@ -174,7 +174,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: accent.withOpacity(0.1),
+                        color: accent.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
@@ -221,7 +221,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -240,7 +240,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                 Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                    color: accent.withOpacity(0.1),
+                                    color: accent.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: const Icon(
@@ -303,7 +303,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: accent.withOpacity(0.1),
+                                        color: accent.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Icon(
@@ -388,6 +388,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                           color: Colors.white,
                                         ),
                                         child: DropdownButtonFormField<CampaingsDto>(
+                                          // ignore: deprecated_member_use
                                           value: _selectedCampaign,
                                           isExpanded: true,
                                           menuMaxHeight: 250,
@@ -530,8 +531,8 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                           curve: Curves.easeInOut,
                                           padding: const EdgeInsets.all(16),
                                           decoration: BoxDecoration(
-                                            color: accent.withOpacity(0.05),
-                                            border: Border.all(color: accent.withOpacity(0.2)),
+                                            color: accent.withValues(alpha: 0.05),
+                                            border: Border.all(color: accent.withValues(alpha: 0.2)),
                                             borderRadius: BorderRadius.circular(12),
                                           ),
                                           child: Column(
@@ -543,7 +544,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                                   Container(
                                                     padding: const EdgeInsets.all(8),
                                                     decoration: BoxDecoration(
-                                                      color: accent.withOpacity(0.1),
+                                                      color: accent.withValues(alpha: 0.1),
                                                       borderRadius: BorderRadius.circular(8),
                                                     ),
                                                     child: Icon(
@@ -585,7 +586,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                                       vertical: 4,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: _getStatusColor(_selectedCampaign!.status).withOpacity(0.1),
+                                                      color: _getStatusColor(_selectedCampaign!.status).withValues(alpha: 0.1),
                                                       borderRadius: BorderRadius.circular(8),
                                                     ),
                                                     child: Text(
@@ -738,7 +739,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                 borderRadius: BorderRadius.circular(16),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.blue.withOpacity(0.08),
+                                    color: Colors.blue.withValues(alpha: 0.08),
                                     blurRadius: 8,
                                     offset: const Offset(0, 2),
                                   ),
@@ -891,7 +892,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                             borderRadius: BorderRadius.circular(16),
                                           ),
                                           elevation: 8,
-                                          shadowColor: accent.withOpacity(0.3),
+                                          shadowColor: accent.withValues(alpha: 0.3),
                                         ),
                                         child: isLoading
                                             ? const Row(
@@ -935,7 +936,7 @@ class _CreateStaffViewState extends State<CreateStaffView> {
                                         onPressed: isLoading ? null : () => Navigator.of(context).pop(),
                                         style: OutlinedButton.styleFrom(
                                           foregroundColor: primary,
-                                          side: BorderSide(color: primary.withOpacity(0.3)),
+                                          side: BorderSide(color: primary.withValues(alpha: 0.3)),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(16),
                                           ),
@@ -1006,10 +1007,10 @@ class _CreateStaffViewState extends State<CreateStaffView> {
       // Estado siempre es 2 ("En Campaña") para nuevo personal asignado a campañas
       final employeeStatusInt = 2;
 
-      print('🔄 Enviando staff:');
-      print('  - name: $name');
-      print('  - employeeStatus: $employeeStatusInt (En Campaña)');
-      print('  - campaignId: $campaignId (${_selectedCampaign!.name})');
+      debugPrint('🔄 Enviando staff:');
+      debugPrint('  - name: $name');
+      debugPrint('  - employeeStatus: $employeeStatusInt (En Campaña)');
+      debugPrint('  - campaignId: $campaignId (${_selectedCampaign!.name})');
 
       _mainContext.read<StaffBloc>().add(
         CreateStaff(

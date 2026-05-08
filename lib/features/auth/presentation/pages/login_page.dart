@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   bool _isVisible = false;
-  final TextEditingController _userOrEmailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   late AnimationController _slideController;
@@ -27,34 +27,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    
-    _slideController = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
+    _slideController =
+        AnimationController(duration: const Duration(milliseconds: 800), vsync: this);
+    _fadeController =
+        AnimationController(duration: const Duration(milliseconds: 600), vsync: this);
+    _slideAnimation = Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(
+      CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
     );
-    
-    _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
     );
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _slideController,
-      curve: Curves.easeOutCubic,
-    ));
-
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _fadeController,
-      curve: Curves.easeOut,
-    ));
-
-    // Start animations with safety check
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _fadeController.forward();
@@ -67,23 +49,30 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   void dispose() {
     _slideController.dispose();
     _fadeController.dispose();
-    _userOrEmailController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _saveToken(String token, String username) async {
-    await TokenService.instance.saveUserSession(token, username);
+  Future<void> _saveSession(dynamic user) async {
+    await TokenService.instance.saveUserSession(
+      user.token,
+      user.fullName,
+      userId: user.userId,
+      email: user.email,
+      fullName: user.fullName,
+      accountType: user.accountType,
+      role: user.role,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF00695C),
+      backgroundColor: const Color(0xFF00695C),
       resizeToAvoidBottomInset: true,
       body: Column(
         children: [
-          // Parte superior con logo - con animación de fade
           SafeArea(
             bottom: false,
             child: FadeTransition(
@@ -96,19 +85,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   children: [
                     Hero(
                       tag: 'login_image',
-                      child: Image.asset(
-                        'assets/images/login.png',
-                        height: 160, // Más pequeño para dar espacio
-                        fit: BoxFit.contain,
-                      ),
+                      child: Image.asset('assets/images/login.png',
+                          height: 160, fit: BoxFit.contain),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-
-          // Contenedor blanco con formulario - expandido con scroll interno
           Expanded(
             child: SlideTransition(
               position: _slideAnimation,
@@ -128,16 +112,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     child: BlocConsumer<AuthBloc, AuthState>(
                       listener: (context, state) {
                         if (state is SuccessLoginState) {
-                          _saveToken(state.user.token, state.user.username);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (_) => const MainView()),
-                          );
+                          _saveSession(state.user).then((_) {
+                            if (context.mounted) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (_) => const MainView()),
+                              );
+                            }
+                          });
                         }
                         if (state is FailureState) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(state.errorMessage),
+                              content: Text(state.errorMessage
+                                  .replaceAll('Exception: ', '')),
                               backgroundColor: Colors.red,
                               behavior: SnackBarBehavior.floating,
                             ),
@@ -152,66 +140,43 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             children: [
                               const SizedBox(height: 20),
                               const Text(
-                                "¡Bienvenido de nuevo!",
+                                '¡Bienvenido de nuevo!',
                                 style: TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF00695C),
-                                ),
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF00695C)),
                               ),
                               const SizedBox(height: 8),
                               const Text(
-                                "Ingresa tus credenciales para continuar",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
+                                'Ingresa tus credenciales para continuar',
+                                style: TextStyle(fontSize: 14, color: Colors.grey),
                               ),
                               const SizedBox(height: 30),
-
                               _inputField(
-                                controller: _userOrEmailController,
-                                hint: "Usuario o Email",
-                                icon: Icons.person_outline,
+                                controller: _emailController,
+                                hint: 'Correo electrónico',
+                                icon: Icons.email_outlined,
                                 obscure: false,
                                 isPassword: false,
+                                keyboardType: TextInputType.emailAddress,
                               ),
                               const SizedBox(height: 20),
-
                               _inputField(
                                 controller: _passwordController,
-                                hint: "Contraseña",
+                                hint: 'Contraseña',
                                 icon: Icons.lock_outline,
                                 obscure: !_isVisible,
                                 isPassword: true,
                               ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                  onPressed: () {
-                                    // Implementar recuperación
-                                  },
-                                  child: const Text(
-                                    "¿Olvidaste tu contraseña?",
-                                    style: TextStyle(
-                                      color: Color(0xFF00695C),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-
+                              const SizedBox(height: 20),
                               SizedBox(
                                 width: double.infinity,
                                 height: 50,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xFF00695C),
+                                    backgroundColor: const Color(0xFF00695C),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(14),
-                                    ),
+                                        borderRadius: BorderRadius.circular(14)),
                                     elevation: 0,
                                   ),
                                   onPressed: state is LoadingAuthState
@@ -219,55 +184,46 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       : () {
                                           BlocProvider.of<AuthBloc>(context).add(
                                             LoginEvent(
-                                              usernameOrEmail: _userOrEmailController.text.trim(),
+                                              email: _emailController.text.trim(),
                                               password: _passwordController.text.trim(),
                                             ),
                                           );
                                         },
                                   child: state is LoadingAuthState
-                                      ? const CircularProgressIndicator(color: Colors.white)
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white)
                                       : const Text(
-                                          "Iniciar Sesión",
+                                          'Iniciar Sesión',
                                           style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
                                         ),
                                 ),
                               ),
                               const SizedBox(height: 30),
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    "¿No tienes cuenta? ",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                    ),
-                                  ),
+                                  const Text('¿No tienes cuenta? ',
+                                      style:
+                                          TextStyle(color: Colors.grey, fontSize: 14)),
                                   GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (_) => const RegisterPage()),
-                                      );
-                                    },
+                                    onTap: () => Navigator.push(context,
+                                        MaterialPageRoute(
+                                            builder: (_) => const RegisterPage())),
                                     child: const Text(
-                                      "Regístrate",
+                                      'Regístrate',
                                       style: TextStyle(
-                                        color: Color(0xFF00695C),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
+                                          color: Color(0xFF00695C),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
                                     ),
                                   ),
                                 ],
                               ),
-                              // Padding bottom para SafeArea
-                              SizedBox(height: MediaQuery.of(context).padding.bottom + 20),
+                              SizedBox(
+                                  height: MediaQuery.of(context).padding.bottom + 20),
                             ],
                           ),
                         );
@@ -289,44 +245,37 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     required IconData icon,
     required bool obscure,
     required bool isPassword,
+    TextInputType? keyboardType,
   }) {
     return TextField(
       controller: controller,
       obscureText: obscure,
-      cursorColor: Color(0xFF00695C),
+      keyboardType: keyboardType,
+      cursorColor: const Color(0xFF00695C),
       style: const TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 16,
-        color: Colors.black87,
-      ),
+          fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black87),
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Color(0xFF00695C)),
+        prefixIcon: Icon(icon, color: const Color(0xFF00695C)),
         suffixIcon: isPassword
             ? IconButton(
                 icon: Icon(
-                  _isVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Color(0xFF00695C),
-                ),
-                onPressed: () {
-                  setState(() {
-                    _isVisible = !_isVisible;
-                  });
-                },
+                    _isVisible ? Icons.visibility : Icons.visibility_off,
+                    color: const Color(0xFF00695C)),
+                onPressed: () => setState(() => _isVisible = !_isVisible),
               )
             : null,
         hintText: hint,
         hintStyle: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 15,
-          color: Colors.grey.shade500,
-        ),
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+            color: Colors.grey.shade500),
         filled: true,
         fillColor: Colors.grey.shade100,
-        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: Color(0xFF00695C)),

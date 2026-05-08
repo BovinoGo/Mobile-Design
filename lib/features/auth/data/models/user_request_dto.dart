@@ -1,29 +1,29 @@
-class UserRequestDto {
-  final String usernameOrEmail;
+class LoginRequestDto {
+  final String email;
   final String password;
-  final String? email; // Solo para registro
 
-  const UserRequestDto({
-    required this.usernameOrEmail,
+  const LoginRequestDto({required this.email, required this.password});
+
+  Map<String, dynamic> toJson() => {'email': email, 'password': password};
+}
+
+class RegisterRequestDto {
+  final String fullName;
+  final String email;
+  final String password;
+  final String? phone;
+
+  const RegisterRequestDto({
+    required this.fullName,
+    required this.email,
     required this.password,
-    this.email,
+    this.phone,
   });
 
-  // isSignUp: true para registro, false para login
-  Map<String, dynamic> toJson({required bool isSignUp}) {
-    if (isSignUp) {
-      return {
-        'username': usernameOrEmail,
+  Map<String, dynamic> toJson() => {
+        'fullName': fullName,
+        'email': email,
         'password': password,
-        'email': email ?? '',
+        if (phone != null && phone!.isNotEmpty) 'phone': phone,
       };
-    } else {
-      final isEmail = usernameOrEmail.contains('@');
-      return {
-        'email': isEmail ? usernameOrEmail : '',
-        'userName': isEmail ? '' : usernameOrEmail,
-        'password': password,
-      };
-    }
-  }
 }

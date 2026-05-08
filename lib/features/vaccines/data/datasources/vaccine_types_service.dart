@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 
 class VaccineTypeDto {
   final int id;
@@ -58,7 +59,7 @@ class VaccineTypesService {
 
   Future<List<VaccineTypeDto>> fetchVaccineTypes() async {
     try {
-      print('[DEBUG] Fetching vaccine types from API...');
+      debugPrint('[DEBUG] Fetching vaccine types from API...');
       
       final response = await http.get(
         Uri.parse(_baseUrl),
@@ -67,20 +68,20 @@ class VaccineTypesService {
         },
       );
 
-      print('[DEBUG] API Response status: ${response.statusCode}');
+      debugPrint('[DEBUG] API Response status: ${response.statusCode}');
       
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = json.decode(response.body);
         final vaccineTypes = jsonData.map((json) => VaccineTypeDto.fromJson(json)).toList();
         
-        print('[DEBUG] Successfully loaded ${vaccineTypes.length} vaccine types');
+        debugPrint('[DEBUG] Successfully loaded ${vaccineTypes.length} vaccine types');
         return vaccineTypes;
       } else {
-        print('[DEBUG] Failed to load vaccine types: ${response.statusCode}');
+        debugPrint('[DEBUG] Failed to load vaccine types: ${response.statusCode}');
         throw Exception('Failed to load vaccine types: ${response.statusCode}');
       }
     } catch (e) {
-      print('[DEBUG] Error fetching vaccine types: $e');
+      debugPrint('[DEBUG] Error fetching vaccine types: $e');
       throw Exception('Error fetching vaccine types: $e');
     }
   }
@@ -115,10 +116,10 @@ class VaccineTypesService {
       final animalAgeInMonths = _calculateAgeInMonths(animalBirthDate, now);
       final minimumAgeInMonths = _parseAgeRecommended(ageRecommended);
       
-      print('[DEBUG] Animal age: $animalAgeInMonths months, Required: $minimumAgeInMonths months');
+      debugPrint('[DEBUG] Animal age: $animalAgeInMonths months, Required: $minimumAgeInMonths months');
       return animalAgeInMonths >= minimumAgeInMonths;
     } catch (e) {
-      print('[DEBUG] Error validating age: $e');
+      debugPrint('[DEBUG] Error validating age: $e');
       return true; // En caso de error, permitir la vacunación
     }
   }

@@ -3,6 +3,7 @@ import 'package:vacapp/features/staff/data/models/staff_dto.dart';
 import 'package:vacapp/features/staff/data/repositories/staff_repository.dart';
 import 'package:vacapp/features/staff/presentation/bloc/staff_event.dart';
 import 'package:vacapp/features/staff/presentation/bloc/staff_state.dart';
+import 'package:flutter/foundation.dart';
 
 class StaffBloc extends Bloc<StaffEvent, StaffState> {
   final StaffRepository _staffRepository;
@@ -32,10 +33,10 @@ class StaffBloc extends Bloc<StaffEvent, StaffState> {
     try {
       emit(StaffCreating());
       
-      print('🔄 Creating staff with:');
-      print('  - name: ${event.name}');
-      print('  - employeeStatus: ${event.employeeStatus}');
-      print('  - campaignId: ${event.campaignId}');
+      debugPrint('🔄 Creating staff with:');
+      debugPrint('  - name: ${event.name}');
+      debugPrint('  - employeeStatus: ${event.employeeStatus}');
+      debugPrint('  - campaignId: ${event.campaignId}');
       
       final newStaff = StaffDto(
         id: 0, // El backend asignará el ID
@@ -45,14 +46,14 @@ class StaffBloc extends Bloc<StaffEvent, StaffState> {
       );
 
       final createdStaff = await _staffRepository.createStaff(newStaff);
-      print('✅ Staff created successfully: ${createdStaff.id}');
+      debugPrint('✅ Staff created successfully: ${createdStaff.id}');
       
       emit(StaffOperationSuccess(message: 'Personal creado exitosamente'));
       
       // Recargar la lista
       add(LoadStaffs());
     } catch (e) {
-      print('❌ Error creating staff: $e');
+      debugPrint('❌ Error creating staff: $e');
       String errorMessage = 'Error al crear el personal';
       
       if (e.toString().contains('FormatException')) {

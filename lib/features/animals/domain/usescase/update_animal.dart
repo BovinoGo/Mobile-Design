@@ -4,7 +4,7 @@ class UpdateAnimal {
   final AnimalRepository repository;
   UpdateAnimal(this.repository);
 
-  Future<void> call(int id, Map<String, dynamic> data) async {
+  Future<void> call(String id, Map<String, dynamic> data) async {
     await repository.updateAnimal(id, data);
   }
 }

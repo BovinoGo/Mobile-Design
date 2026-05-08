@@ -32,10 +32,10 @@ class AnimalsOverviewWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       height: 200,
       decoration: BoxDecoration(
-        color: Colors.green.withOpacity(0.05),
+        color: Colors.green.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.green.withOpacity(0.1),
+          color: Colors.green.withValues(alpha: 0.1),
           width: 1,
         ),
       ),
@@ -79,7 +79,7 @@ class AnimalsOverviewWidget extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             message,
-            style: TextStyle(color: textColor.withOpacity(0.9)),
+            style: TextStyle(color: textColor.withValues(alpha: 0.9)),
           ),
         ],
       ),
@@ -94,7 +94,7 @@ class AnimalsOverviewWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -191,12 +191,12 @@ class AnimalsOverviewWidget extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.green.withOpacity(0.2),
+          color: Colors.green.withValues(alpha: 0.2),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -301,7 +301,7 @@ class AnimalsOverviewWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.green.withOpacity(0.1),
+            color: Colors.green.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(
@@ -323,7 +323,7 @@ class AnimalsOverviewWidget extends StatelessWidget {
           subtitle,
           style: TextStyle(
             fontSize: 12,
-            color: primaryColor.withOpacity(0.8),
+            color: primaryColor.withValues(alpha: 0.8),
           ),
         ),
       ],
