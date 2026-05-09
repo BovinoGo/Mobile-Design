@@ -136,7 +136,8 @@ class _HomePageState extends State<HomePage> {
 
                     // Mercado — visible para todos
                     MarketplaceOverviewWidget(
-                        onNavigateToTab: widget.onNavigateToTab),
+                        onNavigateToTab: widget.onNavigateToTab,
+                        isBuyer: _isBuyer),
 
                     const SizedBox(height: 120),
                   ],

@@ -1,7 +1,7 @@
 class Endpoints {
   static const String baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://10.0.2.2:5067/api/v1',
+    defaultValue: 'https://testttttvacapp-production.up.railway.app/api/v1',
   );
 
   // Auth

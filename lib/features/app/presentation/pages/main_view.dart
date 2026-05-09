@@ -45,13 +45,13 @@ class _MainViewState extends State<MainView> {
     if (_isBuyer) {
       return const [
         {'icon': Icons.home_rounded, 'label': 'Inicio'},
-        {'icon': Icons.storefront_rounded, 'label': 'Mercado'},
+        {'icon': Icons.storefront_rounded, 'label': 'Feria'},
       ];
     }
     return const [
       {'icon': Icons.home_rounded, 'label': 'Inicio'},
       {'icon': Icons.pets_rounded, 'label': 'Bovinos'},
-      {'icon': Icons.storefront_rounded, 'label': 'Mercado'},
+      {'icon': Icons.storefront_rounded, 'label': 'Feria'},
       {'icon': Icons.admin_panel_settings_rounded, 'label': 'Gestión'},
     ];
   }
